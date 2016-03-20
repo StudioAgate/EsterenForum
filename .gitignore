@@ -1,0 +1,25 @@
+# phpbb base
+
+cache/*
+!cache/.htaccess
+!cache/index.html
+
+composer.phar
+/config*.php
+
+ext/*
+!ext/.gitkeep
+
+files/*
+!files/.gitkeep
+
+images/avatars/gallery/*
+images/avatars/upload/*
+images/ranks/*
+
+/install*
+
+/store/*
+
+/vendor
+
