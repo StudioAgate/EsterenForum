@@ -1333,7 +1333,6 @@ if ($submit || $preview || $refresh)
 				$captcha->reset();
 			}
 
-
 			// Check the permissions for post approval.
 			// Moderators must go through post approval like ordinary users.
 			if ((!$auth->acl_get('f_noapprove', $data['forum_id']) && empty($data['force_approved_state'])) || (isset($data['force_approved_state']) && !$data['force_approved_state']))
@@ -1422,9 +1421,13 @@ if (!sizeof($error) && $preview)
 			'L_MAX_VOTES'		=> ($post_data['poll_max_options'] == 1) ? $user->lang['MAX_OPTION_SELECT'] : sprintf($user->lang['MAX_OPTIONS_SELECT'], $post_data['poll_max_options']))
 		);
 
-		$parse_poll->message = implode("\n", $post_data['poll_options']);
+		$preview_poll_options = array();
+		foreach ($post_data['poll_options'] as $poll_option)
+		{
+			$parse_poll->message = $poll_option;
 		$parse_poll->format_display($post_data['enable_bbcode'], $post_data['enable_urls'], $post_data['enable_smilies']);
-		$preview_poll_options = explode('<br />', $parse_poll->message);
+			$preview_poll_options[] = $parse_poll->message;
+		}
 		unset($parse_poll);
 
 		foreach ($preview_poll_options as $key => $option)
