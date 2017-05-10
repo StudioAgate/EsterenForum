@@ -188,7 +188,7 @@ while ($row = $db->sql_fetchrow($result))
 	}
 
 	preg_match('#^([a-z0-9/_-]+)#i', $row['session_page'], $on_page);
-	if (!sizeof($on_page))
+	if (!count($on_page))
 	{
 		$on_page[1] = '';
 	}
@@ -442,4 +442,3 @@ make_jumpbox(append_sid("{$phpbb_root_path}viewforum.$phpEx"));
 
 page_footer();
 
-?>

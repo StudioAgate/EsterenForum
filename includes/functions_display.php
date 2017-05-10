@@ -383,7 +383,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 				}
 			}
 
-			$l_subforums = (sizeof($subforums[$forum_id]) == 1) ? $user->lang['SUBFORUM'] . ': ' : $user->lang['SUBFORUMS'] . ': ';
+			$l_subforums = (count($subforums[$forum_id]) == 1) ? $user->lang['SUBFORUM'] . ': ' : $user->lang['SUBFORUMS'] . ': ';
 			$folder_image = ($forum_unread) ? 'forum_unread_subforum' : 'forum_read_subforum';
 		}
 		else
@@ -427,7 +427,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		$l_moderator = $moderators_list = '';
 		if ($display_moderators && !empty($forum_moderators[$forum_id]))
 		{
-			$l_moderator = (sizeof($forum_moderators[$forum_id]) == 1) ? $user->lang['MODERATOR'] : $user->lang['MODERATORS'];
+			$l_moderator = (count($forum_moderators[$forum_id]) == 1) ? $user->lang['MODERATOR'] : $user->lang['MODERATORS'];
 			$moderators_list = implode(', ', $forum_moderators[$forum_id]);
 		}
 
@@ -437,7 +437,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		$s_subforums_list = array();
 		foreach ($subforums_list as $subforum)
 		{
-			$s_subforums_list[] = '<a href="' . $subforum['link'] . '" class="subforum ' . (($subforum['unread']) ? 'unread' : 'read') . '" title="' . (($subforum['unread']) ? $user->lang['UNREAD_POSTS'] : $user->lang['NO_UNREAD_POSTS']) . '">' . $subforum['name'] . '</a>';
+			$s_subforums_list[] = '<a href="' . $subforum['link'] . '" class="subforum ' . (($subforum['unread']) ? 'unread' : 'read') . '" title="' . (($subforum['unread']) ? (isset($user->lang['UNREAD_POSTS']) ? $user->lang['UNREAD_POSTS'] : '') : (isset($user->lang['NO_UNREAD_POSTS']) ? $user->lang['NO_UNREAD_POSTS'] : '')) . '">' . $subforum['name'] . '</a>';
 		}
 		$s_subforums_list = (string) implode(', ', $s_subforums_list);
 		$catless = ($row['parent_id'] == $root_data['forum_id']) ? true : false;
@@ -468,7 +468,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			'S_AUTH_READ'		=> $auth->acl_get('f_read', $row['forum_id']),
 			'S_LOCKED_FORUM'	=> ($row['forum_status'] == ITEM_LOCKED) ? true : false,
 			'S_LIST_SUBFORUMS'	=> ($row['display_subforum_list']) ? true : false,
-			'S_SUBFORUMS'		=> (sizeof($subforums_list)) ? true : false,
+			'S_SUBFORUMS'		=> (count($subforums_list)) ? true : false,
 			'S_FEED_ENABLED'	=> ($config['feed_forum'] && !phpbb_optionget(FORUM_OPTION_FEED_EXCLUDE, $row['forum_options']) && $row['forum_type'] == FORUM_POST) ? true : false,
 
 			'FORUM_ID'				=> $row['forum_id'],
@@ -979,7 +979,7 @@ function display_user_activity(&$userdata)
 	}
 
 	$forum_ary = array_unique($forum_ary);
-	$forum_sql = (sizeof($forum_ary)) ? 'AND ' . $db->sql_in_set('forum_id', $forum_ary, true) : '';
+	$forum_sql = (count($forum_ary)) ? 'AND ' . $db->sql_in_set('forum_id', $forum_ary, true) : '';
 
 	$fid_m_approve = $auth->acl_getf('m_approve', true);
 	$sql_m_approve = (!empty($fid_m_approve)) ? 'OR ' . $db->sql_in_set('forum_id', array_keys($fid_m_approve)) : '';
@@ -1340,4 +1340,3 @@ function get_user_avatar($avatar, $avatar_type, $avatar_width, $avatar_height, $
 	return '<img src="' . (str_replace(' ', '%20', $avatar_img)) . '" width="' . $avatar_width . '" height="' . $avatar_height . '" alt="' . ((!empty($user->lang[$alt])) ? $user->lang[$alt] : $alt) . '" />';
 }
 
-?>

@@ -127,4 +127,3 @@ $lang = array_merge($lang, array(
 	'VERSION_SELECT_EXPLAIN'	=> 'Neměňte z nastavení "Ignorovat", pokud nevíte co děláte nebo vám to nebylo řečeno.',
 ));
 
-?>

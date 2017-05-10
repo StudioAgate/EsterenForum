@@ -573,7 +573,7 @@ inherit_from = {INHERIT_FROM}
 			case 'imageset':
 				$sql_from = STYLES_IMAGESET_TABLE;
 			break;
-			
+
 			default:
 				trigger_error($user->lang['NO_MODE'] . adm_back_link($this->u_action), E_USER_WARNING);
 		}
@@ -683,7 +683,7 @@ inherit_from = {INHERIT_FROM}
 
 		unset($installed);
 
-		if (sizeof($new_ary))
+		if (count($new_ary))
 		{
 			ksort($new_ary);
 
@@ -890,9 +890,9 @@ inherit_from = {INHERIT_FROM}
 				$cats = array_values(array_unique($cats));
 
 				// we don't need any single element categories so put them into the misc '' category
-				for ($i = 0, $n = sizeof($cats); $i < $n; $i++)
+				for ($i = 0, $n = count($cats); $i < $n; $i++)
 				{
-					if (sizeof($filelist_cats[$cats[$i]]) == 1 && $cats[$i] !== '')
+					if (count($filelist_cats[$cats[$i]]) == 1 && $cats[$i] !== '')
 					{
 						$filelist_cats[''][key($filelist_cats[$cats[$i]])] = current($filelist_cats[$cats[$i]]);
 						unset($filelist_cats[$cats[$i]]);
@@ -1251,9 +1251,9 @@ inherit_from = {INHERIT_FROM}
 				$cats = array_values(array_unique($cats));
 
 				// we don't need any single element categories so put them into the misc '' category
-				for ($i = 0, $n = sizeof($cats); $i < $n; $i++)
+				for ($i = 0, $n = count($cats); $i < $n; $i++)
 				{
-					if (sizeof($filelist_cats[$cats[$i]]) == 1 && $cats[$i] !== '')
+					if (count($filelist_cats[$cats[$i]]) == 1 && $cats[$i] !== '')
 					{
 						$filelist_cats[''][key($filelist_cats[$cats[$i]])] = current($filelist_cats[$cats[$i]]);
 						unset($filelist_cats[$cats[$i]]);
@@ -2006,7 +2006,7 @@ inherit_from = {INHERIT_FROM}
 			break;
 		}
 
-		if ($update && !sizeof($error))
+		if ($update && !count($error))
 		{
 			$sql = "SELECT $sql_select
 				FROM $sql_from
@@ -2258,7 +2258,7 @@ inherit_from = {INHERIT_FROM}
 					$error[] = $user->lang[$l_prefix . '_ERR_ARCHIVE'];
 			}
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
 
@@ -2280,7 +2280,7 @@ inherit_from = {INHERIT_FROM}
 					$compress = new compress_tar('w', $phpbb_root_path . "store/$path$ext", $ext);
 				}
 
-				if (sizeof($files))
+				if (count($files))
 				{
 					foreach ($files as $file_ary)
 					{
@@ -2288,7 +2288,7 @@ inherit_from = {INHERIT_FROM}
 					}
 				}
 
-				if (sizeof($data))
+				if (count($data))
 				{
 					foreach ($data as $data_ary)
 					{
@@ -2333,7 +2333,7 @@ inherit_from = {INHERIT_FROM}
 
 		$template->assign_vars(array(
 			'S_EXPORT'		=> true,
-			'S_ERROR_MSG'	=> (sizeof($error)) ? true : false,
+			'S_ERROR_MSG'	=> (count($error)) ? true : false,
 			'S_STYLE'		=> ($mode == 'style') ? true : false,
 
 			'L_TITLE'		=> $user->lang[$this->page_title],
@@ -2343,7 +2343,7 @@ inherit_from = {INHERIT_FROM}
 			'U_ACTION'		=> $this->u_action . '&amp;action=export&amp;id=' . $style_id,
 			'U_BACK'		=> $this->u_action,
 
-			'ERROR_MSG'			=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'ERROR_MSG'			=> (count($error)) ? implode('<br />', $error) : '',
 			'NAME'				=> $style_row[$mode . '_name'],
 			'FORMAT_BUTTONS'	=> $format_buttons)
 		);
@@ -2460,7 +2460,7 @@ inherit_from = {INHERIT_FROM}
 				}
 			}
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				// Check length settings
 				if (utf8_strlen($name) > 30)
@@ -2475,7 +2475,7 @@ inherit_from = {INHERIT_FROM}
 			}
 		}
 
-		if ($update && sizeof($error))
+		if ($update && count($error))
 		{
 			$style_row = array_merge($style_row, array(
 				'template_id'			=> $template_id,
@@ -2489,7 +2489,7 @@ inherit_from = {INHERIT_FROM}
 		}
 
 		// User has submitted form and no errors have occurred
-		if ($update && !sizeof($error))
+		if ($update && !count($error))
 		{
 			$sql_ary = array(
 				$mode . '_name'			=> $name,
@@ -2581,7 +2581,7 @@ inherit_from = {INHERIT_FROM}
 				break;
 			}
 
-			if (sizeof($sql_ary))
+			if (count($sql_ary))
 			{
 				$sql = "UPDATE $sql_from
 					SET " . $db->sql_build_array('UPDATE', $sql_ary) . "
@@ -2598,7 +2598,7 @@ inherit_from = {INHERIT_FROM}
 			$cache->destroy('sql', STYLES_TABLE);
 
 			add_log('admin', 'LOG_' . $l_type . '_EDIT_DETAILS', $name);
-			if (sizeof($error))
+			if (count($error))
 			{
 				trigger_error(implode('<br />', $error) . adm_back_link($this->u_action), E_USER_WARNING);
 			}
@@ -2640,7 +2640,7 @@ inherit_from = {INHERIT_FROM}
 
 		$template->assign_vars(array(
 			'S_DETAILS'				=> true,
-			'S_ERROR_MSG'			=> (sizeof($error)) ? true : false,
+			'S_ERROR_MSG'			=> (count($error)) ? true : false,
 			'S_STYLE'				=> ($mode == 'style') ? true : false,
 			'S_TEMPLATE'			=> ($mode == 'template') ? true : false,
 			'S_THEME'				=> ($mode == 'theme') ? true : false,
@@ -2664,7 +2664,7 @@ inherit_from = {INHERIT_FROM}
 			'L_LOCATION'			=> ($mode == 'template' || $mode == 'theme') ? $user->lang[$l_type . '_LOCATION'] : '',
 			'L_LOCATION_EXPLAIN'	=> ($mode == 'template' || $mode == 'theme') ? $user->lang[$l_type . '_LOCATION_EXPLAIN'] : '',
 
-			'ERROR_MSG'		=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'ERROR_MSG'		=> (count($error)) ? implode('<br />', $error) : '',
 			'NAME'			=> $style_row[$mode . '_name'],
 			'COPYRIGHT'		=> $style_row[$mode . '_copyright'],
 			)
@@ -2733,7 +2733,7 @@ inherit_from = {INHERIT_FROM}
 		preg_match_all('#/\*\s*@import url\((["\'])(.*)\1\);\s\*/#i', $stylesheet, $commented);
 		$matches[2] = array_diff($matches[2], $commented[2]);
 
-		if (sizeof($matches))
+		if (count($matches))
 		{
 			foreach ($matches[0] as $idx => $match)
 			{
@@ -2933,7 +2933,7 @@ inherit_from = {INHERIT_FROM}
 		}
 
 		// Installing
-		if (sizeof($installcfg))
+		if (count($installcfg))
 		{
 			$name		= $installcfg['name'];
 			$copyright	= $installcfg['copyright'];
@@ -3018,7 +3018,7 @@ inherit_from = {INHERIT_FROM}
 		$style_row['style_default'] = request_var('style_default', 0);
 
 		// User has submitted form and no errors have occurred
-		if ($update && !sizeof($error))
+		if ($update && !count($error))
 		{
 			if ($mode == 'style')
 			{
@@ -3034,7 +3034,7 @@ inherit_from = {INHERIT_FROM}
 				$style_row['store_db'] = $this->install_element($mode, $error, 'install', $root_path, $style_row[$mode . '_id'], $style_row[$mode . '_name'], $install_path, $style_row[$mode . '_copyright'], $style_row['store_db']);
 			}
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				$cache->destroy('sql', STYLES_TABLE);
 
@@ -3048,7 +3048,7 @@ inherit_from = {INHERIT_FROM}
 		$template->assign_vars(array(
 			'S_DETAILS'			=> true,
 			'S_INSTALL'			=> true,
-			'S_ERROR_MSG'		=> (sizeof($error)) ? true : false,
+			'S_ERROR_MSG'		=> (count($error)) ? true : false,
 			'S_LOCATION'		=> (isset($installcfg['inherit_from']) && $installcfg['inherit_from']) ? false : true,
 			'S_STYLE'			=> ($mode == 'style') ? true : false,
 			'S_TEMPLATE'		=> ($mode == 'template') ? true : false,
@@ -3068,7 +3068,7 @@ inherit_from = {INHERIT_FROM}
 			'L_LOCATION'			=> ($mode == 'template' || $mode == 'theme') ? $user->lang[$l_type . '_LOCATION'] : '',
 			'L_LOCATION_EXPLAIN'	=> ($mode == 'template' || $mode == 'theme') ? $user->lang[$l_type . '_LOCATION_EXPLAIN'] : '',
 
-			'ERROR_MSG'			=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'ERROR_MSG'			=> (count($error)) ? implode('<br />', $error) : '',
 			'NAME'				=> $style_row[$mode . '_name'],
 			'COPYRIGHT'			=> $style_row[$mode . '_copyright'],
 			'TEMPLATE_NAME'		=> ($mode == 'style') ? $style_row['template_name'] : '',
@@ -3139,7 +3139,7 @@ inherit_from = {INHERIT_FROM}
 				$error[] = $user->lang['NO_' . $l_type];
 			}
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				$style_row['template_id']	= (isset($row['template_id'])) ? $row['template_id'] : $style_row['template_id'];
 				$style_row['theme_id']		= (isset($row['theme_id'])) ? $row['theme_id'] : $style_row['theme_id'];
@@ -3160,7 +3160,7 @@ inherit_from = {INHERIT_FROM}
 		}
 
 		// User has submitted form and no errors have occurred
-		if ($update && !sizeof($error))
+		if ($update && !count($error))
 		{
 			if ($mode == 'style')
 			{
@@ -3169,7 +3169,7 @@ inherit_from = {INHERIT_FROM}
 				$this->install_style($error, 'add', '', $style_row['style_id'], $style_row['style_name'], '', $style_row['style_copyright'], $style_row['style_active'], $style_row['style_default'], $style_row);
 			}
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				$cache->destroy('sql', STYLES_TABLE);
 
@@ -3202,7 +3202,7 @@ inherit_from = {INHERIT_FROM}
 		$template->assign_vars(array(
 			'S_DETAILS'			=> true,
 			'S_ADD'				=> true,
-			'S_ERROR_MSG'		=> (sizeof($error)) ? true : false,
+			'S_ERROR_MSG'		=> (count($error)) ? true : false,
 			'S_STYLE'			=> ($mode == 'style') ? true : false,
 			'S_TEMPLATE'		=> ($mode == 'template') ? true : false,
 			'S_THEME'			=> ($mode == 'theme') ? true : false,
@@ -3224,7 +3224,7 @@ inherit_from = {INHERIT_FROM}
 			'L_LOCATION'			=> ($mode == 'template' || $mode == 'theme') ? $user->lang[$l_type . '_LOCATION'] : '',
 			'L_LOCATION_EXPLAIN'	=> ($mode == 'template' || $mode == 'theme') ? $user->lang[$l_type . '_LOCATION_EXPLAIN'] : '',
 
-			'ERROR_MSG'			=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'ERROR_MSG'			=> (count($error)) ? implode('<br />', $error) : '',
 			'NAME'				=> $style_row[$mode . '_name'],
 			'COPYRIGHT'			=> $style_row[$mode . '_copyright'])
 		);
@@ -3339,7 +3339,7 @@ inherit_from = {INHERIT_FROM}
 			$error[] = $user->lang['STYLE_ERR_NAME_EXIST'];
 		}
 
-		if (sizeof($error))
+		if (count($error))
 		{
 			return false;
 		}
@@ -3359,7 +3359,7 @@ inherit_from = {INHERIT_FROM}
 			$error[] = $user->lang['STYLE_ERR_NO_IDS'];
 		}
 
-		if (sizeof($error))
+		if (count($error))
 		{
 			return false;
 		}
@@ -3497,7 +3497,7 @@ inherit_from = {INHERIT_FROM}
 			$inherit_bf = false;
 		}
 
-		if (sizeof($error))
+		if (count($error))
 		{
 			return false;
 		}
@@ -3727,7 +3727,7 @@ inherit_from = {INHERIT_FROM}
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($names))
+		if (count($names))
 		{
 			return $names;
 		}
@@ -3826,7 +3826,7 @@ inherit_from = {INHERIT_FROM}
 			$subs = $this->check_inheritance($mode, $id);
 
 			$this->_store_in_db($mode, $id, $row["{$mode}_path"]);
-			if ($subs && sizeof($subs))
+			if ($subs && count($subs))
 			{
 				foreach ($subs as $sub_id => $sub)
 				{
@@ -3837,7 +3837,7 @@ inherit_from = {INHERIT_FROM}
 				}
 			}
 		}
-		if (sizeof($error))
+		if (count($error))
 		{
 			return $error;
 		}
@@ -3894,13 +3894,13 @@ inherit_from = {INHERIT_FROM}
 		if ($row = $db->sql_fetchrow($result))
 		{
 			$db->sql_freeresult($result);
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				$subs = $this->check_inheritance($mode, $id);
 
 				$this->_store_in_fs($mode, $id, $row["{$mode}_path"]);
 
-				if ($subs && sizeof($subs))
+				if ($subs && count($subs))
 				{
 					foreach ($subs as $sub_id => $sub)
 					{
@@ -3908,7 +3908,7 @@ inherit_from = {INHERIT_FROM}
 					}
 				}
 			}
-			if (sizeof($error))
+			if (count($error))
 			{
 				$this->store_in_db($id, $mode);
 				return $error;
@@ -3959,7 +3959,7 @@ inherit_from = {INHERIT_FROM}
 				$db->sql_query($sql);
 			}
 		}
-		if (sizeof($error))
+		if (count($error))
 		{
 			return $error;
 		}
@@ -3973,4 +3973,3 @@ inherit_from = {INHERIT_FROM}
 
 }
 
-?>

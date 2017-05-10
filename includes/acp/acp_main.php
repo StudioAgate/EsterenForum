@@ -321,7 +321,7 @@ class acp_main
 							}
 							unset($posted);
 
-							if (sizeof($sql_ary))
+							if (count($sql_ary))
 							{
 								$db->sql_multi_insert(TOPICS_POSTED_TABLE, $sql_ary);
 							}
@@ -622,4 +622,3 @@ class acp_main
 	}
 }
 
-?>

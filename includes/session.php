@@ -94,7 +94,7 @@ class session
 		$root_dirs = array_diff_assoc($root_dirs, $intersection);
 		$page_dirs = array_diff_assoc($page_dirs, $intersection);
 
-		$page_dir = str_repeat('../', sizeof($root_dirs)) . implode('/', $page_dirs);
+		$page_dir = str_repeat('../', count($root_dirs)) . implode('/', $page_dirs);
 
 		if ($page_dir && substr($page_dir, -1, 1) == '/')
 		{
@@ -109,8 +109,8 @@ class session
 
 		// The script path from the webroot to the phpBB root (for example: /phpBB3/)
 		$script_dirs = explode('/', $script_path);
-		array_splice($script_dirs, -sizeof($page_dirs));
-		$root_script_path = implode('/', $script_dirs) . (sizeof($root_dirs) ? '/' . implode('/', $root_dirs) : '');
+		array_splice($script_dirs, -count($page_dirs));
+		$root_script_path = implode('/', $script_dirs) . (count($root_dirs) ? '/' . implode('/', $root_dirs) : '');
 
 		// We are on the base level (phpBB root == webroot), lets adjust the variables a bit...
 		if (!$root_script_path)
@@ -565,7 +565,7 @@ class session
 				$this->data = $user_data;
 			}
 
-			if (sizeof($this->data))
+			if (count($this->data))
 			{
 				$this->cookie_data['k'] = '';
 				$this->cookie_data['u'] = $this->data['user_id'];
@@ -574,7 +574,7 @@ class session
 
 		// If we're presented with an autologin key we'll join against it.
 		// Else if we've been passed a user_id we'll grab data based on that
-		if (isset($this->cookie_data['k']) && $this->cookie_data['k'] && $this->cookie_data['u'] && !sizeof($this->data))
+		if (isset($this->cookie_data['k']) && $this->cookie_data['k'] && $this->cookie_data['u'] && !count($this->data))
 		{
 			$sql = 'SELECT u.*
 				FROM ' . USERS_TABLE . ' u, ' . SESSIONS_KEYS_TABLE . ' k
@@ -594,7 +594,7 @@ class session
 			$db->sql_freeresult($result);
 		}
 
-		if ($user_id !== false && !sizeof($this->data))
+		if ($user_id !== false && !count($this->data))
 		{
 			$this->cookie_data['k'] = '';
 			$this->cookie_data['u'] = $user_id;
@@ -622,7 +622,7 @@ class session
 		// User does not exist
 		// User is inactive
 		// User is bot
-		if (!sizeof($this->data) || !is_array($this->data))
+		if (!count($this->data) || !is_array($this->data))
 		{
 			$this->cookie_data['k'] = '';
 			$this->cookie_data['u'] = ($bot) ? $bot : ANONYMOUS;
@@ -999,7 +999,7 @@ class session
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($del_user_id))
+		if (count($del_user_id))
 		{
 			// Delete expired sessions
 			$sql = 'DELETE FROM ' . SESSIONS_TABLE . '
@@ -1118,7 +1118,7 @@ class session
 			$where_sql[] = $_sql;
 		}
 
-		$sql .= (sizeof($where_sql)) ? implode(' AND ', $where_sql) : '';
+		$sql .= (count($where_sql)) ? implode(' AND ', $where_sql) : '';
 		$result = $db->sql_query($sql, $cache_ttl);
 
 		$ban_triggered_by = 'user';
@@ -1712,7 +1712,7 @@ class user extends session
 			$matches = array();
 			preg_match_all('/@import url\(["\'](.*)["\']\);/i', $stylesheet, $matches);
 
-			if (sizeof($matches))
+			if (count($matches))
 			{
 				$content = '';
 				foreach ($matches[0] as $idx => $match)
@@ -1823,7 +1823,7 @@ class user extends session
 				}
 			}
 
-			if (sizeof($sql_ary))
+			if (count($sql_ary))
 			{
 				$db->sql_multi_insert(STYLES_IMAGESET_DATA_TABLE, $sql_ary);
 				$db->sql_transaction('commit');
@@ -1974,7 +1974,7 @@ class user extends session
 		// If the language entry is a string, we simply mimic sprintf() behaviour
 		if (is_string($lang))
 		{
-			if (sizeof($args) == 1)
+			if (count($args) == 1)
 			{
 				return $lang;
 			}
@@ -1988,7 +1988,7 @@ class user extends session
 		$key_found = false;
 
 		// We now get the first number passed and will select the key based upon this number
-		for ($i = 1, $num_args = sizeof($args); $i < $num_args; $i++)
+		for ($i = 1, $num_args = count($args); $i < $num_args; $i++)
 		{
 			if (is_int($args[$i]))
 			{
@@ -2470,4 +2470,3 @@ class user extends session
 	}
 }
 
-?>

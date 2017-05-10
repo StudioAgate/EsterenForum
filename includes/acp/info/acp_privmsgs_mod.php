@@ -37,4 +37,3 @@ class acp_privmsgs_mod_info
 	}
 }
 
-?>

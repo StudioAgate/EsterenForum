@@ -210,7 +210,7 @@ class cache extends acm
 				// Store allowed extensions forum wise
 				if ($row['allow_group'])
 				{
-					$extensions['_allowed_post'][$extension] = (!sizeof($allowed_forums)) ? 0 : $allowed_forums;
+					$extensions['_allowed_post'][$extension] = (!count($allowed_forums)) ? 0 : $allowed_forums;
 				}
 
 				if ($row['allow_in_pm'])
@@ -434,4 +434,3 @@ class cache extends acm
 	}
 }
 
-?>

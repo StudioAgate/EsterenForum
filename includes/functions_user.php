@@ -238,7 +238,7 @@ function user_add($user_row, $cp_data = false)
 	$remaining_vars = array_diff(array_keys($user_row), array_keys($sql_ary));
 
 	// Now fill our sql array with the remaining vars
-	if (sizeof($remaining_vars))
+	if (count($remaining_vars))
 	{
 		foreach ($remaining_vars as $key)
 		{
@@ -252,7 +252,7 @@ function user_add($user_row, $cp_data = false)
 	$user_id = $db->sql_nextid();
 
 	// Insert Custom Profile Fields
-	if ($cp_data !== false && sizeof($cp_data))
+	if ($cp_data !== false && count($cp_data))
 	{
 		$cp_data['user_id'] = (int) $user_id;
 
@@ -368,7 +368,7 @@ function user_delete($mode, $user_id, $post_username = false)
 	}
 	$db->sql_freeresult($result);
 
-	if (sizeof($report_posts))
+	if (count($report_posts))
 	{
 		$report_posts = array_unique($report_posts);
 		$report_topics = array_unique($report_topics);
@@ -388,7 +388,7 @@ function user_delete($mode, $user_id, $post_username = false)
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($keep_report_topics))
+		if (count($keep_report_topics))
 		{
 			$report_topics = array_diff($report_topics, $keep_report_topics);
 		}
@@ -400,7 +400,7 @@ function user_delete($mode, $user_id, $post_username = false)
 			WHERE ' . $db->sql_in_set('post_id', $report_posts);
 		$db->sql_query($sql);
 
-		if (sizeof($report_topics))
+		if (count($report_topics))
 		{
 			$sql = 'UPDATE ' . TOPICS_TABLE . '
 				SET topic_reported = 0
@@ -581,7 +581,7 @@ function user_active_flip($mode, $user_id_ary, $reason = INACTIVE_MANUAL)
 		$user_id_ary = array($user_id_ary);
 	}
 
-	if (!sizeof($user_id_ary))
+	if (!count($user_id_ary))
 	{
 		return;
 	}
@@ -624,7 +624,7 @@ function user_active_flip($mode, $user_id_ary, $reason = INACTIVE_MANUAL)
 	}
 	$db->sql_freeresult($result);
 
-	if (sizeof($sql_statements))
+	if (count($sql_statements))
 	{
 		foreach ($sql_statements as $user_id => $sql_ary)
 		{
@@ -687,7 +687,7 @@ function user_ban($mode, $ban, $ban_len, $ban_len_other, $ban_exclude, $ban_reas
 		else
 		{
 			$ban_other = explode('-', $ban_len_other);
-			if (sizeof($ban_other) == 3 && ((int)$ban_other[0] < 9999) &&
+			if (count($ban_other) == 3 && ((int)$ban_other[0] < 9999) &&
 				(strlen($ban_other[0]) == 4) && (strlen($ban_other[1]) == 2) && (strlen($ban_other[2]) == 2))
 			{
 				$time_offset = (isset($user->timezone) && isset($user->dst)) ? (int) $user->timezone + (int) $user->dst : 0;
@@ -753,7 +753,7 @@ function user_ban($mode, $ban, $ban_len, $ban_len_other, $ban_exclude, $ban_reas
 			}
 
 			// Make sure we have been given someone to ban
-			if (!sizeof($sql_usernames))
+			if (!count($sql_usernames))
 			{
 				trigger_error('NO_USER_SPECIFIED', E_USER_WARNING);
 			}
@@ -764,7 +764,7 @@ function user_ban($mode, $ban, $ban_len, $ban_len_other, $ban_exclude, $ban_reas
 
 			// Do not allow banning yourself, the guest account, or founders.
 			$non_bannable = array($user->data['user_id'], ANONYMOUS);
-			if (sizeof($founder))
+			if (count($founder))
 			{
 				$sql .= ' AND ' . $db->sql_in_set('user_id', array_merge(array_keys($founder), $non_bannable), true);
 			}
@@ -907,14 +907,14 @@ function user_ban($mode, $ban, $ban_len, $ban_len_other, $ban_exclude, $ban_reas
 						continue;
 					}
 
-					if (!sizeof($founder) || !in_array($ban_item, $founder))
+					if (!count($founder) || !in_array($ban_item, $founder))
 					{
 						$banlist_ary[] = $ban_item;
 					}
 				}
 			}
 
-			if (sizeof($ban_list) == 0)
+			if (count($ban_list) == 0)
 			{
 				trigger_error('NO_EMAILS_DEFINED', E_USER_WARNING);
 			}
@@ -961,7 +961,7 @@ function user_ban($mode, $ban, $ban_len, $ban_len_other, $ban_exclude, $ban_reas
 
 		$banlist_ary_tmp = array_intersect($banlist_ary, $banlist_ary_tmp);
 
-		if (sizeof($banlist_ary_tmp))
+		if (count($banlist_ary_tmp))
 		{
 			// One or more entities are already banned/excluded, delete the existing bans, so they can be re-inserted with the given new length
 			$sql = 'DELETE FROM ' . BANLIST_TABLE . '
@@ -975,7 +975,7 @@ function user_ban($mode, $ban, $ban_len, $ban_len_other, $ban_exclude, $ban_reas
 	$db->sql_freeresult($result);
 
 	// We have some entities to ban
-	if (sizeof($banlist_ary))
+	if (count($banlist_ary))
 	{
 		$sql_ary = array();
 
@@ -1094,7 +1094,7 @@ function user_unban($mode, $ban)
 
 	$unban_sql = array_map('intval', $ban);
 
-	if (sizeof($unban_sql))
+	if (count($unban_sql))
 	{
 		// Grab details of bans for logging information later
 		switch ($mode)
@@ -1328,7 +1328,7 @@ function validate_num($num, $optional = false, $min = 0, $max = 1E99)
 function validate_date($date_string, $optional = false)
 {
 	$date = explode('-', $date_string);
-	if ((empty($date) || sizeof($date) != 3) && $optional)
+	if ((empty($date) || count($date) != 3) && $optional)
 	{
 		return false;
 	}
@@ -1350,7 +1350,7 @@ function validate_date($date_string, $optional = false)
 		}
 	}
 
-	if (sizeof($date) != 3 || !checkdate($date[1], $date[0], $date[2]))
+	if (count($date) != 3 || !checkdate($date[1], $date[0], $date[2]))
 	{
 		return 'INVALID';
 	}
@@ -1739,7 +1739,7 @@ function validate_jabber($jid)
 
 	$arr = explode('.', $realm);
 
-	if (sizeof($arr) == 0)
+	if (count($arr) == 0)
 	{
 		return 'WRONG_DATA';
 	}
@@ -2104,7 +2104,7 @@ function avatar_upload($data, &$error)
 	// Move file and overwrite any existing image
 	$file->move_file($destination, true);
 
-	if (sizeof($file->error))
+	if (count($file->error))
 	{
 		$file->remove();
 		$error = array_merge($error, $file->error);
@@ -2193,7 +2193,7 @@ function avatar_gallery($category, $avatar_select, $items_per_column, $block_var
 		closedir($dp);
 	}
 
-	if (!sizeof($avatar_list))
+	if (!count($avatar_list))
 	{
 		$avatar_list = array($user->lang['NO_AVATAR_CATEGORY'] => array());
 	}
@@ -2314,7 +2314,7 @@ function avatar_process_user(&$error, $custom_userdata = false, $can_upload = nu
 		'height'		=> array('string', true, 1, 3),
 	));
 
-	if (sizeof($error))
+	if (count($error))
 	{
 		return false;
 	}
@@ -2400,7 +2400,7 @@ function avatar_process_user(&$error, $custom_userdata = false, $can_upload = nu
 			}
 		}
 
-		if (!sizeof($error))
+		if (!count($error))
 		{
 			if ($config['avatar_min_width'] || $config['avatar_min_height'])
 			{
@@ -2411,17 +2411,17 @@ function avatar_process_user(&$error, $custom_userdata = false, $can_upload = nu
 			}
 		}
 
-		if (!sizeof($error))
+		if (!count($error))
 		{
 			$sql_ary['user_avatar_width'] = $data['width'];
 			$sql_ary['user_avatar_height'] = $data['height'];
 		}
 	}
 
-	if (!sizeof($error))
+	if (!count($error))
 	{
 		// Do we actually have any data to update?
-		if (sizeof($sql_ary))
+		if (count($sql_ary))
 		{
 			$ext_new = $ext_old = '';
 			if (isset($sql_ary['user_avatar']))
@@ -2449,7 +2449,7 @@ function avatar_process_user(&$error, $custom_userdata = false, $can_upload = nu
 		}
 	}
 
-	return (sizeof($error)) ? false : true;
+	return (count($error)) ? false : true;
 }
 
 //
@@ -2486,7 +2486,7 @@ function group_create(&$group_id, $type, $name, $desc, $group_attributes, $allow
 		$error[] = $user->lang['GROUP_ERR_TYPE'];
 	}
 
-	if (!sizeof($error))
+	if (!count($error))
 	{
 		$user_ary = array();
 		$sql_ary = array(
@@ -2503,7 +2503,7 @@ function group_create(&$group_id, $type, $name, $desc, $group_attributes, $allow
 			generate_text_for_storage($sql_ary['group_desc'], $sql_ary['group_desc_uid'], $sql_ary['group_desc_bitfield'], $sql_ary['group_desc_options'], $allow_desc_bbcode, $allow_desc_urls, $allow_desc_smilies);
 		}
 
-		if (sizeof($group_attributes))
+		if (count($group_attributes))
 		{
 			// Merge them with $sql_ary to properly update the group
 			$sql_ary = array_merge($sql_ary, $group_attributes);
@@ -2592,7 +2592,7 @@ function group_create(&$group_id, $type, $name, $desc, $group_attributes, $allow
 
 		// Set user attributes
 		$sql_ary = array();
-		if (sizeof($group_attributes))
+		if (count($group_attributes))
 		{
 			// Go through the user attributes array, check if a group attribute matches it and then set it. ;)
 			foreach ($user_attribute_ary as $attribute)
@@ -2612,7 +2612,7 @@ function group_create(&$group_id, $type, $name, $desc, $group_attributes, $allow
 			}
 		}
 
-		if (sizeof($sql_ary) && sizeof($user_ary))
+		if (count($sql_ary) && count($user_ary))
 		{
 			group_set_user_default($group_id, $user_ary, $sql_ary);
 		}
@@ -2623,7 +2623,7 @@ function group_create(&$group_id, $type, $name, $desc, $group_attributes, $allow
 		group_update_listings($group_id);
 	}
 
-	return (sizeof($error)) ? $error : false;
+	return (count($error)) ? $error : false;
 }
 
 
@@ -2748,7 +2748,7 @@ function group_user_add($group_id, $user_id_ary = false, $username_ary = false, 
 	// We need both username and user_id info
 	$result = user_get_id_name($user_id_ary, $username_ary);
 
-	if (!sizeof($user_id_ary) || $result !== false)
+	if (!count($user_id_ary) || $result !== false)
 	{
 		return 'NO_USER';
 	}
@@ -2776,7 +2776,7 @@ function group_user_add($group_id, $user_id_ary = false, $username_ary = false, 
 	$add_id_ary = array_diff($user_id_ary, $add_id_ary);
 
 	// If we have no users
-	if (!sizeof($add_id_ary) && !sizeof($update_id_ary))
+	if (!count($add_id_ary) && !count($update_id_ary))
 	{
 		return 'GROUP_USERS_EXIST';
 	}
@@ -2784,7 +2784,7 @@ function group_user_add($group_id, $user_id_ary = false, $username_ary = false, 
 	$db->sql_transaction('begin');
 
 	// Insert the new users
-	if (sizeof($add_id_ary))
+	if (count($add_id_ary))
 	{
 		$sql_ary = array();
 
@@ -2801,7 +2801,7 @@ function group_user_add($group_id, $user_id_ary = false, $username_ary = false, 
 		$db->sql_multi_insert(USER_GROUP_TABLE, $sql_ary);
 	}
 
-	if (sizeof($update_id_ary))
+	if (count($update_id_ary))
 	{
 		$sql = 'UPDATE ' . USER_GROUP_TABLE . '
 			SET group_leader = 1
@@ -2858,7 +2858,7 @@ function group_user_del($group_id, $user_id_ary = false, $username_ary = false, 
 	// We need both username and user_id info
 	$result = user_get_id_name($user_id_ary, $username_ary);
 
-	if (!sizeof($user_id_ary) || $result !== false)
+	if (!count($user_id_ary) || $result !== false)
 	{
 		return 'NO_USER';
 	}
@@ -2934,7 +2934,7 @@ function group_user_del($group_id, $user_id_ary = false, $username_ary = false, 
 
 	foreach ($special_group_data as $gid => $default_data_ary)
 	{
-		if (isset($sql_where_ary[$gid]) && sizeof($sql_where_ary[$gid]))
+		if (isset($sql_where_ary[$gid]) && count($sql_where_ary[$gid]))
 		{
 			remove_default_rank($group_id, $sql_where_ary[$gid]);
 			remove_default_avatar($group_id, $sql_where_ary[$gid]);
@@ -3059,7 +3059,7 @@ function group_user_attributes($action, $group_id, $user_id_ary = false, $userna
 	// We need both username and user_id info
 	$result = user_get_id_name($user_id_ary, $username_ary);
 
-	if (!sizeof($user_id_ary) || $result !== false)
+	if (!count($user_id_ary) || $result !== false)
 	{
 		return 'NO_USERS';
 	}
@@ -3114,7 +3114,7 @@ function group_user_attributes($action, $group_id, $user_id_ary = false, $userna
 			}
 			$db->sql_freeresult($result);
 
-			if (!sizeof($user_id_ary))
+			if (!count($user_id_ary))
 			{
 				return false;
 			}
@@ -3167,7 +3167,7 @@ function group_user_attributes($action, $group_id, $user_id_ary = false, $userna
 			$db->sql_freeresult($result);
 
 			$result = user_get_id_name($user_id_ary, $username_ary);
-			if (!sizeof($user_id_ary) || $result !== false)
+			if (!count($user_id_ary) || $result !== false)
 			{
 				return 'NO_USERS';
 			}
@@ -3465,7 +3465,7 @@ function group_update_listings($group_id)
 
 	$hold_ary = $auth->acl_group_raw_data($group_id, array('a_', 'm_'));
 
-	if (!sizeof($hold_ary))
+	if (!count($hold_ary))
 	{
 		return;
 	}
@@ -3628,4 +3628,3 @@ function phpbb_get_banned_user_ids($user_ids = array())
 	return $banned_ids_list;
 }
 
-?>

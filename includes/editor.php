@@ -136,7 +136,7 @@ class editor
 				$this->file_contents = explode("\n", $this->normalize($row['template_data']));
 
 				// emulate the behavior of file()
-				$lines = sizeof($this->file_contents);
+				$lines = count($this->file_contents);
 				for ($i = 0; $i < $lines; $i++)
 				{
 					$this->file_contents[$i] .= "\n";
@@ -155,7 +155,7 @@ class editor
 		* Non existant files cannot be edited, and empty files will have no
 		* finds
 		*/
-		if (!sizeof($this->file_contents))
+		if (!count($this->file_contents))
 		{
 			global $user;
 			trigger_error(sprintf($user->lang['MOD_OPEN_FILE_FAIL'], "$phpbb_root_path$filename"), E_USER_WARNING);
@@ -191,8 +191,8 @@ class editor
 		$find = $this->normalize($find);
 		$find_ary = explode("\n", rtrim($find, "\n"));
 
-		$total_lines = sizeof($this->file_contents);
-		$find_lines = sizeof($find_ary);
+		$total_lines = count($this->file_contents);
+		$find_lines = count($find_ary);
 
 		$mode = array('', 'trim');
 
@@ -435,7 +435,7 @@ class editor
 		}
 
 		$full_find[0] = ltrim($full_find[0], "\n");
-		$full_find[sizeof($full_find) - 1] = rtrim($full_find[sizeof($full_find) - 1], "\n");
+		$full_find[count($full_find) - 1] = rtrim($full_find[count($full_find) - 1], "\n");
 
 		// make sure our new lines are correct
 		$add = "\n" . trim($add, "\n") . "\n";
@@ -927,7 +927,7 @@ class editor_direct extends editor
 		}
 
 		$dirs = explode('/', $path);
-		$count = sizeof($dirs);
+		$count = count($dirs);
 		$path = '.';
 		for ($i = 0; $i < $count; $i++)
 		{
@@ -1421,4 +1421,3 @@ class editor_manual extends editor
 	}
 }
 
-?>

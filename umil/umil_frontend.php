@@ -199,7 +199,7 @@ class umil_frontend extends umil
 
 			$content = $this->build_cfg_template($type, $name, $vars);
 
-			if (!sizeof($content))
+			if (!count($content))
 			{
 				continue;
 			}
@@ -616,4 +616,3 @@ if (!function_exists('phpbb_chmod'))
 		return $result;
 	}
 }
-?>

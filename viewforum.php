@@ -313,7 +313,7 @@ $template->assign_vars(array(
 	'S_SELECT_SORT_DIR'		=> $s_sort_dir,
 	'S_SELECT_SORT_KEY'		=> $s_sort_key,
 	'S_SELECT_SORT_DAYS'	=> $s_limit_days,
-	'S_TOPIC_ICONS'			=> ($s_display_active && sizeof($active_forum_ary)) ? max($active_forum_ary['enable_icons']) : (($forum_data['enable_icons']) ? true : false),
+	'S_TOPIC_ICONS'			=> ($s_display_active && count($active_forum_ary)) ? max($active_forum_ary['enable_icons']) : (($forum_data['enable_icons']) ? true : false),
 	'S_WATCH_FORUM_LINK'	=> $s_watching_forum['link'],
 	'S_WATCH_FORUM_TITLE'	=> $s_watching_forum['title'],
 	'S_WATCHING_FORUM'		=> $s_watching_forum['is_watching'],
@@ -321,7 +321,7 @@ $template->assign_vars(array(
 	'S_DISPLAY_SEARCHBOX'	=> ($auth->acl_get('u_search') && $auth->acl_get('f_search', $forum_id) && $config['load_search']) ? true : false,
 	'S_SEARCHBOX_ACTION'	=> append_sid("{$phpbb_root_path}search.$phpEx"),
 	'S_SEARCH_LOCAL_HIDDEN_FIELDS'	=> build_hidden_fields($s_search_hidden_fields),
-	'S_SINGLE_MODERATOR'	=> (!empty($moderators[$forum_id]) && sizeof($moderators[$forum_id]) > 1) ? false : true,
+	'S_SINGLE_MODERATOR'	=> (!empty($moderators[$forum_id]) && count($moderators[$forum_id]) > 1) ? false : true,
 	'S_IS_LOCKED'			=> ($forum_data['forum_status'] == ITEM_LOCKED) ? true : false,
 	'S_VIEWFORUM'			=> true,
 
@@ -360,7 +360,7 @@ if ($user->data['is_registered'])
 		$sql_array['LEFT_JOIN'][] = array('FROM' => array(TOPICS_TRACK_TABLE => 'tt'), 'ON' => 'tt.topic_id = t.topic_id AND tt.user_id = ' . $user->data['user_id']);
 		$sql_array['SELECT'] .= ', tt.mark_time';
 
-		if ($s_display_active && sizeof($active_forum_ary))
+		if ($s_display_active && count($active_forum_ary))
 		{
 			$sql_array['LEFT_JOIN'][] = array('FROM' => array(FORUMS_TRACK_TABLE => 'ft'), 'ON' => 'ft.forum_id = t.forum_id AND ft.user_id = ' . $user->data['user_id']);
 			$sql_array['SELECT'] .= ', ft.mark_time AS forum_mark_time';
@@ -429,7 +429,7 @@ else
 	$sql_start = $start;
 }
 
-if ($forum_data['forum_type'] == FORUM_POST || !sizeof($active_forum_ary))
+if ($forum_data['forum_type'] == FORUM_POST || !count($active_forum_ary))
 {
 	$sql_where = 't.forum_id = ' . $forum_id;
 }
@@ -440,7 +440,7 @@ else if (empty($active_forum_ary['exclude_forum_id']))
 else
 {
 	$get_forum_ids = array_diff($active_forum_ary['forum_id'], $active_forum_ary['exclude_forum_id']);
-	$sql_where = (sizeof($get_forum_ids)) ? $db->sql_in_set('t.forum_id', $get_forum_ids) : 't.forum_id = ' . $forum_id;
+	$sql_where = (count($get_forum_ids)) ? $db->sql_in_set('t.forum_id', $get_forum_ids) : 't.forum_id = ' . $forum_id;
 }
 
 // Grab just the sorted topic ids
@@ -462,7 +462,7 @@ $db->sql_freeresult($result);
 // For storing shadow topics
 $shadow_topic_list = array();
 
-if (sizeof($topic_list))
+if (count($topic_list))
 {
 	// SQL array for obtaining topics/stickies
 	$sql_array = array(
@@ -492,7 +492,7 @@ if (sizeof($topic_list))
 }
 
 // If we have some shadow topics, update the rowset to reflect their topic information
-if (sizeof($shadow_topic_list))
+if (count($shadow_topic_list))
 {
 	$sql = 'SELECT *
 		FROM ' . TOPICS_TABLE . '
@@ -549,7 +549,7 @@ if ($s_display_active)
 }
 
 // We need to readd the local announcements to the forums total topic count, otherwise the number is different from the one on the forum list
-$total_topic_count = $topics_count + sizeof($announcement_list) - sizeof($global_announce_list);
+$total_topic_count = $topics_count + count($announcement_list) - count($global_announce_list);
 
 $template->assign_vars(array(
 	'PAGINATION'	=> generate_pagination(append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=$forum_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '')), $topics_count, $config['topics_per_page'], $start),
@@ -561,13 +561,13 @@ $topic_list = ($store_reverse) ? array_merge($announcement_list, array_reverse($
 $topic_tracking_info = $tracking_topics = array();
 
 // Okay, lets dump out the page ...
-if (sizeof($topic_list))
+if (count($topic_list))
 {
 	$mark_forum_read = true;
 	$mark_time_forum = 0;
 
 	// Active topics?
-	if ($s_display_active && sizeof($active_forum_ary))
+	if ($s_display_active && count($active_forum_ary))
 	{
 		// Generate topic forum list...
 		$topic_forum_list = array();
@@ -672,7 +672,7 @@ if (sizeof($topic_list))
 
 			'TOPIC_FOLDER_IMG'		=> $user->img($folder_img, $folder_alt),
 			'TOPIC_FOLDER_IMG_SRC'	=> $user->img($folder_img, $folder_alt, false, '', 'src'),
-			'TOPIC_FOLDER_IMG_ALT'	=> $user->lang[$folder_alt],
+			'TOPIC_FOLDER_IMG_ALT'	=> isset($user->lang[$folder_alt]) ? $user->lang[$folder_alt] : '',
 			'TOPIC_FOLDER_IMG_WIDTH'=> $user->img($folder_img, '', false, '', 'width'),
 			'TOPIC_FOLDER_IMG_HEIGHT'	=> $user->img($folder_img, '', false, '', 'height'),
 
@@ -680,7 +680,7 @@ if (sizeof($topic_list))
 			'TOPIC_ICON_IMG_WIDTH'	=> (!empty($icons[$row['icon_id']])) ? $icons[$row['icon_id']]['width'] : '',
 			'TOPIC_ICON_IMG_HEIGHT'	=> (!empty($icons[$row['icon_id']])) ? $icons[$row['icon_id']]['height'] : '',
 			'ATTACH_ICON_IMG'		=> ($auth->acl_get('u_download') && $auth->acl_get('f_download', $topic_forum_id) && $row['topic_attachment']) ? $user->img('icon_topic_attach', $user->lang['TOTAL_ATTACHMENTS']) : '',
-			'UNAPPROVED_IMG'		=> ($topic_unapproved || $posts_unapproved) ? $user->img('icon_topic_unapproved', ($topic_unapproved) ? 'TOPIC_UNAPPROVED' : 'POSTS_UNAPPROVED') : '',
+			'UNAPPROVED_IMG'		=> ($topic_unapproved || $posts_unapproved) ? $user->img('icon_topic_unapproved', $topic_unapproved ? 'TOPIC_UNAPPROVED' : 'POSTS_UNAPPROVED') : '',
 
 			'S_TOPIC_TYPE'			=> $row['topic_type'],
 			'S_USER_POSTED'			=> (isset($row['topic_posted']) && $row['topic_posted']) ? true : false,
@@ -721,11 +721,10 @@ if (sizeof($topic_list))
 // on all topics (as we do in 2.0.x). It looks for unread or new topics, if it doesn't find
 // any it updates the forum last read cookie. This requires that the user visit the forum
 // after reading a topic
-if ($forum_data['forum_type'] == FORUM_POST && sizeof($topic_list) && $mark_forum_read)
+if ($forum_data['forum_type'] == FORUM_POST && count($topic_list) && $mark_forum_read)
 {
 	update_forum_tracking_info($forum_id, $forum_data['forum_last_post_time'], false, $mark_time_forum);
 }
 
 page_footer();
 
-?>

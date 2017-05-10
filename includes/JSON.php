@@ -380,7 +380,7 @@ class Services_JSON
                 */
 
                 // treat as a JSON object
-                if (is_array($var) && count($var) && (array_keys($var) !== range(0, sizeof($var) - 1))) {
+                if (is_array($var) && count($var) && (array_keys($var) !== range(0, count($var) - 1))) {
                     $properties = array_map(array($this, 'name_value'),
                                             array_keys($var),
                                             array_values($var));
@@ -671,7 +671,7 @@ class Services_JSON
                                 // element in an associative array,
                                 // for now
                                 $parts = array();
-                                
+
                                 if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
                                     // "name":value pair
                                     $key = $this->decode($parts[1]);
@@ -807,5 +807,4 @@ if (class_exists('PEAR_Error')) {
     }
 
 }
-    
-?>
+

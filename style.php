@@ -230,7 +230,7 @@ if ($id)
 	preg_match_all('#\{IMG_([A-Za-z0-9_]*?)_(WIDTH|HEIGHT|SRC)\}#', $theme['theme_data'], $matches);
 
 	$imgs = $find = $replace = array();
-	if (isset($matches[0]) && sizeof($matches[0]))
+	if (isset($matches[0]) && count($matches[0]))
 	{
 		foreach ($matches[1] as $i => $img)
 		{
@@ -273,7 +273,7 @@ if ($id)
 			}
 		}
 
-		if (sizeof($find))
+		if (count($find))
 		{
 			$theme['theme_data'] = str_replace($find, $replace, $theme['theme_data']);
 		}
@@ -290,4 +290,3 @@ if ($id)
 
 exit;
 
-?>

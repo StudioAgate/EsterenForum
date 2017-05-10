@@ -278,7 +278,7 @@ class acp_permission_roles
 					{
 						trigger_error($user->lang['NO_ROLE_SELECTED'] . adm_back_link($this->u_action), E_USER_WARNING);
 					}
-					
+
 					$sql = 'SELECT *
 						FROM ' . ACL_ROLES_TABLE . '
 						WHERE role_id = ' . $role_id;
@@ -346,7 +346,7 @@ class acp_permission_roles
 				{
 					$hold_ary = $auth_admin->get_role_mask($role_id);
 
-					if (sizeof($hold_ary))
+					if (count($hold_ary))
 					{
 						$role_name = (!empty($user->lang[$role_row['role_name']])) ? $user->lang[$role_row['role_name']] : $role_row['role_name'];
 
@@ -467,7 +467,7 @@ class acp_permission_roles
 
 		$content_array = $content_array[0];
 
-		$template->assign_var('S_NUM_PERM_COLS', sizeof($categories));
+		$template->assign_var('S_NUM_PERM_COLS', count($categories));
 
 		// Assign to template
 		foreach ($content_array as $cat => $cat_array)
@@ -568,4 +568,3 @@ class acp_permission_roles
 	}
 }
 
-?>

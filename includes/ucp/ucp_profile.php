@@ -89,7 +89,7 @@ class ucp_profile
 					}
 
 					// Only check the new password against the previous password if there have been no errors
-					if (!sizeof($error) && $auth->acl_get('u_chgpasswd') && $data['new_password'] && phpbb_check_hash($data['new_password'], $user->data['user_password']))
+					if (!count($error) && $auth->acl_get('u_chgpasswd') && $data['new_password'] && phpbb_check_hash($data['new_password'], $user->data['user_password']))
 					{
 						$error[] = 'SAME_PASSWORD_ERROR';
 					}
@@ -104,7 +104,7 @@ class ucp_profile
 						$error[] = 'FORM_INVALID';
 					}
 
-					if (!sizeof($error))
+					if (!count($error))
 					{
 						$sql_ary = array(
 							'username'			=> ($auth->acl_get('u_chgname') && $config['allow_namechange']) ? $data['username'] : $user->data['username'],
@@ -168,7 +168,7 @@ class ucp_profile
 								// Also include founders
 								$where_sql = ' WHERE user_type = ' . USER_FOUNDER;
 
-								if (sizeof($admin_ary))
+								if (count($admin_ary))
 								{
 									$where_sql .= ' OR ' . $db->sql_in_set('user_id', $admin_ary);
 								}
@@ -202,7 +202,7 @@ class ucp_profile
 							$sql_ary['user_newpasswd'] = '';
 						}
 
-						if (sizeof($sql_ary))
+						if (count($sql_ary))
 						{
 							$sql = 'UPDATE ' . USERS_TABLE . '
 								SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
@@ -239,7 +239,7 @@ class ucp_profile
 				}
 
 				$template->assign_vars(array(
-					'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
+					'ERROR'				=> (count($error)) ? implode('<br />', $error) : '',
 
 					'USERNAME'			=> $data['username'],
 					'EMAIL'				=> $data['email'],
@@ -329,7 +329,7 @@ class ucp_profile
 					// validate custom profile fields
 					$cp->submit_cp_field('profile', $user->get_iso_lang_id(), $cp_data, $cp_error);
 
-					if (sizeof($cp_error))
+					if (count($cp_error))
 					{
 						$error = array_merge($error, $cp_error);
 					}
@@ -339,7 +339,7 @@ class ucp_profile
 						$error[] = 'FORM_INVALID';
 					}
 
-					if (!sizeof($error))
+					if (!count($error))
 					{
 						$data['notify'] = $user->data['user_notify_type'];
 
@@ -420,7 +420,7 @@ class ucp_profile
 				}
 
 				$template->assign_vars(array(
-					'ERROR'		=> (sizeof($error)) ? implode('<br />', $error) : '',
+					'ERROR'		=> (count($error)) ? implode('<br />', $error) : '',
 
 					'ICQ'		=> $data['icq'],
 					'YIM'		=> $data['yim'],
@@ -466,14 +466,14 @@ class ucp_profile
 					$enable_smilies	= ($config['allow_sig_smilies']) ? ((request_var('disable_smilies', false)) ? false : true) : false;
 					$enable_urls	= ($config['allow_sig_links']) ? ((request_var('disable_magic_url', false)) ? false : true) : false;
 
-					if (!sizeof($error))
+					if (!count($error))
 					{
 						$message_parser = new parse_message($signature);
 
 						// Allowing Quote BBCode
 						$message_parser->parse($enable_bbcode, $enable_urls, $enable_smilies, $config['allow_sig_img'], $config['allow_sig_flash'], true, $config['allow_sig_links'], true, 'sig');
 
-						if (sizeof($message_parser->warn_msg))
+						if (count($message_parser->warn_msg))
 						{
 							$error[] = implode('<br />', $message_parser->warn_msg);
 						}
@@ -483,7 +483,7 @@ class ucp_profile
 							$error[] = 'FORM_INVALID';
 						}
 
-						if (!sizeof($error) && $submit)
+						if (!count($error) && $submit)
 						{
 							$user->optionset('sig_bbcode', $enable_bbcode);
 							$user->optionset('sig_smilies', $enable_smilies);
@@ -521,7 +521,7 @@ class ucp_profile
 				decode_message($signature, $user->data['user_sig_bbcode_uid']);
 
 				$template->assign_vars(array(
-					'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
+					'ERROR'				=> (count($error)) ? implode('<br />', $error) : '',
 					'SIGNATURE'			=> $signature,
 					'SIGNATURE_PREVIEW'	=> $signature_preview,
 
@@ -596,7 +596,7 @@ class ucp_profile
 				}
 
 				$template->assign_vars(array(
-					'ERROR'			=> (sizeof($error)) ? implode('<br />', $error) : '',
+					'ERROR'			=> (count($error)) ? implode('<br />', $error) : '',
 					'AVATAR'		=> get_user_avatar($user->data['user_avatar'], $user->data['user_avatar_type'], $user->data['user_avatar_width'], $user->data['user_avatar_height'], 'USER_AVATAR', true),
 					'AVATAR_SIZE'	=> $config['avatar_filesize'],
 
@@ -643,4 +643,3 @@ class ucp_profile
 	}
 }
 
-?>

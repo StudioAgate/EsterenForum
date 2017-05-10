@@ -61,7 +61,7 @@ class acp_database
 						$format	= request_var('method', '');
 						$where	= request_var('where', '');
 
-						if (!sizeof($table))
+						if (!count($table))
 						{
 							trigger_error($user->lang['TABLE_SELECT_ERROR'] . adm_back_link($this->u_action), E_USER_WARNING);
 						}
@@ -1475,14 +1475,14 @@ class mssql_extractor extends base_extractor
 		$result = $db->sql_query($sql);
 		while ($row = $db->sql_fetchrow($result))
 		{
-			if (!sizeof($rows))
+			if (!count($rows))
 			{
 				$sql_data .= "ALTER TABLE [$table_name] WITH NOCHECK ADD\n";
 				$sql_data .= "\tCONSTRAINT [{$row['CONSTRAINT_NAME']}] PRIMARY KEY  CLUSTERED \n\t(\n";
 			}
 			$rows[] = "\t\t[{$row['COLUMN_NAME']}]";
 		}
-		if (sizeof($rows))
+		if (count($rows))
 		{
 			$sql_data .= implode(",\n", $rows);
 			$sql_data .= "\n\t)  ON [PRIMARY] \nGO\n";
@@ -1624,7 +1624,7 @@ class mssql_extractor extends base_extractor
 		}
 		$this->flush($sql_data);
 	}
-	
+
 	function write_data_mssqlnative($table_name)
 	{
 		global $db;
@@ -1650,7 +1650,7 @@ class mssql_extractor extends base_extractor
 
 		$row = new result_mssqlnative($result_fields);
 		$i_num_fields = $row->num_fields();
-		
+
 		for ($i = 0; $i < $i_num_fields; $i++)
 		{
 			$ary_type[$i] = $row->field_type($i);
@@ -1663,7 +1663,7 @@ class mssql_extractor extends base_extractor
 			WHERE COLUMNPROPERTY(object_id('$table_name'), COLUMN_NAME, 'IsIdentity') = 1";
 		$result2 = $db->sql_query($sql);
 		$row2 = $db->sql_fetchrow($result2);
-		
+
 		if (!empty($row2['has_identity']))
 		{
 			$sql_data .= "\nSET IDENTITY_INSERT $table_name ON\nGO\n";
@@ -1727,8 +1727,8 @@ class mssql_extractor extends base_extractor
 			$sql_data .= "\nSET IDENTITY_INSERT $table_name OFF\nGO\n";
 		}
 		$this->flush($sql_data);
-	}	
-	
+	}
+
 	function write_data_odbc($table_name)
 	{
 		global $db;
@@ -1890,7 +1890,7 @@ class oracle_extractor extends base_extractor
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($primary_key))
+		if (count($primary_key))
 		{
 			$rows[] = "  CONSTRAINT {$constraint_name} PRIMARY KEY (" . implode(', ', $primary_key) . ')';
 		}
@@ -1911,7 +1911,7 @@ class oracle_extractor extends base_extractor
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($unique))
+		if (count($unique))
 		{
 			$rows[] = "  CONSTRAINT {$constraint_name} UNIQUE (" . implode(', ', $unique) . ')';
 		}
@@ -2206,7 +2206,7 @@ class firebird_extractor extends base_extractor
 			$keys[] = $row['name'];
 		}
 
-		if (sizeof($keys))
+		if (count($keys))
 		{
 			$sql_data .= "\nALTER TABLE $table_name ADD PRIMARY KEY (" . implode(', ', $keys) . ');';
 		}
@@ -2347,7 +2347,7 @@ function sanitize_data_mssql($text)
 		{
 			$val[] = "'" . $value . "'";
 		}
-		if (sizeof($matches[0]))
+		if (count($matches[0]))
 		{
 			$val[] = 'char(' . ord(array_shift($matches[0])) . ')';
 		}
@@ -2371,7 +2371,7 @@ function sanitize_data_oracle($text)
 		{
 			$val[] = "'" . $value . "'";
 		}
-		if (sizeof($matches[0]))
+		if (count($matches[0]))
 		{
 			$val[] = 'chr(' . ord(array_shift($matches[0])) . ')';
 		}
@@ -2393,7 +2393,7 @@ function sanitize_data_generic($text)
 		{
 			$val[] = "'" . $value . "'";
 		}
-		if (sizeof($matches[0]))
+		if (count($matches[0]))
 		{
 			$val[] = "'" . array_shift($matches[0]) . "'";
 		}
@@ -2435,7 +2435,7 @@ function fgetd_seekless(&$fp, $delim, $read, $seek, $eof, $buffer = 8192)
 	static $array = array();
 	static $record = '';
 
-	if (!sizeof($array))
+	if (!count($array))
 	{
 		while (!$eof($fp))
 		{
@@ -2457,7 +2457,7 @@ function fgetd_seekless(&$fp, $delim, $read, $seek, $eof, $buffer = 8192)
 		}
 	}
 
-	if (sizeof($array))
+	if (count($array))
 	{
 		return array_shift($array);
 	}
@@ -2465,4 +2465,3 @@ function fgetd_seekless(&$fp, $delim, $read, $seek, $eof, $buffer = 8192)
 	return false;
 }
 
-?>

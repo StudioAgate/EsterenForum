@@ -37,7 +37,7 @@ class ucp_attachments
 		$confirm	= (isset($_POST['confirm'])) ? true : false;
 		$delete_ids	= array_keys(request_var('attachment', array(0)));
 
-		if ($delete && sizeof($delete_ids))
+		if ($delete && count($delete_ids))
 		{
 			// Validate $delete_ids...
 			$sql = 'SELECT attach_id
@@ -55,7 +55,7 @@ class ucp_attachments
 			$db->sql_freeresult($result);
 		}
 
-		if ($delete && sizeof($delete_ids))
+		if ($delete && count($delete_ids))
 		{
 			$s_hidden_fields = array(
 				'delete'	=> 1
@@ -76,12 +76,12 @@ class ucp_attachments
 				delete_attachments('attach', $delete_ids);
 
 				meta_refresh(3, $this->u_action);
-				$message = ((sizeof($delete_ids) == 1) ? $user->lang['ATTACHMENT_DELETED'] : $user->lang['ATTACHMENTS_DELETED']) . '<br /><br />' . sprintf($user->lang['RETURN_UCP'], '<a href="' . $this->u_action . '">', '</a>');
+				$message = ((count($delete_ids) == 1) ? $user->lang['ATTACHMENT_DELETED'] : $user->lang['ATTACHMENTS_DELETED']) . '<br /><br />' . sprintf($user->lang['RETURN_UCP'], '<a href="' . $this->u_action . '">', '</a>');
 				trigger_error($message);
 			}
 			else
 			{
-				confirm_box(false, (sizeof($delete_ids) == 1) ? 'DELETE_ATTACHMENT' : 'DELETE_ATTACHMENTS', build_hidden_fields($s_hidden_fields));
+				confirm_box(false, (count($delete_ids) == 1) ? 'DELETE_ATTACHMENT' : 'DELETE_ATTACHMENTS', build_hidden_fields($s_hidden_fields));
 			}
 		}
 
@@ -198,4 +198,3 @@ class ucp_attachments
 	}
 }
 
-?>

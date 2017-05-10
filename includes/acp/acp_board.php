@@ -448,7 +448,7 @@ class acp_board
 			$error[] = $user->lang['FORM_INVALID'];
 		}
 		// Do not write values if there is an error
-		if (sizeof($error))
+		if (count($error))
 		{
 			$submit = false;
 		}
@@ -601,7 +601,7 @@ class acp_board
 			'L_TITLE'			=> $user->lang[$display_vars['title']],
 			'L_TITLE_EXPLAIN'	=> $user->lang[$display_vars['title'] . '_EXPLAIN'],
 
-			'S_ERROR'			=> (sizeof($error)) ? true : false,
+			'S_ERROR'			=> (count($error)) ? true : false,
 			'ERROR_MSG'			=> implode('<br />', $error),
 
 			'U_ACTION'			=> $this->u_action)
@@ -782,7 +782,7 @@ class acp_board
 		{
 			$act_ary['ACC_USER'] = USER_ACTIVATION_SELF;
 			$act_ary['ACC_ADMIN'] = USER_ACTIVATION_ADMIN;
-		}		
+		}
 		$act_options = '';
 
 		foreach ($act_ary as $key => $value)
@@ -987,7 +987,7 @@ class acp_board
 		$db->sql_query($sql);
 
 		// Already emptied for all...
-		if (sizeof($values))
+		if (count($values))
 		{
 			// Set for selected forums
 			$sql = 'UPDATE ' . FORUMS_TABLE . '
@@ -1002,4 +1002,3 @@ class acp_board
 
 }
 
-?>

@@ -151,7 +151,7 @@ class custom_profile
 				$field_value = (int) $field_value;
 
 				// retrieve option lang data if necessary
-				if (!isset($this->options_lang[$field_data['field_id']]) || !isset($this->options_lang[$field_data['field_id']][$field_data['lang_id']]) || !sizeof($this->options_lang[$file_data['field_id']][$field_data['lang_id']]))
+				if (!isset($this->options_lang[$field_data['field_id']]) || !isset($this->options_lang[$field_data['field_id']][$field_data['lang_id']]) || !count($this->options_lang[$file_data['field_id']][$field_data['lang_id']]))
 				{
 					$this->get_option_lang($field_data['field_id'], $field_data['lang_id'], FIELD_DROPDOWN, false);
 				}
@@ -362,7 +362,7 @@ class custom_profile
 	{
 		global $db;
 
-		if (!sizeof($cp_data))
+		if (!count($cp_data))
 		{
 			return;
 		}
@@ -432,12 +432,12 @@ class custom_profile
 				$user_id = array($user_id);
 			}
 
-			if (!sizeof($this->profile_cache))
+			if (!count($this->profile_cache))
 			{
 				$this->build_cache();
 			}
 
-			if (!sizeof($user_id))
+			if (!count($user_id))
 			{
 				return array();
 			}
@@ -783,7 +783,7 @@ class custom_profile
 
 		if ($profile_row['field_length'] == 1)
 		{
-			if (!isset($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]) || !sizeof($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]))
+			if (!isset($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]) || !count($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]))
 			{
 				$this->get_option_lang($profile_row['field_id'], $profile_row['lang_id'], FIELD_BOOL, $preview);
 			}
@@ -838,7 +838,7 @@ class custom_profile
 
 		$value = $this->get_var('int', $profile_row, $profile_row['field_default_value'], $preview);
 
-		if (!isset($this->options_lang[$profile_row['field_id']]) || !isset($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]) || !sizeof($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]))
+		if (!isset($this->options_lang[$profile_row['field_id']]) || !isset($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]) || !count($this->options_lang[$profile_row['field_id']][$profile_row['lang_id']]))
 		{
 			$this->get_option_lang($profile_row['field_id'], $profile_row['lang_id'], FIELD_DROPDOWN, $preview);
 		}
@@ -902,7 +902,7 @@ class custom_profile
 		$sql = 'SELECT f.field_type, f.field_ident, f.field_default_value, l.lang_default_value
 			FROM ' . PROFILE_LANG_TABLE . ' l, ' . PROFILE_FIELDS_TABLE . ' f
 			WHERE l.lang_id = ' . $user->get_iso_lang_id() . '
-				' . ((sizeof($sql_not_in)) ? ' AND ' . $db->sql_in_set('f.field_ident', $sql_not_in, true) : '') . '
+				' . ((count($sql_not_in)) ? ' AND ' . $db->sql_in_set('f.field_ident', $sql_not_in, true) : '') . '
 				AND l.field_id = f.field_id';
 		$result = $db->sql_query($sql);
 
@@ -1182,4 +1182,3 @@ class custom_profile_admin extends custom_profile
 	}
 }
 
-?>

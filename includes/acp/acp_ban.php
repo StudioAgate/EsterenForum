@@ -110,7 +110,7 @@ class acp_ban
 			'L_NO_BAN_CELL'			=> $l_no_ban_cell,
 
 			'S_USERNAME_BAN'	=> ($mode == 'user') ? true : false,
-			
+
 			'U_ACTION'			=> $this->u_action,
 			'U_FIND_USERNAME'	=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=searchuser&amp;form=acp_ban&amp;field=ban'),
 		));
@@ -214,7 +214,7 @@ class acp_ban
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($ban_length))
+		if (count($ban_length))
 		{
 			foreach ($ban_length as $ban_id => $length)
 			{
@@ -226,7 +226,7 @@ class acp_ban
 			}
 		}
 
-		if (sizeof($ban_reasons))
+		if (count($ban_reasons))
 		{
 			foreach ($ban_reasons as $ban_id => $reason)
 			{
@@ -238,7 +238,7 @@ class acp_ban
 			}
 		}
 
-		if (sizeof($ban_give_reasons))
+		if (count($ban_give_reasons))
 		{
 			foreach ($ban_give_reasons as $ban_id => $reason)
 			{
@@ -273,4 +273,3 @@ class acp_ban
 	}
 }
 
-?>

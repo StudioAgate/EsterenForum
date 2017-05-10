@@ -608,10 +608,10 @@ class bbcode_firstpass extends bbcode
 			if ($tok == ']')
 			{
 				// if $tok is ']' the buffer holds a tag
-				if (strtolower($buffer) == '/list' && sizeof($list_end_tags))
+				if (strtolower($buffer) == '/list' && count($list_end_tags))
 				{
 					// valid [/list] tag, check nesting so that we don't hit false positives
-					if (sizeof($item_end_tags) && sizeof($item_end_tags) >= sizeof($list_end_tags))
+					if (count($item_end_tags) && count($item_end_tags) >= count($list_end_tags))
 					{
 						// current li tag has not been closed
 						$out = preg_replace('/\n?\[$/', '[', $out) . array_pop($item_end_tags) . '][';
@@ -636,10 +636,10 @@ class bbcode_firstpass extends bbcode
 				}
 				else
 				{
-					if (($buffer == '*' || substr($buffer, -2) == '[*') && sizeof($list_end_tags))
+					if (($buffer == '*' || substr($buffer, -2) == '[*') && count($list_end_tags))
 					{
 						// the buffer holds a bullet tag and we have a [list] tag open
-						if (sizeof($item_end_tags) >= sizeof($list_end_tags))
+						if (count($item_end_tags) >= count($list_end_tags))
 						{
 							if (substr($buffer, -2) == '[*')
 							{
@@ -683,11 +683,11 @@ class bbcode_firstpass extends bbcode
 		while ($in);
 
 		// do we have some tags open? close them now
-		if (sizeof($item_end_tags))
+		if (count($item_end_tags))
 		{
 			$out .= '[' . implode('][', $item_end_tags) . ']';
 		}
-		if (sizeof($list_end_tags))
+		if (count($list_end_tags))
 		{
 			$out .= '[' . implode('][', $list_end_tags) . ']';
 		}
@@ -749,7 +749,7 @@ class bbcode_firstpass extends bbcode
 
 			if ($tok == ']')
 			{
-				if (strtolower($buffer) == '/quote' && sizeof($close_tags) && substr($out, -1, 1) == '[')
+				if (strtolower($buffer) == '/quote' && count($close_tags) && substr($out, -1, 1) == '[')
 				{
 					// we have found a closing tag
 					$out .= array_pop($close_tags) . ']';
@@ -769,7 +769,7 @@ class bbcode_firstpass extends bbcode
 					$this->parsed_items['quote']++;
 
 					// the buffer holds a valid opening tag
-					if ($config['max_quote_depth'] && sizeof($close_tags) >= $config['max_quote_depth'])
+					if ($config['max_quote_depth'] && count($close_tags) >= $config['max_quote_depth'])
 					{
 						// there are too many nested quotes
 						$error_ary['quote_depth'] = sprintf($user->lang['QUOTE_DEPTH_EXCEEDED'], $config['max_quote_depth']);
@@ -877,7 +877,7 @@ class bbcode_firstpass extends bbcode
 
 		$out .= $buffer;
 
-		if (sizeof($close_tags))
+		if (count($close_tags))
 		{
 			$out .= '[' . implode('][', $close_tags) . ']';
 		}
@@ -1335,7 +1335,7 @@ class parse_message extends bbcode_firstpass
 			$db->sql_freeresult($result);
 		}
 
-		if (sizeof($match))
+		if (count($match))
 		{
 			if ($max_smilies)
 			{
@@ -1368,7 +1368,7 @@ class parse_message extends bbcode_firstpass
 
 		$error = array();
 
-		$num_attachments = sizeof($this->attachment_data);
+		$num_attachments = count($this->attachment_data);
 		$this->filename_data['filecomment'] = utf8_normalize_nfc(request_var('filecomment', '', true));
 		$upload_file = (isset($_FILES[$form_name]) && $_FILES[$form_name]['name'] != 'none' && trim($_FILES[$form_name]['name'])) ? true : false;
 
@@ -1402,7 +1402,7 @@ class parse_message extends bbcode_firstpass
 				$filedata = upload_attachment($form_name, $forum_id, false, '', $is_message);
 				$error = $filedata['error'];
 
-				if ($filedata['post_attach'] && !sizeof($error))
+				if ($filedata['post_attach'] && !count($error))
 				{
 					$sql_ary = array(
 						'physical_filename'	=> $filedata['physical_filename'],
@@ -1449,7 +1449,7 @@ class parse_message extends bbcode_firstpass
 			}
 		}
 
-		if ($preview || $refresh || sizeof($error))
+		if ($preview || $refresh || count($error))
 		{
 			// Perform actions on temporary attachments
 			if ($delete_file)
@@ -1504,7 +1504,7 @@ class parse_message extends bbcode_firstpass
 					$filedata = upload_attachment($form_name, $forum_id, false, '', $is_message);
 					$error = array_merge($error, $filedata['error']);
 
-					if (!sizeof($error))
+					if (!count($error))
 					{
 						$sql_ary = array(
 							'physical_filename'	=> $filedata['physical_filename'],
@@ -1560,7 +1560,7 @@ class parse_message extends bbcode_firstpass
 
 		$check_user_id = ($check_user_id === false) ? $user->data['user_id'] : $check_user_id;
 
-		if (!sizeof($attachment_data))
+		if (!count($attachment_data))
 		{
 			return;
 		}
@@ -1580,7 +1580,7 @@ class parse_message extends bbcode_firstpass
 		}
 
 		// Regenerate already posted attachments
-		if (sizeof($not_orphan))
+		if (count($not_orphan))
 		{
 			// Get the attachment data, based on the poster id...
 			$sql = 'SELECT attach_id, is_orphan, real_filename, attach_comment
@@ -1600,13 +1600,13 @@ class parse_message extends bbcode_firstpass
 			$db->sql_freeresult($result);
 		}
 
-		if (sizeof($not_orphan))
+		if (count($not_orphan))
 		{
 			trigger_error('NO_ACCESS_ATTACHMENT', E_USER_ERROR);
 		}
 
 		// Regenerate newly uploaded attachments
-		if (sizeof($orphan))
+		if (count($orphan))
 		{
 			$sql = 'SELECT attach_id, is_orphan, real_filename, attach_comment
 				FROM ' . ATTACHMENTS_TABLE . '
@@ -1626,7 +1626,7 @@ class parse_message extends bbcode_firstpass
 			$db->sql_freeresult($result);
 		}
 
-		if (sizeof($orphan))
+		if (count($orphan))
 		{
 			trigger_error('NO_ACCESS_ATTACHMENT', E_USER_ERROR);
 		}
@@ -1659,7 +1659,7 @@ class parse_message extends bbcode_firstpass
 		$this->bbcode_bitfield = $bbcode_bitfield;
 
 		$poll['poll_options'] = explode("\n", trim($poll['poll_option_text']));
-		$poll['poll_options_size'] = sizeof($poll['poll_options']);
+		$poll['poll_options_size'] = count($poll['poll_options']);
 
 		if (!$poll['poll_title'] && $poll['poll_options_size'])
 		{
@@ -1682,7 +1682,7 @@ class parse_message extends bbcode_firstpass
 		$this->message = $tmp_message;
 		unset($tmp_message);
 
-		if (sizeof($poll['poll_options']) == 1)
+		if (count($poll['poll_options']) == 1)
 		{
 			$this->warn_msg[] = $user->lang['TOO_FEW_POLL_OPTIONS'];
 		}
@@ -1699,4 +1699,3 @@ class parse_message extends bbcode_firstpass
 	}
 }
 
-?>

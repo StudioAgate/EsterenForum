@@ -102,4 +102,3 @@ $lang = array_merge($lang, array(
 	'UPDATE_PRIVMSGS_MOD'					=> 'Updating the Private Messages Moderation Adminstration Control Panel module',
 ));
 
-?>

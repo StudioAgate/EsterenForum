@@ -388,7 +388,7 @@ if ($mode == 'edit')
 	);
 }
 
-$orig_poll_options_size = sizeof($post_data['poll_options']);
+$orig_poll_options_size = count($post_data['poll_options']);
 
 $message_parser = new parse_message();
 
@@ -689,7 +689,7 @@ if ($submit || $preview || $refresh)
 	}
 
 	// Delete Poll
-	if ($poll_delete && $mode == 'edit' && sizeof($post_data['poll_options']) &&
+	if ($poll_delete && $mode == 'edit' && count($post_data['poll_options']) &&
 		((!$post_data['poll_last_vote'] && $post_data['poster_id'] == $user->data['user_id'] && $auth->acl_get('f_delete', $forum_id)) || $auth->acl_get('m_delete', $forum_id)))
 	{
 		if ($submit && check_form_key('posting'))
@@ -794,7 +794,7 @@ if ($submit || $preview || $refresh)
 	// Parse message
 	if ($update_message)
 	{
-		if (sizeof($message_parser->warn_msg))
+		if (count($message_parser->warn_msg))
 		{
 			$error[] = implode('<br />', $message_parser->warn_msg);
 			$message_parser->warn_msg = array();
@@ -803,7 +803,7 @@ if ($submit || $preview || $refresh)
 		$message_parser->parse($post_data['enable_bbcode'], ($config['allow_post_links']) ? $post_data['enable_urls'] : false, $post_data['enable_smilies'], $img_status, $flash_status, $quote_status, $config['allow_post_links']);
 
 		// On a refresh we do not care about message parsing errors
-		if (sizeof($message_parser->warn_msg) && $refresh)
+		if (count($message_parser->warn_msg) && $refresh)
 		{
 			$message_parser->warn_msg = array();
 		}
@@ -992,7 +992,7 @@ if ($submit || $preview || $refresh)
 		}
 	}
 
-	if (sizeof($message_parser->warn_msg))
+	if (count($message_parser->warn_msg))
 	{
 		$error[] = implode('<br />', $message_parser->warn_msg);
 	}
@@ -1006,10 +1006,10 @@ if ($submit || $preview || $refresh)
 		}
 	}
 	// Begin: Cleantalk. Spam protect
-	if ($config['ct_enable'] && ($mode == 'reply' || $mode == 'quote' || $mode == 'post') && !$preview && !sizeof($error))
+	if ($config['ct_enable'] && ($mode == 'reply' || $mode == 'quote' || $mode == 'post') && !$preview && !count($error))
 	{
         $username = utf8_normalize_nfc(request_var('username', ($user->data['is_registered']) ? $user->data['username'] : '', true));
-		
+
         if (!class_exists('Cleantalk'))
 		{
 			include($phpbb_root_path . 'includes/cleantalk.class.' . $phpEx);
@@ -1043,7 +1043,7 @@ if ($submit || $preview || $refresh)
             $row = $db->sql_fetchrow($result);
             if ($row !== false && isset($row['group_name']))
             {
-                $moderate = true; 
+                $moderate = true;
             }
             $db->sql_freeresult($result);
         }
@@ -1057,8 +1057,8 @@ if ($submit || $preview || $refresh)
 		{
 			// Example text
             $ct_example = array(
-                'title'         => '', 
-                'body'          => '', 
+                'title'         => '',
+                'body'          => '',
                 'comments'      => ''
             );
 			$message = $message_parser->message; // Post message
@@ -1118,7 +1118,7 @@ if ($submit || $preview || $refresh)
 
             $post_info['post_url'] = generate_board_url() . "/viewtopic.$phpEx?p=" . $ct_post_id . "#p" . $ct_post_id;
             $post_info = json_encode($post_info);
-            
+
             $ct_example = json_encode($ct_example);
 
 			$ct_request = new CleantalkRequest();
@@ -1130,10 +1130,10 @@ if ($submit || $preview || $refresh)
 			$ct_request->sender_nickname = $username;
 			$ct_request->example = $ct_example;
             $ct_request->agent = 'ct-phpbb-' . preg_replace("/(\d)\.(\w+)/", "$1$2", $config['ct_version']);
-			$ct_request->sender_info = get_sender_info(); 
+			$ct_request->sender_info = get_sender_info();
 			$ct_request->sender_ip = $ct->ct_session_ip($user->data['session_ip']);
-			$ct_request->submit_time = (!empty($user->data['ct_submit_time'])) ? time() - $user->data['ct_submit_time'] : null; 
-			$ct_request->js_on = get_ct_checkjs(); 
+			$ct_request->submit_time = (!empty($user->data['ct_submit_time'])) ? time() - $user->data['ct_submit_time'] : null;
+			$ct_request->js_on = get_ct_checkjs();
 			$ct_request->post_info = $post_info;
 
 			$ct->work_url = $config['ct_work_url'];
@@ -1149,12 +1149,12 @@ if ($submit || $preview || $refresh)
 				set_config('ct_server_ttl', $ct->server_ttl);
 				set_config('ct_server_changed', time());
 			}
-				
+
 			if ($ct_result->errno > 0)
 			{
 				ct_error_mail($ct_result->errstr);
 			}
-			
+
 			if ($ct_result->allow == 0 && isset($ct_result->stop_queue) && $ct_result->stop_queue == 1)
 			{
 				add_log('user', null, $ct_result->comment);
@@ -1164,7 +1164,7 @@ if ($submit || $preview || $refresh)
 			{
                 $words = str_replace(':', '|', utf8_decode($ct_result->stop_words));
                 $message_parser->message = preg_replace("/({$words})/ui", "[color=#FF1000]$1[/color]", $message_parser->message);
-                
+
 				$message_parser->parse($post_data['enable_bbcode'], ($config['allow_post_links']) ? $post_data['enable_urls'] : false, $post_data['enable_smilies'], $img_status, $flash_status, $quote_status, $config['allow_post_links']);
 			}
 		}
@@ -1172,7 +1172,7 @@ if ($submit || $preview || $refresh)
 	// End: Cleantalk. Spam protect
 
 	// Store message, sync counters
-	if (!sizeof($error) && $submit)
+	if (!count($error) && $submit)
 	{
 		// Check if we want to de-globalize the topic... and ask for new forum
 		if ($post_data['topic_type'] != POST_GLOBAL)
@@ -1347,14 +1347,14 @@ if ($submit || $preview || $refresh)
 
 				$message = ($mode == 'edit') ? 'POST_EDITED' : 'POST_STORED';
                 // Begin : Cleantalk. Spam protect
-                if (isset($ct_result->allow) && $ct_result->allow == 1) 
+                if (isset($ct_result->allow) && $ct_result->allow == 1)
                 {
                     // Comment for posters about automatically approvement
                     $user->add_lang('mods/info_acp_cleantalk');
-                    if (isset($user->lang['CT_AUTO_APPROVED'])) 
+                    if (isset($user->lang['CT_AUTO_APPROVED']))
                     {
-                        $user->lang[$message] .= '<br /><br />' . $user->lang['CT_AUTO_APPROVED'];  
-                    } 
+                        $user->lang[$message] .= '<br /><br />' . $user->lang['CT_AUTO_APPROVED'];
+                    }
                 }
                 // End: Cleantalk. Spam protect
 				$message = $user->lang[$message] . '<br /><br />' . sprintf($user->lang['VIEW_MESSAGE'], '<a href="' . $redirect_url . '">', '</a>');
@@ -1367,7 +1367,7 @@ if ($submit || $preview || $refresh)
 }
 
 // Preview
-if (!sizeof($error) && $preview)
+if (!count($error) && $preview)
 {
 	$post_data['post_time'] = ($mode == 'edit') ? $post_data['post_time'] : $current_time;
 
@@ -1412,7 +1412,7 @@ if (!sizeof($error) && $preview)
 		}
 
 		$template->assign_vars(array(
-			'S_HAS_POLL_OPTIONS'	=> (sizeof($post_data['poll_options'])),
+			'S_HAS_POLL_OPTIONS'	=> (count($post_data['poll_options'])),
 			'S_IS_MULTI_CHOICE'		=> ($post_data['poll_max_options'] > 1) ? true : false,
 
 			'POLL_QUESTION'		=> $parse_poll->message,
@@ -1441,7 +1441,7 @@ if (!sizeof($error) && $preview)
 	}
 
 	// Attachment Preview
-	if (sizeof($message_parser->attachment_data))
+	if (count($message_parser->attachment_data))
 	{
 		$template->assign_var('S_HAS_ATTACHMENTS', true);
 
@@ -1459,7 +1459,7 @@ if (!sizeof($error) && $preview)
 		unset($attachment_data);
 	}
 
-	if (!sizeof($error))
+	if (!count($error))
 	{
 		$template->assign_vars(array(
 			'PREVIEW_SUBJECT'		=> $preview_subject,
@@ -1472,7 +1472,7 @@ if (!sizeof($error) && $preview)
 }
 
 // Decode text for message display
-$post_data['bbcode_uid'] = ($mode == 'quote' && !$preview && !$refresh && !sizeof($error)) ? $post_data['bbcode_uid'] : $message_parser->bbcode_uid;
+$post_data['bbcode_uid'] = ($mode == 'quote' && !$preview && !$refresh && !count($error)) ? $post_data['bbcode_uid'] : $message_parser->bbcode_uid;
 $message_parser->decode_message($post_data['bbcode_uid']);
 
 if ($mode == 'quote' && !$submit && !$preview && !$refresh)
@@ -1508,7 +1508,7 @@ $attachment_data = $message_parser->attachment_data;
 $filename_data = $message_parser->filename_data;
 $post_data['post_text'] = $message_parser->message;
 
-if (sizeof($post_data['poll_options']) || !empty($post_data['poll_title']))
+if (count($post_data['poll_options']) || !empty($post_data['poll_title']))
 {
 	$message_parser->message = $post_data['poll_title'];
 	$message_parser->bbcode_uid = $post_data['bbcode_uid'];
@@ -1630,7 +1630,7 @@ $template->assign_vars(array(
 	'FORUM_NAME'			=> $post_data['forum_name'],
 	'FORUM_DESC'			=> ($post_data['forum_desc']) ? generate_text_for_display($post_data['forum_desc'], $post_data['forum_desc_uid'], $post_data['forum_desc_bitfield'], $post_data['forum_desc_options']) : '',
 	'TOPIC_TITLE'			=> censor_text($post_data['topic_title']),
-	'MODERATORS'			=> (sizeof($moderators)) ? implode(', ', $moderators[$forum_id]) : '',
+	'MODERATORS'			=> (count($moderators)) ? implode(', ', $moderators[$forum_id]) : '',
 	'USERNAME'				=> ((!$preview && $mode != 'quote') || $preview) ? $post_data['username'] : '',
 	'SUBJECT'				=> $post_data['post_subject'],
 	'MESSAGE'				=> $post_data['post_text'],
@@ -1642,7 +1642,7 @@ $template->assign_vars(array(
 	'MAX_FONT_SIZE'			=> (int) $config['max_post_font_size'],
 	'MINI_POST_IMG'			=> $user->img('icon_post_target', $user->lang['POST']),
 	'POST_DATE'				=> ($post_data['post_time']) ? $user->format_date($post_data['post_time']) : '',
-	'ERROR'					=> (sizeof($error)) ? implode('<br />', $error) : '',
+	'ERROR'					=> (count($error)) ? implode('<br />', $error) : '',
 	'TOPIC_TIME_LIMIT'		=> (int) $post_data['topic_time_limit'],
 	'EDIT_REASON'			=> $post_data['post_edit_reason'],
 	'U_VIEW_FORUM'			=> append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=$forum_id"),
@@ -1695,7 +1695,7 @@ if (($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_
 	$template->assign_vars(array(
 		'S_SHOW_POLL_BOX'		=> true,
 		'S_POLL_VOTE_CHANGE'	=> ($auth->acl_get('f_votechg', $forum_id) && $auth->acl_get('f_vote', $forum_id)),
-		'S_POLL_DELETE'			=> ($mode == 'edit' && sizeof($post_data['poll_options']) && ((!$post_data['poll_last_vote'] && $post_data['poster_id'] == $user->data['user_id'] && $auth->acl_get('f_delete', $forum_id)) || $auth->acl_get('m_delete', $forum_id))),
+		'S_POLL_DELETE'			=> ($mode == 'edit' && count($post_data['poll_options']) && ((!$post_data['poll_last_vote'] && $post_data['poster_id'] == $user->data['user_id'] && $auth->acl_get('f_delete', $forum_id)) || $auth->acl_get('m_delete', $forum_id))),
 		'S_POLL_DELETE_CHECKED'	=> (!empty($poll_delete)) ? true : false,
 
 		'L_POLL_OPTIONS_EXPLAIN'	=> sprintf($user->lang['POLL_OPTIONS_' . (($mode == 'edit') ? 'EDIT_' : '') . 'EXPLAIN'], $config['max_poll_options']),
@@ -1833,4 +1833,3 @@ function handle_post_delete($forum_id, $topic_id, $post_id, &$post_data)
 	trigger_error('USER_CANNOT_DELETE');
 }
 
-?>

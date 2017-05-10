@@ -57,14 +57,14 @@ class acp_privmsgs_mod
 		{
 			return FALSE;
 		}
-	}	
+	}
 
 	//  For the "configure" mode of this module
 	function configure()
 	{
 		global $config, $db, $user, $auth, $template, $cache;
 		global $phpbb_root_path, $phpEx, $table_prefix;
-		
+
 		$error_message = "";
 		$debug_message = "";
 
@@ -96,7 +96,7 @@ class acp_privmsgs_mod
 				trigger_error($user->lang($error) . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 
-		} 
+		}
 		else if (isset($_POST['submit']) && !check_form_key('privmsgs'))
 		{
 			trigger_error($user->lang['FORM_INVALID'] . adm_back_link($this->u_action), E_USER_WARNING);
@@ -105,8 +105,8 @@ class acp_privmsgs_mod
 		add_form_key('privmsgs');
 
 		//  Display the configuration form, populated with the current settings
-		if (!isset($config['acp_privmsgs_mod_show_txt'])) 
-		{ 
+		if (!isset($config['acp_privmsgs_mod_show_txt']))
+		{
 			$config['acp_privmsgs_mod_show_txt'] = 'y';
 		}
 
@@ -124,10 +124,10 @@ class acp_privmsgs_mod
 		//  Specify the page template name
 		$this->tpl_name = 'acp_privmsgs_mod';
 		$this->page_title = $user->lang['ACP_PRIVMSGS_MOD_CONFIG'];
-	}	
+	}
 
 	//  The main function either manages the PMs or calls the configure function
-	//  when the configure mode is specified	
+	//  when the configure mode is specified
 	function main($id, $mode)
 	{
 		global $config, $db, $dbms, $user, $auth, $template, $cache;
@@ -170,8 +170,8 @@ class acp_privmsgs_mod
 			if (isset($config['acp_privmsgs_mod_per_page']))
 			{
 				$per_page = $config['acp_privmsgs_mod_per_page'];
-			} 
-			else 
+			}
+			else
 			{
 				$per_page = $config['topics_per_page'];
 			}
@@ -196,7 +196,7 @@ class acp_privmsgs_mod
 		* Handle form actions
 		*/
 
-		if ($submit && sizeof($mark))
+		if ($submit && count($mark))
 		{
 			if ($action !== 'delete' && !check_form_key($form_key))
 			{
@@ -231,8 +231,8 @@ class acp_privmsgs_mod
 								if (empty($log_data))
 								{
 									$log_data = $row['username'] . ': ' . $msg_id;
-								} 
-								else 
+								}
+								else
 								{
 									$log_data .= ', ' . $row['username'] . ': ' . $msg_id;
 								}
@@ -266,8 +266,8 @@ class acp_privmsgs_mod
 
 		//  We don't want to see messages that are already marked as deleted
 		$sql_where = 't.pm_deleted != 1';
-		
-		//  Get the id numbers for the users who were specified				
+
+		//  Get the id numbers for the users who were specified
 		if (($all_by_user !== '') && (strtoupper($all_by_user) !== 'ALL'))
 		{
 			$by_id = $this->get_userid($all_by_user);
@@ -292,7 +292,7 @@ class acp_privmsgs_mod
 				$error_message .= "\"$all_to_user\" {$user->lang['ACP_PRIVMSGS_MOD_ERROR_INVALID_USER']}";
 			}
 		}
-		
+
 		//  When both $all_by_user and $all_to_user are filled in, get the
 		//  conversation between the two of them
 		if (!empty($by_id) && !empty($to_id))
@@ -311,8 +311,8 @@ class acp_privmsgs_mod
 						'[[:>:]]" OR CAST(p.bcc_address AS CHAR) REGEXP "[[:<:]]' . $to_id . '[[:>:]]" ) ))';
 					break;
 				case 'postgres':
-					$sql_where .= '(( UCASE(u.username) = "' . strtoupper($db->sql_escape($all_by_user)) . '" AND ( CAST(p.to_address AS CHAR) ~ "[[:<:]]' . $to_id . 
-						'[[:>:]]" OR CAST(p.bcc_address AS CHAR) ~ "[[:<:]]' . $to_id . '[[:>:]]" ) ) OR ( UCASE(u.username) = "' . 
+					$sql_where .= '(( UCASE(u.username) = "' . strtoupper($db->sql_escape($all_by_user)) . '" AND ( CAST(p.to_address AS CHAR) ~ "[[:<:]]' . $to_id .
+						'[[:>:]]" OR CAST(p.bcc_address AS CHAR) ~ "[[:<:]]' . $to_id . '[[:>:]]" ) ) OR ( UCASE(u.username) = "' .
 						strtoupper($db->sql_escape($all_to_user))  . '" AND ( CAST(p.to_address AS CHAR) ~ "[[:<:]]' . $by_id .
 						'[[:>:]]" OR CAST(p.bcc_address AS CHAR) ~ "[[:<:]]' . $to_id . '[[:>:]]" ) ))';
 					break;
@@ -331,8 +331,8 @@ class acp_privmsgs_mod
 						$db->any_char) . ' OR CAST(p.bcc_address AS CHAR) ' . $db->sql_like_expression($db->any_char . $by_id . $db->any_char) . ') ))';
 					break;
 			}
-		} 
-		else 
+		}
+		else
 		{
 			//  Select a specific author
 			if (!empty($by_id))
@@ -343,7 +343,7 @@ class acp_privmsgs_mod
 				}
 				$sql_where .= 'UCASE(u.username) = "' . strtoupper($db->sql_escape($all_by_user)) . '"';
 			}
-		
+
 			//  Select a specific recipient
 			if (!empty($to_id))
 			{
@@ -354,7 +354,7 @@ class acp_privmsgs_mod
 				switch ($dbms)
 				{
 					case 'mysql':
-					case 'mysqli':  
+					case 'mysqli':
 						$sql_where .= '( CAST(p.to_address AS CHAR) REGEXP "[[:<:]]' . $to_id . '[[:>:]]" OR CAST(p.bcc_address AS CHAR) REGEXP "[[:<:]]' .
 							$to_id . '[[:>:]]" )';
 						break;
@@ -368,14 +368,14 @@ class acp_privmsgs_mod
 						break;
 					default:
 						$error_message = $user->lang['ACP_PRIVMSGS_MOD_REGEXP_WARNING'];
-						$sql_where .= '( CAST(p.to_address AS CHAR) ' . $db->sql_like_expression($db->any_char . $to_id . $db->any_char) . 
+						$sql_where .= '( CAST(p.to_address AS CHAR) ' . $db->sql_like_expression($db->any_char . $to_id . $db->any_char) .
 							' OR CAST(p.bcc_address AS CHAR) ' . $db->sql_like_expression($db->any_char . $to_id . $db->any_char) . ' )';
 						break;
 				}
 			}
 		}
 
-		//  If they specified a filter string in the config, filter out 
+		//  If they specified a filter string in the config, filter out
 		//  messages containing that string
 		if (!empty($config['acp_privmsgs_mod_filter']))
 		{
@@ -397,7 +397,7 @@ class acp_privmsgs_mod
 			$sql_where .= "( UCASE(p.message_text) $search_string OR UCASE(p.message_subject) $search_string )";
 		}
 
-		//  Get the total number of private messages so that we can set up 
+		//  Get the total number of private messages so that we can set up
 		//  the pagination control
 		$sql_array = array(
 			'SELECT'	=> 'COUNT(DISTINCT p.msg_id) AS total_msgs',
@@ -430,23 +430,23 @@ class acp_privmsgs_mod
 
 		//  Initiate a message parser to interpret BBcode in message text
 		$message_parser = new parse_message();
-		
+
 		//  Pull a page of private messages.
 		switch ($sortkey)
 		{
-			case 'username': 
-				$sql_sort = 'username'; 
+			case 'username':
+				$sql_sort = 'username';
 				break;
-			case 'message_time': 
-				$sql_sort = 'message_time'; 
+			case 'message_time':
+				$sql_sort = 'message_time';
 				break;
-			default: 
-				$sql_sort = 'msg_id'; 
+			default:
+				$sql_sort = 'msg_id';
 				break;
 		}
 		$sql_sort .= ($sortdir == 'a') ? ' ASC' : ' DESC';
 		$sql_array = array(
-			'SELECT'	=> 'p.*, u.username, t.user_id, GROUP_CONCAT(t.folder_id) AS to_folder_id', 
+			'SELECT'	=> 'p.*, u.username, t.user_id, GROUP_CONCAT(t.folder_id) AS to_folder_id',
 			'FROM'		=> array(PRIVMSGS_TABLE => 'p'),
 			'LEFT_JOIN'	=> array (
 				array(
@@ -474,14 +474,14 @@ class acp_privmsgs_mod
 			$link .= (empty($per_page)) ? '' : "&amp;messages_per_page=$per_page";
 			$link .= (empty($showtext)) ? '' : "&amp;showtext=$showtext";
 			$link .= (empty($search_str)) ? '' : "&amp;search_str=$search_str";
-		    
+
 			//  Load the message parser and parse the message
 			$message_parser->message = $row['message_text'];
 			$message_parser->bbcode_uid = $row['bbcode_uid'];
 			$message_parser->bbcode_bitfield = $row['bbcode_bitfield'];
 			$message_text = $message_parser->format_display($row['enable_bbcode'], $row['enable_magic_url'], $row['enable_smilies'], false);
-			
-			//  Translate user id numbers from the to_address and bcc_address 
+
+			//  Translate user id numbers from the to_address and bcc_address
 			//  columns into user names wrapped in search links
 			$to_array = explode(',', $row['to_address']);
 			$bcc_array = explode(',', $row['bcc_address']);
@@ -534,10 +534,10 @@ class acp_privmsgs_mod
 			}
 
 			//  Build a search link around the author's user name
-			$from_link = "<a href=\"" . $link . "&amp;all_by_user=" . $row['username'] . "\" title=\"" . $user->lang['ACP_PRIVMSGS_MOD_ALL_BY_USER'] . "\">" . 
+			$from_link = "<a href=\"" . $link . "&amp;all_by_user=" . $row['username'] . "\" title=\"" . $user->lang['ACP_PRIVMSGS_MOD_ALL_BY_USER'] . "\">" .
 				$row['username'] . "</a>";
-				
-			//  Add a flag if the only copy of this message is in the author's 
+
+			//  Add a flag if the only copy of this message is in the author's
 			//  SentBox or OutBox
 			$to_folder_array = explode(',', $row['to_folder_id']);
 			if (count($to_folder_array) == 1)
@@ -586,7 +586,7 @@ class acp_privmsgs_mod
 			$pagination_url .= '&amp;all_to_user=' . $all_to_user;
 		}
 
-		//  Define a list of the "actions" we can take on items that are 
+		//  Define a list of the "actions" we can take on items that are
 		//  "marked" on the page
 		$option_ary = array('delete' => 'ACP_PRIVMSGS_MOD_DELETE');
 
@@ -599,7 +599,7 @@ class acp_privmsgs_mod
 
 		//  Define a list of the show message text options
 		$showtext_ary = array('y' => 'ACP_PRIVMSGS_MOD_YES', 'n' => 'ACP_PRIVMSGS_MOD_NO');
-		
+
 		//  Load the template array with the rest of the content that it needs
 		//  for page controls, forms, etc
 		$link = $this->u_action;
@@ -642,4 +642,3 @@ class acp_privmsgs_mod
 
 }  // end of class acp_privmsgs_mod
 
-?>

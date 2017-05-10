@@ -75,7 +75,7 @@ function gen_sort_selects(&$limit_days, &$sort_by_text, &$sort_days, &$sort_key,
 	foreach ($sorts as $name => $sort_ary)
 	{
 		$key = $sort_ary['key'];
-		$selected = $$sort_ary['key'];
+		$selected = ${$sort_ary['key']};
 
 		// Check if the key is selectable. If not, we reset to the default or first key found.
 		// This ensures the values are always valid. We also set $sort_dir/sort_key/etc. to the
@@ -257,7 +257,7 @@ function get_context($text, $words, $length = 400)
 	$text = str_replace($entities, $characters, $text);
 
 	$word_indizes = array();
-	if (sizeof($words))
+	if (count($words))
 	{
 		$match = '';
 		// find the starting indizes of all words
@@ -282,12 +282,12 @@ function get_context($text, $words, $length = 400)
 		}
 		unset($match);
 
-		if (sizeof($word_indizes))
+		if (count($word_indizes))
 		{
 			$word_indizes = array_unique($word_indizes);
 			sort($word_indizes);
 
-			$wordnum = sizeof($word_indizes);
+			$wordnum = count($word_indizes);
 			// number of characters on the right and left side of each word
 			$sequence_length = (int) ($length / (2 * $wordnum)) - 2;
 			$final_text = '';
@@ -355,7 +355,7 @@ function get_context($text, $words, $length = 400)
 		}
 	}
 
-	if (!sizeof($words) || !sizeof($word_indizes))
+	if (!count($words) || !count($word_indizes))
 	{
 		return str_replace($characters, $entities, ((utf8_strlen($text) >= $length + 3) ? utf8_substr($text, 0, $length) . '...' : $text));
 	}
@@ -725,7 +725,7 @@ function censor_text($text)
 		}
 	}
 
-	if (sizeof($censors))
+	if (count($censors))
 	{
 		return preg_replace($censors['match'], $censors['replace'], $text);
 	}
@@ -773,7 +773,7 @@ function smiley_text($text, $force_option = false)
 */
 function parse_attachments($forum_id, &$message, &$attachments, &$update_count, $preview = false)
 {
-	if (!sizeof($attachments))
+	if (!count($attachments))
 	{
 		return;
 	}
@@ -808,7 +808,7 @@ function parse_attachments($forum_id, &$message, &$attachments, &$update_count, 
 	}
 
 	// Grab attachments (security precaution)
-	if (sizeof($attach_ids))
+	if (count($attach_ids))
 	{
 		global $db;
 
@@ -854,7 +854,7 @@ function parse_attachments($forum_id, &$message, &$attachments, &$update_count, 
 
 	foreach ($attachments as $attachment)
 	{
-		if (!sizeof($attachment))
+		if (!count($attachment))
 		{
 			continue;
 		}
@@ -1063,7 +1063,7 @@ function parse_attachments($forum_id, &$message, &$attachments, &$update_count, 
 	$attachments = $compiled_attachments;
 	unset($compiled_attachments);
 
-	$tpl_size = sizeof($attachments);
+	$tpl_size = count($attachments);
 
 	$unset_tpl = array();
 
@@ -1124,8 +1124,8 @@ function extension_allowed($forum_id, $extension, &$extensions)
 * @param string $string The text to truncate to the given length. String is specialchared.
 * @param int $max_length Maximum length of string (multibyte character count as 1 char / Html entity count as 1 char)
 * @param int $max_store_length Maximum character length of string (multibyte character count as 1 char / Html entity count as entity chars).
-* @param bool $allow_reply Allow Re: in front of string 
-* 	NOTE: This parameter can cause undesired behavior (returning strings longer than $max_store_length) and is deprecated. 
+* @param bool $allow_reply Allow Re: in front of string
+* 	NOTE: This parameter can cause undesired behavior (returning strings longer than $max_store_length) and is deprecated.
 * @param string $append String to be appended
 */
 function truncate_string($string, $max_length = 60, $max_store_length = 255, $allow_reply = false, $append = '')
@@ -1144,7 +1144,7 @@ function truncate_string($string, $max_length = 60, $max_store_length = 255, $al
 	$chars = array_map('utf8_htmlspecialchars', $_chars);
 
 	// Now check the length ;)
-	if (sizeof($chars) > $max_length)
+	if (count($chars) > $max_length)
 	{
 		// Cut off the last elements from the array
 		$string = implode('', array_slice($chars, 0, $max_length - utf8_strlen($append)));
@@ -1373,4 +1373,3 @@ class bitfield
 	}
 }
 
-?>

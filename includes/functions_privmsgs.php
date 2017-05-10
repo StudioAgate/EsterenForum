@@ -421,7 +421,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 		$user_rules = $db->sql_fetchrowset($result);
 		$db->sql_freeresult($result);
 
-		if (sizeof($user_rules))
+		if (count($user_rules))
 		{
 			$sql = 'SELECT zebra_id, friend, foe
 				FROM ' . ZEBRA_TABLE . "
@@ -454,7 +454,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 		$db->sql_freeresult($result);
 
 		// Retrieve user memberships
-		if (sizeof($user_ids))
+		if (count($user_ids))
 		{
 			$sql = 'SELECT *
 				FROM ' . USER_GROUP_TABLE . '
@@ -555,14 +555,14 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 	// only gone through if new messages arrive.
 
 	// Delete messages
-	if (sizeof($delete_ids))
+	if (count($delete_ids))
 	{
-		$num_removed += sizeof($delete_ids);
+		$num_removed += count($delete_ids);
 		delete_pm($user_id, $delete_ids, PRIVMSGS_NO_BOX);
 	}
 
 	// Set messages to Unread
-	if (sizeof($unread_ids))
+	if (count($unread_ids))
 	{
 		$sql = 'UPDATE ' . PRIVMSGS_TO_TABLE . '
 			SET pm_unread = 0
@@ -573,7 +573,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 	}
 
 	// mark messages as important
-	if (sizeof($important_ids))
+	if (count($important_ids))
 	{
 		$sql = 'UPDATE ' . PRIVMSGS_TO_TABLE . '
 			SET pm_marked = 1 - pm_marked
@@ -586,7 +586,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 	// Move into folder
 	$folder = array();
 
-	if (sizeof($move_into_folder))
+	if (count($move_into_folder))
 	{
 		// Determine Full Folder Action - we need the move to folder id later eventually
 		$full_folder_action = ($user->data['user_full_folder'] == FULL_FOLDER_NONE) ? ($config['full_folder_action'] - (FULL_FOLDER_NONE*(-1))) : $user->data['user_full_folder'];
@@ -631,12 +631,12 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 
 		// Check Message Limit - we calculate with the complete array, most of the time it is one message
 		// But we are making sure that the other way around works too (more messages in queue than allowed to be stored)
-		if ($user->data['message_limit'] && $folder[$folder_id] && ($folder[$folder_id] + sizeof($msg_ary)) > $user->data['message_limit'])
+		if ($user->data['message_limit'] && $folder[$folder_id] && ($folder[$folder_id] + count($msg_ary)) > $user->data['message_limit'])
 		{
 			$full_folder_action = ($user->data['user_full_folder'] == FULL_FOLDER_NONE) ? ($config['full_folder_action'] - (FULL_FOLDER_NONE*(-1))) : $user->data['user_full_folder'];
 
 			// If destination folder itself is full...
-			if ($full_folder_action >= 0 && ($folder[$full_folder_action] + sizeof($msg_ary)) > $user->data['message_limit'])
+			if ($full_folder_action >= 0 && ($folder[$full_folder_action] + count($msg_ary)) > $user->data['message_limit'])
 			{
 				$full_folder_action = $config['full_folder_action'] - (FULL_FOLDER_NONE*(-1));
 			}
@@ -654,7 +654,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 					WHERE user_id = $user_id
 						AND folder_id = $dest_folder
 					ORDER BY msg_id ASC";
-				$result = $db->sql_query_limit($sql, (($folder[$dest_folder] + sizeof($msg_ary)) - $user->data['message_limit']));
+				$result = $db->sql_query_limit($sql, (($folder[$dest_folder] + count($msg_ary)) - $user->data['message_limit']));
 
 				$delete_ids = array();
 				while ($row = $db->sql_fetchrow($result))
@@ -663,7 +663,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 				}
 				$db->sql_freeresult($result);
 
-				$num_removed += sizeof($delete_ids);
+				$num_removed += count($delete_ids);
 				delete_pm($user_id, $delete_ids, $dest_folder);
 			}
 		}
@@ -699,7 +699,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 		}
 	}
 
-	if (sizeof($action_ary))
+	if (count($action_ary))
 	{
 		// Move from OUTBOX to SENTBOX
 		// We are not checking any full folder status here... SENTBOX is a special treatment (old messages get deleted)
@@ -740,7 +740,7 @@ function move_pm($user_id, $message_limit, $move_msg_ids, $dest_folder, $cur_fol
 		$move_msg_ids = array($move_msg_ids);
 	}
 
-	if (sizeof($move_msg_ids) && !in_array($dest_folder, array(PRIVMSGS_NO_BOX, PRIVMSGS_OUTBOX, PRIVMSGS_SENTBOX)) &&
+	if (count($move_msg_ids) && !in_array($dest_folder, array(PRIVMSGS_NO_BOX, PRIVMSGS_OUTBOX, PRIVMSGS_SENTBOX)) &&
 		!in_array($cur_folder_id, array(PRIVMSGS_NO_BOX, PRIVMSGS_OUTBOX)) && $cur_folder_id != $dest_folder)
 	{
 		// We have to check the destination folder ;)
@@ -759,7 +759,7 @@ function move_pm($user_id, $message_limit, $move_msg_ids, $dest_folder, $cur_fol
 				trigger_error('NOT_AUTHORISED');
 			}
 
-			if ($message_limit && $row['pm_count'] + sizeof($move_msg_ids) > $message_limit)
+			if ($message_limit && $row['pm_count'] + count($move_msg_ids) > $message_limit)
 			{
 				$message = sprintf($user->lang['NOT_ENOUGH_SPACE_FOLDER'], $row['folder_name']) . '<br /><br />';
 				$message .= sprintf($user->lang['CLICK_RETURN_FOLDER'], '<a href="' . append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;folder=' . $row['folder_id']) . '">', '</a>', $row['folder_name']);
@@ -776,7 +776,7 @@ function move_pm($user_id, $message_limit, $move_msg_ids, $dest_folder, $cur_fol
 			$num_messages = (int) $db->sql_fetchfield('num_messages');
 			$db->sql_freeresult($result);
 
-			if ($message_limit && $num_messages + sizeof($move_msg_ids) > $message_limit)
+			if ($message_limit && $num_messages + count($move_msg_ids) > $message_limit)
 			{
 				$message = sprintf($user->lang['NOT_ENOUGH_SPACE_FOLDER'], $user->lang['PM_INBOX']) . '<br /><br />';
 				$message .= sprintf($user->lang['CLICK_RETURN_FOLDER'], '<a href="' . append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;folder=inbox') . '">', '</a>', $user->lang['PM_INBOX']);
@@ -874,7 +874,7 @@ function handle_mark_actions($user_id, $mark_action)
 	$cur_folder_id	= request_var('cur_folder_id', PRIVMSGS_NO_BOX);
 	$confirm		= (isset($_POST['confirm'])) ? true : false;
 
-	if (!sizeof($msg_ids))
+	if (!count($msg_ids))
 	{
 		return false;
 	}
@@ -905,7 +905,7 @@ function handle_mark_actions($user_id, $mark_action)
 			{
 				delete_pm($user_id, $msg_ids, $cur_folder_id);
 
-				$success_msg = (sizeof($msg_ids) == 1) ? 'MESSAGE_DELETED' : 'MESSAGES_DELETED';
+				$success_msg = (count($msg_ids) == 1) ? 'MESSAGE_DELETED' : 'MESSAGES_DELETED';
 				$redirect = append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;folder=' . $cur_folder_id);
 
 				meta_refresh(3, $redirect);
@@ -956,7 +956,7 @@ function delete_pm($user_id, $msg_ids, $folder_id)
 		$msg_ids = array($msg_ids);
 	}
 
-	if (!sizeof($msg_ids))
+	if (!count($msg_ids))
 	{
 		return false;
 	}
@@ -981,7 +981,7 @@ function delete_pm($user_id, $msg_ids, $folder_id)
 	$db->sql_freeresult($result);
 	unset($msg_ids);
 
-	if (!sizeof($delete_rows))
+	if (!count($delete_rows))
 	{
 		return false;
 	}
@@ -1063,7 +1063,7 @@ function delete_pm($user_id, $msg_ids, $folder_id)
 
 	$delete_ids = array_keys($delete_rows);
 
-	if (sizeof($delete_ids))
+	if (count($delete_ids))
 	{
 		// Check if there are any attachments we need to remove
 		if (!function_exists('delete_attachments'))
@@ -1180,7 +1180,7 @@ function phpbb_delete_user_pms($user_id)
 			$num_pms = (int) $row['num_undelivered_privmsgs'];
 			$undelivered_user[$num_pms][] = (int) $row['user_id'];
 
-			if (sizeof($undelivered_user[$num_pms]) > 50)
+			if (count($undelivered_user[$num_pms]) > 50)
 			{
 				// If there are too many users affected the query might get
 				// too long, so we update the value for the first bunch here.
@@ -1305,7 +1305,7 @@ function rebuild_header($check_ary)
 		$_types = array('u', 'g');
 		foreach ($_types as $type)
 		{
-			if (sizeof($$type))
+			if (count($$type))
 			{
 				foreach ($$type as $id)
 				{
@@ -1347,7 +1347,7 @@ function write_pm_addresses($check_ary, $author_id, $plaintext = false)
 		}
 
 		$address = array();
-		if (sizeof($u))
+		if (count($u))
 		{
 			$sql = 'SELECT user_id, username, user_colour
 				FROM ' . USERS_TABLE . '
@@ -1371,7 +1371,7 @@ function write_pm_addresses($check_ary, $author_id, $plaintext = false)
 			$db->sql_freeresult($result);
 		}
 
-		if (sizeof($g))
+		if (count($g))
 		{
 			if ($plaintext)
 			{
@@ -1418,7 +1418,7 @@ function write_pm_addresses($check_ary, $author_id, $plaintext = false)
 			}
 		}
 
-		if (sizeof($address) && !$plaintext)
+		if (count($address) && !$plaintext)
 		{
 			$template->assign_var('S_' . strtoupper($check_type) . '_RECIPIENT', true);
 
@@ -1522,7 +1522,7 @@ function submit_pm($mode, $subject, &$data, $put_in_outbox = true)
 		$_types = array('u', 'g');
 		foreach ($_types as $ug_type)
 		{
-			if (isset($data['address_list'][$ug_type]) && sizeof($data['address_list'][$ug_type]))
+			if (isset($data['address_list'][$ug_type]) && count($data['address_list'][$ug_type]))
 			{
 				foreach ($data['address_list'][$ug_type] as $id => $field)
 				{
@@ -1544,7 +1544,7 @@ function submit_pm($mode, $subject, &$data, $put_in_outbox = true)
 			}
 		}
 
-		if (isset($data['address_list']['g']) && sizeof($data['address_list']['g']))
+		if (isset($data['address_list']['g']) && count($data['address_list']['g']))
 		{
 			// We need to check the PM status of group members (do they want to receive PM's?)
 			// Only check if not a moderator or admin, since they are allowed to override this user setting
@@ -1567,7 +1567,7 @@ function submit_pm($mode, $subject, &$data, $put_in_outbox = true)
 			$db->sql_freeresult($result);
 		}
 
-		if (!sizeof($recipients))
+		if (!count($recipients))
 		{
 			trigger_error('NO_RECIPIENT');
 		}
@@ -1635,7 +1635,7 @@ function submit_pm($mode, $subject, &$data, $put_in_outbox = true)
 		break;
 	}
 
-	if (sizeof($sql_data))
+	if (count($sql_data))
 	{
 		$query = '';
 
@@ -1717,7 +1717,7 @@ function submit_pm($mode, $subject, &$data, $put_in_outbox = true)
 			$orphan_rows[(int) $attach_row['attach_id']] = array();
 		}
 
-		if (sizeof($orphan_rows))
+		if (count($orphan_rows))
 		{
 			$sql = 'SELECT attach_id, filesize, physical_filename
 				FROM ' . ATTACHMENTS_TABLE . '
@@ -1818,7 +1818,7 @@ function pm_notification($mode, $author, $recipients, $subject, $message, $msg_i
 	// Exclude guests, current user and banned users from notifications
 	unset($recipients[ANONYMOUS], $recipients[$user->data['user_id']]);
 
-	if (!sizeof($recipients))
+	if (!count($recipients))
 	{
 		return;
 	}
@@ -1830,7 +1830,7 @@ function pm_notification($mode, $author, $recipients, $subject, $message, $msg_i
 	$banned_users = phpbb_get_banned_user_ids(array_keys($recipients));
 	$recipients = array_diff(array_keys($recipients), $banned_users);
 
-	if (!sizeof($recipients))
+	if (!count($recipients))
 	{
 		return;
 	}
@@ -1856,7 +1856,7 @@ function pm_notification($mode, $author, $recipients, $subject, $message, $msg_i
 	}
 	$db->sql_freeresult($result);
 
-	if (!sizeof($msg_list_ary))
+	if (!count($msg_list_ary))
 	{
 		return;
 	}
@@ -1968,7 +1968,7 @@ function message_history($msg_id, $user_id, $message_row, $folder, $in_post_mode
 	while ($row = $db->sql_fetchrow($result));
 	$db->sql_freeresult($result);
 
-	if (sizeof($rowset) == 1 && !$in_post_mode)
+	if (count($rowset) == 1 && !$in_post_mode)
 	{
 		return false;
 	}
@@ -1991,7 +1991,7 @@ function message_history($msg_id, $user_id, $message_row, $folder, $in_post_mode
 	// Re-order rowset to be able to get the next/prev message rows...
 	$rowset = array_values($rowset);
 
-	for ($i = 0, $size = sizeof($rowset); $i < $size; $i++)
+	for ($i = 0, $size = count($rowset); $i < $size; $i++)
 	{
 		$row = &$rowset[$i];
 		$id = (int) $row['msg_id'];
@@ -2111,7 +2111,7 @@ function get_recipient_strings($pm_by_id)
 
 		foreach ($_types as $ug_type)
 		{
-			if (isset($address[$message_id][$ug_type]) && sizeof($address[$message_id][$ug_type]))
+			if (isset($address[$message_id][$ug_type]) && count($address[$message_id][$ug_type]))
 			{
 				foreach ($address[$message_id][$ug_type] as $ug_id => $in_to)
 				{
@@ -2177,4 +2177,3 @@ function get_recipient_strings($pm_by_id)
 	return $address_list;
 }
 
-?>

@@ -116,4 +116,3 @@ $lang = array_merge($lang, array(
 	'TOO_FEW_AUTHOR_CHARS'	=> 'Vous devez spécifier au moins %d caractères du nom des auteurs.',
 ));
 
-?>

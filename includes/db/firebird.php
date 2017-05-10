@@ -235,7 +235,7 @@ class dbal_firebird extends dbal
 					$this->affected_rows = ($temp_result) ? $temp_result['NUM_ROWS_AFFECTED'] : false;
 				}
 
-				if (sizeof($array))
+				if (count($array))
 				{
 					$p_query = @ibase_prepare($this->db_connect_id, $query);
 					array_unshift($array, $p_query);
@@ -356,7 +356,7 @@ class dbal_firebird extends dbal
 			$row[strtolower($key)] = (is_string($value)) ? trim(str_replace(array("\\0", "\\n"), array("\0", "\n"), $value)) : $value;
 		}
 
-		return (sizeof($row)) ? $row : false;
+		return (count($row)) ? $row : false;
 	}
 
 	/**
@@ -523,4 +523,3 @@ class dbal_firebird extends dbal
 	}
 }
 
-?>

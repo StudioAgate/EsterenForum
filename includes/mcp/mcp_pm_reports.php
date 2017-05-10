@@ -51,7 +51,7 @@ class mcp_pm_reports
 
 				$report_id_list = request_var('report_id_list', array(0));
 
-				if (!sizeof($report_id_list))
+				if (!count($report_id_list))
 				{
 					trigger_error('NO_REPORT_SELECTED');
 				}
@@ -95,7 +95,7 @@ class mcp_pm_reports
 
 				$pm_info = get_pm_data(array($pm_id));
 
-				if (!sizeof($pm_info))
+				if (!count($pm_info))
 				{
 					trigger_error('NO_REPORT_SELECTED');
 				}
@@ -140,7 +140,7 @@ class mcp_pm_reports
 					}
 					$db->sql_freeresult($result);
 
-					if (sizeof($attachments))
+					if (count($attachments))
 					{
 						$update_count = array();
 						parse_attachments(0, $message, $attachments, $update_count);
@@ -174,7 +174,7 @@ class mcp_pm_reports
 					'U_MCP_USER_NOTES'			=> append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $pm_info['author_id']),
 					'U_MCP_WARN_REPORTER'		=> ($auth->acl_get('m_warn')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_user&amp;u=' . $report['user_id']) : '',
 					'U_MCP_WARN_USER'			=> ($auth->acl_get('m_warn')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_user&amp;u=' . $pm_info['author_id']) : '',
-					
+
 					'EDIT_IMG'				=> $user->img('icon_post_edit', $user->lang['EDIT_POST']),
 					'MINI_POST_IMG'			=> $user->img('icon_post_target', 'POST'),
 
@@ -250,7 +250,7 @@ class mcp_pm_reports
 				}
 				$db->sql_freeresult($result);
 
-				if (sizeof($report_ids))
+				if (count($report_ids))
 				{
 					$sql = 'SELECT p.*, u.username, u.username_clean, u.user_colour, r.user_id as reporter_id, ru.username as reporter_name, ru.user_colour as reporter_colour, r.report_time, r.report_id
 						FROM ' . REPORTS_TABLE . ' r, ' . PRIVMSGS_TABLE . ' p, ' . USERS_TABLE . ' u, ' . USERS_TABLE . ' ru
@@ -269,7 +269,7 @@ class mcp_pm_reports
 					}
 					$db->sql_freeresult($result);
 
-					if (sizeof($pm_list))
+					if (count($pm_list))
 					{
 						$address_list = get_recipient_strings($pm_by_id);
 
@@ -304,7 +304,7 @@ class mcp_pm_reports
 				$template->assign_vars(array(
 					'L_EXPLAIN'				=> ($mode == 'pm_reports') ? $user->lang['MCP_PM_REPORTS_OPEN_EXPLAIN'] : $user->lang['MCP_PM_REPORTS_CLOSED_EXPLAIN'],
 					'L_TITLE'				=> ($mode == 'pm_reports') ? $user->lang['MCP_PM_REPORTS_OPEN'] : $user->lang['MCP_PM_REPORTS_CLOSED'],
-					
+
 					'S_PM'					=> true,
 					'S_MCP_ACTION'			=> $this->u_action,
 					'S_CLOSED'				=> ($mode == 'pm_reports_closed') ? true : false,
@@ -312,7 +312,7 @@ class mcp_pm_reports
 					'PAGINATION'			=> generate_pagination($this->u_action . "&amp;st=$sort_days&amp;sk=$sort_key&amp;sd=$sort_dir", $total, $config['topics_per_page'], $start),
 					'PAGE_NUMBER'			=> on_page($total, $config['topics_per_page'], $start),
 					'TOTAL'					=> $total,
-					'TOTAL_REPORTS'			=> ($total == 1) ? $user->lang['LIST_REPORT'] : sprintf($user->lang['LIST_REPORTS'], $total),					
+					'TOTAL_REPORTS'			=> ($total == 1) ? $user->lang['LIST_REPORT'] : sprintf($user->lang['LIST_REPORTS'], $total),
 					)
 				);
 
@@ -322,4 +322,3 @@ class mcp_pm_reports
 	}
 }
 
-?>

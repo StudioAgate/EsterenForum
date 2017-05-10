@@ -86,7 +86,7 @@ class acp_cleantalk
             $error[] = $user->lang['FORM_INVALID'];
         }
         // Do not write values if there is an error
-        if (sizeof($error))
+        if (count($error))
         {
             $submit = false;
         }
@@ -108,7 +108,7 @@ class acp_cleantalk
                 {
                     set_config('ct_work_url', '');
                 }
-				
+
                 set_config('ct_is_install', 1);
             }
         }
@@ -127,7 +127,7 @@ class acp_cleantalk
             'L_TITLE'           => $user->lang[$display_vars['title']],
             'L_TITLE_EXPLAIN'   => $user->lang[$display_vars['title'] . '_EXPLAIN'],
 
-            'S_ERROR'           => (sizeof($error)) ? true : false,
+            'S_ERROR'           => (count($error)) ? true : false,
             'ERROR_MSG'         => implode('<br />', $error),
 
             'U_ACTION'          => $this->u_action,
@@ -187,4 +187,3 @@ class acp_cleantalk
 
 }
 
-?>

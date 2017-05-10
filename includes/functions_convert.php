@@ -189,7 +189,7 @@ function get_group_id($group_name)
 		$db->sql_freeresult($result);
 	}
 
-	if (!sizeof($group_mapping))
+	if (!count($group_mapping))
 	{
 		add_default_groups();
 		return get_group_id($group_name);
@@ -304,7 +304,7 @@ function decode_ip($int_ip)
 	$hexipbang = explode('.', chunk_split($int_ip, 2, '.'));
 
 	// Any mod changing the way ips are stored? Then we are not able to convert and enter the ip "as is" to not "destroy" anything...
-	if (sizeof($hexipbang) < 4)
+	if (count($hexipbang) < 4)
 	{
 		return $int_ip;
 	}
@@ -476,7 +476,7 @@ function import_avatar_gallery($gallery_name = '', $subdirs_as_galleries = false
 				$dir->close();
 			}
 
-			for ($i = 0; $i < sizeof($dirlist); ++$i)
+			for ($i = 0; $i < count($dirlist); ++$i)
 			{
 				$dir = $dirlist[$i];
 
@@ -1261,7 +1261,7 @@ function get_config()
 		}
 	}
 
-	if (!sizeof($convert_config))
+	if (!count($convert_config))
 	{
 		$convert->p_master->error($user->lang['CONV_ERROR_CONFIG_EMPTY'], __LINE__, __FILE__);
 	}
@@ -1404,9 +1404,9 @@ function get_path($src_path, $src_url, $test_file)
 		$url_parts = explode('/', $m[2]);
 		if (substr($src_url, -1) != '/')
 		{
-			if (preg_match('/.*\.([a-z0-9]{3,4})$/i', $url_parts[sizeof($url_parts) - 1]))
+			if (preg_match('/.*\.([a-z0-9]{3,4})$/i', $url_parts[count($url_parts) - 1]))
 			{
-				$url_parts[sizeof($url_parts) - 1] = '';
+				$url_parts[count($url_parts) - 1] = '';
 			}
 			else
 			{
@@ -1423,9 +1423,9 @@ function get_path($src_path, $src_url, $test_file)
 		$path_array = array();
 
 		$phpbb_parts = explode('/', $script_path);
-		for ($i = 0; $i < sizeof($url_parts); ++$i)
+		for ($i = 0; $i < count($url_parts); ++$i)
 		{
-			if ($i < sizeof($phpbb_parts[$i]) && $url_parts[$i] == $phpbb_parts[$i])
+			if ($i < count($phpbb_parts[$i]) && $url_parts[$i] == $phpbb_parts[$i])
 			{
 				$path_array[] = $url_parts[$i];
 				unset($url_parts[$i]);
@@ -1433,7 +1433,7 @@ function get_path($src_path, $src_url, $test_file)
 			else
 			{
 				$path = '';
-				for ($j = $i; $j < sizeof($phpbb_parts); ++$j)
+				for ($j = $i; $j < count($phpbb_parts); ++$j)
 				{
 					$path .= '../';
 				}
@@ -1456,7 +1456,7 @@ function get_path($src_path, $src_url, $test_file)
 
 function compare_table($tables, $tablename, &$prefixes)
 {
-	for ($i = 0, $table_size = sizeof($tables); $i < $table_size; ++$i)
+	for ($i = 0, $table_size = count($tables); $i < $table_size; ++$i)
 	{
 		if (preg_match('/(.*)' . $tables[$i] . '$/', $tablename, $m))
 		{
@@ -1753,7 +1753,7 @@ function add_default_groups()
 		);
 	}
 
-	if (sizeof($sql_ary))
+	if (count($sql_ary))
 	{
 		$db->sql_multi_insert(GROUPS_TABLE, $sql_ary);
 	}
@@ -2069,7 +2069,7 @@ function update_topics_posted()
 		}
 		unset($posted);
 
-		if (sizeof($sql_ary))
+		if (count($sql_ary))
 		{
 			$db->sql_multi_insert(TOPICS_POSTED_TABLE, $sql_ary);
 		}
@@ -2104,7 +2104,7 @@ function fix_empty_primary_groups()
 	}
 	$db->sql_freeresult($result);
 
-	if (sizeof($user_ids))
+	if (count($user_ids))
 	{
 		$db->sql_query('UPDATE ' . USERS_TABLE . ' SET group_id = ' . get_group_id('administrators') . '
 			WHERE group_id = 0 AND ' . $db->sql_in_set('user_id', $user_ids));
@@ -2119,7 +2119,7 @@ function fix_empty_primary_groups()
 	}
 	$db->sql_freeresult($result);
 
-	if (sizeof($user_ids))
+	if (count($user_ids))
 	{
 		$db->sql_query('UPDATE ' . USERS_TABLE . ' SET group_id = ' . get_group_id('global_moderators') . '
 			WHERE group_id = 0 AND ' . $db->sql_in_set('user_id', $user_ids));
@@ -2231,7 +2231,7 @@ function convert_bbcode($message, $convert_size = true, $extended_bbcodes = fals
 			"\n\n"
 		);
 
-		for ($i = 0; $i < sizeof($str_from); ++$i)
+		for ($i = 0; $i < count($str_from); ++$i)
 		{
 			$origx[] = '#\\' . str_replace(']', '\\]', $str_from[$i]) . '#is';
 			$replx[] = $str_to[$i];
@@ -2240,7 +2240,7 @@ function convert_bbcode($message, $convert_size = true, $extended_bbcodes = fals
 
 	if (preg_match_all('#\[email=([^\]]+)\](.*?)\[/email\]#i', $message, $m))
 	{
-		for ($i = 0; $i < sizeof($m[1]); ++$i)
+		for ($i = 0; $i < count($m[1]); ++$i)
 		{
 			if ($m[1][$i] == $m[2][$i])
 			{
@@ -2259,7 +2259,7 @@ function convert_bbcode($message, $convert_size = true, $extended_bbcodes = fals
 		$message = preg_replace('#\[size=([0-9]+)\](.*?)\[/size\]#i', '[size=\1]\2[/size]', $message);
 		$message = preg_replace('#\[size=[0-9]{2,}\](.*?)\[/size\]#i', '[size=29]\1[/size]', $message);
 
-		for ($i = sizeof($size); $i; )
+		for ($i = count($size); $i; )
 		{
 			$i--;
 			$message = str_replace('[size=' . $i . ']', '[size=' . $size[$i] . ']', $message);
@@ -2299,9 +2299,9 @@ function copy_file($src, $trg, $overwrite = false, $die_on_failure = true, $sour
 
 	$path = $phpbb_root_path;
 	$parts = explode('/', $trg);
-	unset($parts[sizeof($parts) - 1]);
+	unset($parts[count($parts) - 1]);
 
-	for ($i = 0; $i < sizeof($parts); ++$i)
+	for ($i = 0; $i < count($parts); ++$i)
 	{
 		$path .= $parts[$i] . '/';
 
@@ -2398,7 +2398,7 @@ function copy_dir($src, $trg, $copy_subdirs = true, $overwrite = false, $die_on_
 
 	if ($copy_subdirs)
 	{
-		for ($i = 0; $i < sizeof($dirlist); ++$i)
+		for ($i = 0; $i < count($dirlist); ++$i)
 		{
 			$dir = $dirlist[$i];
 
@@ -2419,21 +2419,21 @@ function copy_dir($src, $trg, $copy_subdirs = true, $overwrite = false, $die_on_
 				$bad_dirs[] = $trg_path . $dir;
 			}
 
-			if (!sizeof($bad_dirs))
+			if (!count($bad_dirs))
 			{
 				copy_dir($src . $dir, $trg . $dir, true, $overwrite, $die_on_failure, $source_relative_path);
 			}
 		}
 	}
 
-	if (sizeof($bad_dirs))
+	if (count($bad_dirs))
 	{
-		$str = (sizeof($bad_dirs) == 1) ? $user->lang['MAKE_FOLDER_WRITABLE'] : $user->lang['MAKE_FOLDERS_WRITABLE'];
+		$str = (count($bad_dirs) == 1) ? $user->lang['MAKE_FOLDER_WRITABLE'] : $user->lang['MAKE_FOLDERS_WRITABLE'];
 		sort($bad_dirs);
 		$convert->p_master->error(sprintf($str, implode('<br />', $bad_dirs)), __LINE__, __FILE__);
 	}
 
-	for ($i = 0; $i < sizeof($filelist); ++$i)
+	for ($i = 0; $i < count($filelist); ++$i)
 	{
 		copy_file($src . $filelist[$i], $trg . $filelist[$i], $overwrite, $die_on_failure, $source_relative_path);
 	}
@@ -2476,4 +2476,3 @@ function fill_dateformat($user_dateformat)
 
 
 
-?>

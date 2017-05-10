@@ -135,4 +135,3 @@ class acm extends acm_memory
 	}
 }
 
-?>

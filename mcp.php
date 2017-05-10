@@ -62,7 +62,7 @@ if ($forum_action !== '' && !empty($_POST['sort']))
 	$action = $forum_action;
 }
 
-if (sizeof($action_ary))
+if (count($action_ary))
 {
 	list($action, ) = each($action_ary);
 }
@@ -351,7 +351,7 @@ function get_topic_data($topic_ids, $acl_list = false, $read_tracking = false)
 
 	$topics = array();
 
-	if (!sizeof($topic_ids))
+	if (!count($topic_ids))
 	{
 		return array();
 	}
@@ -368,7 +368,7 @@ function get_topic_data($topic_ids, $acl_list = false, $read_tracking = false)
 		$cache_topic_ids = array();
 	}
 
-	if (sizeof($topic_ids))
+	if (count($topic_ids))
 	{
 		$sql_array = array(
 			'SELECT'	=> 't.*, f.*',
@@ -445,7 +445,7 @@ function get_post_data($post_ids, $acl_list = false, $read_tracking = false)
 
 	$rowset = array();
 
-	if (!sizeof($post_ids))
+	if (!count($post_ids))
 	{
 		return array();
 	}
@@ -530,7 +530,7 @@ function get_forum_data($forum_id, $acl_list = 'f_list', $read_tracking = false)
 		$forum_id = array($forum_id);
 	}
 
-	if (!sizeof($forum_id))
+	if (!count($forum_id))
 	{
 		return array();
 	}
@@ -579,7 +579,7 @@ function get_pm_data($pm_ids)
 
 	$rowset = array();
 
-	if (!sizeof($pm_ids))
+	if (!count($pm_ids))
 	{
 		return array();
 	}
@@ -902,7 +902,7 @@ function check_ids(&$ids, $table, $sql_id, $acl_list = false, $single_forum = fa
 	}
 	$db->sql_freeresult($result);
 
-	if (!sizeof($ids))
+	if (!count($ids))
 	{
 		return false;
 	}
@@ -912,4 +912,3 @@ function check_ids(&$ids, $table, $sql_id, $acl_list = false, $single_forum = fa
 	return ($single_forum === false) ? true : (int) $forum_id;
 }
 
-?>

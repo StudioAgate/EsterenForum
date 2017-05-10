@@ -140,13 +140,13 @@ class template_compile
 
 		$text_blocks = preg_split('#<!-- [^<].*? (?:.*?)? ?-->#', $code);
 
-		for ($i = 0, $j = sizeof($text_blocks); $i < $j; $i++)
+		for ($i = 0, $j = count($text_blocks); $i < $j; $i++)
 		{
 			$this->compile_var_tags($text_blocks[$i]);
 		}
 		$compile_blocks = array();
 
-		for ($curr_tb = 0, $tb_size = sizeof($blocks); $curr_tb < $tb_size; $curr_tb++)
+		for ($curr_tb = 0, $tb_size = count($blocks); $curr_tb < $tb_size; $curr_tb++)
 		{
 			$block_val = &$blocks[$curr_tb];
 
@@ -158,7 +158,7 @@ class template_compile
 				break;
 
 				case 'BEGINELSE':
-					$this->block_else_level[sizeof($this->block_else_level) - 1] = true;
+					$this->block_else_level[count($this->block_else_level) - 1] = true;
 					$compile_blocks[] = '<?php }} else { ?>';
 				break;
 
@@ -245,7 +245,7 @@ class template_compile
 		}
 
 		$template_php = '';
-		for ($i = 0, $size = sizeof($text_blocks); $i < $size; $i++)
+		for ($i = 0, $size = count($text_blocks); $i < $size; $i++)
 		{
 			$trim_check_text = trim($text_blocks[$i]);
 			$template_php .= (!$no_echo) ? (($trim_check_text != '') ? $text_blocks[$i] : '') . ((isset($compile_blocks[$i])) ? $compile_blocks[$i] : '') : (($trim_check_text != '') ? $text_blocks[$i] : '') . ((isset($compile_blocks[$i])) ? $compile_blocks[$i] : '');
@@ -377,10 +377,10 @@ class template_compile
 			$block = $this->block_names;
 		}
 
-		if (sizeof($block) < 2)
+		if (count($block) < 2)
 		{
 			// Block is not nested.
-			$tag_template_php = '$_' . $tag_args . "_count = (isset(\$this->_tpldata['$tag_args'])) ? sizeof(\$this->_tpldata['$tag_args']) : 0;";
+			$tag_template_php = '$_' . $tag_args . "_count = (isset(\$this->_tpldata['$tag_args'])) ? count(\$this->_tpldata['$tag_args']) : 0;";
 			$varref = "\$this->_tpldata['$tag_args']";
 		}
 		else
@@ -394,7 +394,7 @@ class template_compile
 			$varref = $this->generate_block_data_ref($namespace, false);
 
 			// Create the for loop code to iterate over this block.
-			$tag_template_php = '$_' . $tag_args . '_count = (isset(' . $varref . ')) ? sizeof(' . $varref . ') : 0;';
+			$tag_template_php = '$_' . $tag_args . '_count = (isset(' . $varref . ')) ? count(' . $varref . ') : 0;';
 		}
 
 		$tag_template_php .= 'if ($_' . $tag_args . '_count) {';
@@ -432,7 +432,7 @@ class template_compile
 		$tokens = $match[0];
 		$is_arg_stack = array();
 
-		for ($i = 0, $size = sizeof($tokens); $i < $size; $i++)
+		for ($i = 0, $size = count($tokens); $i < $size; $i++)
 		{
 			$token = &$tokens[$i];
 
@@ -519,7 +519,7 @@ class template_compile
 
 					$new_tokens	= $this->_parse_is_expr($is_arg, array_slice($tokens, $i+1));
 
-					array_splice($tokens, $is_arg_start, sizeof($tokens), $new_tokens);
+					array_splice($tokens, $is_arg_start, count($tokens), $new_tokens);
 
 					$i = $is_arg_start;
 
@@ -538,7 +538,7 @@ class template_compile
 
 						// If the block is nested, we have a reference that we can grab.
 						// If the block is not nested, we just go and grab the block from _tpldata
-						if (sizeof($blocks) > 1)
+						if (count($blocks) > 1)
 						{
 							$block = array_pop($blocks);
 							$namespace = implode('.', $blocks);
@@ -554,7 +554,7 @@ class template_compile
 							// Add the block reference for the last child.
 							$varref .= "['" . $blocks[0] . "']";
 						}
-						$token = "sizeof($varref)";
+						$token = "count($varref)";
 					}
 					else if (!empty($token))
 					{
@@ -566,7 +566,7 @@ class template_compile
 		}
 
 		// If there are no valid tokens left or only control/compare characters left, we do skip this statement
-		if (!sizeof($tokens) || str_replace(array(' ', '=', '!', '<', '>', '&', '|', '%', '(', ')'), '', implode('', $tokens)) == '')
+		if (!count($tokens) || str_replace(array(' ', '=', '!', '<', '>', '&', '|', '%', '(', ')'), '', implode('', $tokens)) == '')
 		{
 			$tokens = array('false');
 		}
@@ -755,7 +755,7 @@ class template_compile
 	{
 		// Get an array of the blocks involved.
 		$blocks = explode('.', $blockname);
-		$blockcount = sizeof($blocks) - 1;
+		$blockcount = count($blocks) - 1;
 
 		// DEFINE is not an element of any referenced variable, we must use _tpldata to access it
 		if ($defop)
@@ -811,4 +811,3 @@ class template_compile
 	}
 }
 
-?>

@@ -133,7 +133,7 @@ class acp_groups
 				if (confirm_box(true))
 				{
 					$group_name = ($group_row['group_type'] == GROUP_SPECIAL) ? $user->lang['G_' . $group_row['group_name']] : $group_row['group_name'];
-					group_user_attributes('default', $group_id, $mark_ary, false, $group_name, $group_row);	
+					group_user_attributes('default', $group_id, $mark_ary, false, $group_name, $group_row);
 					trigger_error($user->lang['GROUP_DEFS_UPDATED'] . adm_back_link($this->u_action . '&amp;action=list&amp;g=' . $group_id));
 				}
 				else
@@ -174,7 +174,7 @@ class acp_groups
 
 							group_user_attributes('default', $group_id, $mark_ary, false, $group_name, $group_row);
 
-							$start = (sizeof($mark_ary) < 200) ? 0 : $start + 200;
+							$start = (count($mark_ary) < 200) ? 0 : $start + 200;
 						}
 						else
 						{
@@ -397,7 +397,7 @@ class acp_groups
 							}
 						}
 
-						if (!sizeof($error))
+						if (!count($error))
 						{
 							if ($config['avatar_min_width'] || $config['avatar_min_height'])
 							{
@@ -408,7 +408,7 @@ class acp_groups
 							}
 						}
 
-						if (!sizeof($error))
+						if (!count($error))
 						{
 							$submit_ary['avatar_width'] = $data['width'];
 							$submit_ary['avatar_height'] = $data['height'];
@@ -440,7 +440,7 @@ class acp_groups
 						$error = array_merge($error, $validation_error);
 					}
 
-					if (!sizeof($error))
+					if (!count($error))
 					{
 						// Only set the rank, colour, etc. if it's changed or if we're adding a new
 						// group. This prevents existing group members being updated if no changes
@@ -528,7 +528,7 @@ class acp_groups
 						}
 					}
 
-					if (sizeof($error))
+					if (count($error))
 					{
 						$error = array_map(array(&$user, 'lang'), $error);
 						$group_rank = $submit_ary['rank'];
@@ -609,13 +609,13 @@ class acp_groups
 					'S_GROUP_PERM'		=> ($action == 'add' && $auth->acl_get('a_authgroups') && $auth->acl_gets('a_aauth', 'a_fauth', 'a_mauth', 'a_uauth')) ? true : false,
 					'S_INCLUDE_SWATCH'	=> true,
 					'S_CAN_UPLOAD'		=> $can_upload,
-					'S_ERROR'			=> (sizeof($error)) ? true : false,
+					'S_ERROR'			=> (count($error)) ? true : false,
 					'S_SPECIAL_GROUP'	=> ($group_type == GROUP_SPECIAL) ? true : false,
 					'S_DISPLAY_GALLERY'	=> ($config['allow_avatar_local'] && !$display_gallery) ? true : false,
 					'S_IN_GALLERY'		=> ($config['allow_avatar_local'] && $display_gallery) ? true : false,
 					'S_USER_FOUNDER'	=> ($user->data['user_type'] == USER_FOUNDER) ? true : false,
 
-					'ERROR_MSG'				=> (sizeof($error)) ? implode('<br />', $error) : '',
+					'ERROR_MSG'				=> (count($error)) ? implode('<br />', $error) : '',
 					'GROUP_NAME'			=> ($group_type == GROUP_SPECIAL) ? $user->lang['G_' . $group_name] : $group_name,
 					'GROUP_INTERNAL_NAME'	=> $group_name,
 					'GROUP_DESC'			=> $group_desc_data['text'],
@@ -833,4 +833,3 @@ class acp_groups
 	}
 }
 
-?>

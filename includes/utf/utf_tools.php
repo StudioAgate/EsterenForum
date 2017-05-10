@@ -253,7 +253,7 @@ else
 		{
 			$ar	= explode($needle, $str);
 
-			if (sizeof($ar) > 1)
+			if (count($ar) > 1)
 			{
 				// Pop off the end of the string where the last	match was made
 				array_pop($ar);
@@ -297,7 +297,7 @@ else
 		if (is_null($offset))
 		{
 			$ar = explode($needle, $str);
-			if (sizeof($ar) > 1)
+			if (count($ar) > 1)
 			{
 				return utf8_strlen($ar[0]);
 			}
@@ -1886,7 +1886,7 @@ function utf8_wordwrap($string, $width = 75, $break = "\n", $cut = false)
 	{
 		$words = explode(' ', $line);
 
-		for ($i = 0, $size = sizeof($words); $i < $size; $i++)
+		for ($i = 0, $size = count($words); $i < $size; $i++)
 		{
 			$word = $words[$i];
 
@@ -1965,7 +1965,7 @@ function utf8_str_replace($search, $replace, $subject)
 		}
 	}
 
-	$length = sizeof($search);
+	$length = count($search);
 
 	if (!is_array($replace))
 	{
@@ -1992,4 +1992,3 @@ function utf8_str_replace($search, $replace, $subject)
 	return $subject;
 }
 
-?>

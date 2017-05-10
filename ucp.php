@@ -352,4 +352,3 @@ function _module_zebra($mode, &$module_row)
 	}
 }
 
-?>

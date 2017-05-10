@@ -51,7 +51,7 @@ class mcp_reports
 
 				$report_id_list = request_var('report_id_list', array(0));
 
-				if (!sizeof($report_id_list))
+				if (!count($report_id_list))
 				{
 					trigger_error('NO_REPORT_SELECTED');
 				}
@@ -98,7 +98,7 @@ class mcp_reports
 
 				$post_info = get_post_data(array($post_id), 'm_report', true);
 
-				if (!sizeof($post_info))
+				if (!count($post_info))
 				{
 					trigger_error('NO_REPORT_SELECTED');
 				}
@@ -165,7 +165,7 @@ class mcp_reports
 					}
 					$db->sql_freeresult($result);
 
-					if (sizeof($attachments))
+					if (count($attachments))
 					{
 						$update_count = array();
 						parse_attachments($post_info['forum_id'], $message, $attachments, $update_count);
@@ -264,7 +264,7 @@ class mcp_reports
 				{
 					$topic_info = get_topic_data(array($topic_id));
 
-					if (!sizeof($topic_info))
+					if (!count($topic_info))
 					{
 						trigger_error('TOPIC_NOT_EXIST');
 					}
@@ -289,7 +289,7 @@ class mcp_reports
 						$forum_list[] = $row['forum_id'];
 					}
 
-					if (!sizeof($forum_list))
+					if (!count($forum_list))
 					{
 						trigger_error('NOT_MODERATOR');
 					}
@@ -307,7 +307,7 @@ class mcp_reports
 				{
 					$forum_info = get_forum_data(array($forum_id), 'm_report');
 
-					if (!sizeof($forum_info))
+					if (!count($forum_info))
 					{
 						trigger_error('NOT_MODERATOR');
 					}
@@ -368,7 +368,7 @@ class mcp_reports
 				}
 				$db->sql_freeresult($result);
 
-				if (sizeof($report_ids))
+				if (count($report_ids))
 				{
 					$sql = 'SELECT t.forum_id, t.topic_id, t.topic_title, p.post_id, p.post_subject, p.post_username, p.poster_id, p.post_time, u.username, u.username_clean, u.user_colour, r.user_id as reporter_id, ru.username as reporter_name, ru.user_colour as reporter_colour, r.report_time, r.report_id
 						FROM ' . REPORTS_TABLE . ' r, ' . POSTS_TABLE . ' p, ' . TOPICS_TABLE . ' t, ' . USERS_TABLE . ' u, ' . USERS_TABLE . ' ru
@@ -544,12 +544,12 @@ function close_report($report_id_list, $mode, $action, $pm = false)
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($reports))
+		if (count($reports))
 		{
 			$close_report_posts = array_unique($close_report_posts);
 			$close_report_topics = array_unique($close_report_topics);
 
-			if (!$pm && sizeof($close_report_posts))
+			if (!$pm && count($close_report_posts))
 			{
 				// Get a list of topics that still contain reported posts
 				$sql = 'SELECT DISTINCT topic_id
@@ -586,7 +586,7 @@ function close_report($report_id_list, $mode, $action, $pm = false)
 			$db->sql_query($sql);
 
 
-			if (sizeof($close_report_posts))
+			if (count($close_report_posts))
 			{
 				if ($pm)
 				{
@@ -607,7 +607,7 @@ function close_report($report_id_list, $mode, $action, $pm = false)
 						WHERE ' . $db->sql_in_set('post_id', $close_report_posts);
 					$db->sql_query($sql);
 
-					if (sizeof($close_report_topics))
+					if (count($close_report_topics))
 					{
 						$sql = 'UPDATE ' . TOPICS_TABLE . '
 							SET topic_reported = 0
@@ -637,7 +637,7 @@ function close_report($report_id_list, $mode, $action, $pm = false)
 		$messenger = new messenger();
 
 		// Notify reporters
-		if (sizeof($notify_reporters))
+		if (count($notify_reporters))
 		{
 			foreach ($notify_reporters as $report_id => $reporter)
 			{
@@ -688,11 +688,11 @@ function close_report($report_id_list, $mode, $action, $pm = false)
 
 		$messenger->save_queue();
 
-		$success_msg = (sizeof($report_id_list) == 1) ? "{$pm_prefix}REPORT_" . strtoupper($action) . 'D_SUCCESS' : "{$pm_prefix}REPORTS_" . strtoupper($action) . 'D_SUCCESS';
+		$success_msg = (count($report_id_list) == 1) ? "{$pm_prefix}REPORT_" . strtoupper($action) . 'D_SUCCESS' : "{$pm_prefix}REPORTS_" . strtoupper($action) . 'D_SUCCESS';
 	}
 	else
 	{
-		confirm_box(false, $user->lang[strtoupper($action) . "_{$pm_prefix}REPORT" . ((sizeof($report_id_list) == 1) ? '' : 'S') . '_CONFIRM'], $s_hidden_fields);
+		confirm_box(false, $user->lang[strtoupper($action) . "_{$pm_prefix}REPORT" . ((count($report_id_list) == 1) ? '' : 'S') . '_CONFIRM'], $s_hidden_fields);
 	}
 
 	$redirect = request_var('redirect', "index.$phpEx");
@@ -711,12 +711,12 @@ function close_report($report_id_list, $mode, $action, $pm = false)
 
 		if (!$pm)
 		{
-			if (sizeof($forum_ids) === 1)
+			if (count($forum_ids) === 1)
 			{
 				$return_forum = sprintf($user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . current($forum_ids)) . '">', '</a>') . '<br /><br />';
 			}
 
-			if (sizeof($topic_ids) === 1)
+			if (count($topic_ids) === 1)
 			{
 				$return_topic = sprintf($user->lang['RETURN_TOPIC'], '<a href="' . append_sid("{$phpbb_root_path}viewtopic.$phpEx", 't=' . current($topic_ids) . '&amp;f=' . current($forum_ids)) . '">', '</a>') . '<br /><br />';
 			}
@@ -726,4 +726,3 @@ function close_report($report_id_list, $mode, $action, $pm = false)
 	}
 }
 
-?>

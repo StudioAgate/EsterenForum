@@ -150,7 +150,7 @@ function size_select_options($size_compare)
 
 	$s_size_options = '';
 
-	for ($i = 0, $size = sizeof($size_types_text); $i < $size; $i++)
+	for ($i = 0, $size = count($size_types_text); $i < $size; $i++)
 	{
 		$selected = ($size_compare == $size_types[$i]) ? ' selected="selected"' : '';
 		$s_size_options .= '<option value="' . $size_types[$i] . '"' . $selected . '>' . $size_types_text[$i] . '</option>';
@@ -172,7 +172,7 @@ function group_select_options($group_id, $exclude_ids = false, $manage_founder =
 {
 	global $db, $user, $config;
 
-	$exclude_sql = ($exclude_ids !== false && sizeof($exclude_ids)) ? 'WHERE ' . $db->sql_in_set('group_id', array_map('intval', $exclude_ids), true) : '';
+	$exclude_sql = ($exclude_ids !== false && count($exclude_ids)) ? 'WHERE ' . $db->sql_in_set('group_id', array_map('intval', $exclude_ids), true) : '';
 	$sql_and = (!$config['coppa_enable']) ? (($exclude_sql) ? ' AND ' : ' WHERE ') . "group_name <> 'REGISTERED_COPPA'" : '';
 	$sql_founder = ($manage_founder !== false) ? (($exclude_sql || $sql_and) ? ' AND ' : ' WHERE ') . 'group_founder_manage = ' . (int) $manage_founder : '';
 
@@ -632,7 +632,7 @@ function delete_topics($where_type, $where_ids, $auto_sync = true, $post_count_s
 	{
 		$where_ids = (is_array($where_ids)) ? array_unique($where_ids) : array($where_ids);
 
-		if (!sizeof($where_ids))
+		if (!count($where_ids))
 		{
 			return array('topics' => 0, 'posts' => 0);
 		}
@@ -662,9 +662,9 @@ function delete_topics($where_type, $where_ids, $auto_sync = true, $post_count_s
 	}
 	$db->sql_freeresult($result);
 
-	$return['topics'] = sizeof($topic_ids);
+	$return['topics'] = count($topic_ids);
 
-	if (!sizeof($topic_ids))
+	if (!count($topic_ids))
 	{
 		return $return;
 	}
@@ -696,7 +696,7 @@ function delete_topics($where_type, $where_ids, $auto_sync = true, $post_count_s
 	}
 	$db->sql_freeresult($result);
 
-	if (sizeof($moved_topic_ids))
+	if (count($moved_topic_ids))
 	{
 		$sql = 'DELETE FROM ' . TOPICS_TABLE . '
 			WHERE ' . $db->sql_in_set('topic_id', $moved_topic_ids);
@@ -741,7 +741,7 @@ function delete_posts($where_type, $where_ids, $auto_sync = true, $posted_sync =
 			$where_ids = array($where_ids);
 		}
 
-		if (!sizeof($where_ids))
+		if (!count($where_ids))
 		{
 			return false;
 		}
@@ -749,7 +749,7 @@ function delete_posts($where_type, $where_ids, $auto_sync = true, $posted_sync =
 		$where_ids = array_map('intval', $where_ids);
 
 /*		Possible code for splitting post deletion
-		if (sizeof($where_ids) >= 1001)
+		if (count($where_ids) >= 1001)
 		{
 			// Split into chunks of 1000
 			$chunks = array_chunk($where_ids, 1000);
@@ -792,7 +792,7 @@ function delete_posts($where_type, $where_ids, $auto_sync = true, $posted_sync =
 	}
 	$db->sql_freeresult($result);
 
-	if (!sizeof($post_ids))
+	if (!count($post_ids))
 	{
 		return false;
 	}
@@ -810,7 +810,7 @@ function delete_posts($where_type, $where_ids, $auto_sync = true, $posted_sync =
 	unset($table_ary);
 
 	// Adjust users post counts
-	if (sizeof($post_counts) && $post_count_sync)
+	if (count($post_counts) && $post_count_sync)
 	{
 		foreach ($post_counts as $poster_id => $substract)
 		{
@@ -829,7 +829,7 @@ function delete_posts($where_type, $where_ids, $auto_sync = true, $posted_sync =
 	}
 
 	// Remove topics now having no posts?
-	if (sizeof($topic_ids))
+	if (count($topic_ids))
 	{
 		$sql = 'SELECT topic_id
 			FROM ' . POSTS_TABLE . '
@@ -890,12 +890,12 @@ function delete_posts($where_type, $where_ids, $auto_sync = true, $posted_sync =
 	}
 
 	// We actually remove topics now to not be inconsistent (the delete_topics function calls this function too)
-	if (sizeof($remove_topics) && $call_delete_topics)
+	if (count($remove_topics) && $call_delete_topics)
 	{
 		delete_topics('topic_id', $remove_topics, $auto_sync, $post_count_sync, false);
 	}
 
-	return sizeof($post_ids);
+	return count($post_ids);
 }
 
 /**
@@ -1033,7 +1033,7 @@ function delete_attachments($mode, $ids, $resync = true)
 	$topic_ids = array_unique($topic_ids);
 
 	// Update post indicators for posts now no longer having attachments
-	if (sizeof($post_ids))
+	if (count($post_ids))
 	{
 		// Just check which posts are still having an assigned attachment not orphaned by querying the attachments table
 		$sql = 'SELECT post_msg_id
@@ -1053,7 +1053,7 @@ function delete_attachments($mode, $ids, $resync = true)
 		// Now only unset those ids remaining
 		$post_ids = array_diff($post_ids, $remaining_ids);
 
-		if (sizeof($post_ids))
+		if (count($post_ids))
 		{
 			$sql = 'UPDATE ' . POSTS_TABLE . '
 				SET post_attachment = 0
@@ -1063,7 +1063,7 @@ function delete_attachments($mode, $ids, $resync = true)
 	}
 
 	// Update message table if messages are affected
-	if (sizeof($message_ids))
+	if (count($message_ids))
 	{
 		// Just check which messages are still having an assigned attachment not orphaned by querying the attachments table
 		$sql = 'SELECT post_msg_id
@@ -1083,7 +1083,7 @@ function delete_attachments($mode, $ids, $resync = true)
 		// Now only unset those ids remaining
 		$message_ids = array_diff($message_ids, $remaining_ids);
 
-		if (sizeof($message_ids))
+		if (count($message_ids))
 		{
 			$sql = 'UPDATE ' . PRIVMSGS_TABLE . '
 				SET message_attachment = 0
@@ -1093,7 +1093,7 @@ function delete_attachments($mode, $ids, $resync = true)
 	}
 
 	// Now update the topics. This is a bit trickier, because there could be posts still having attachments within the topic
-	if (sizeof($topic_ids))
+	if (count($topic_ids))
 	{
 		// Just check which topics are still having an assigned attachment not orphaned by querying the attachments table (much less entries expected)
 		$sql = 'SELECT topic_id
@@ -1112,7 +1112,7 @@ function delete_attachments($mode, $ids, $resync = true)
 		// Now only unset those ids remaining
 		$topic_ids = array_diff($topic_ids, $remaining_ids);
 
-		if (sizeof($topic_ids))
+		if (count($topic_ids))
 		{
 			$sql = 'UPDATE ' . TOPICS_TABLE . '
 				SET topic_attachment = 0
@@ -1176,7 +1176,7 @@ function delete_topic_shadows($forum_id, $sql_more = '', $auto_sync = true)
 			$db->sql_query($sql);
 		}
 	}
-	while (sizeof($topic_ids) == $batch_size);
+	while (count($topic_ids) == $batch_size);
 
 	if ($auto_sync)
 	{
@@ -1315,7 +1315,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			// Do not sync the "global forum"
 			$where_ids = array_diff($where_ids, array(0));
 
-			if (!sizeof($where_ids))
+			if (!count($where_ids))
 			{
 				// Empty array with IDs. This means that we don't have any work to do. Just return.
 				return;
@@ -1329,7 +1329,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 	}
 	else
 	{
-		if (!sizeof($where_ids))
+		if (!count($where_ids))
 		{
 			return;
 		}
@@ -1368,7 +1368,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 					}
 					$db->sql_freeresult($result);
 
-					if (!sizeof($topic_id_ary))
+					if (!count($topic_id_ary))
 					{
 						return;
 					}
@@ -1410,7 +1410,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 					}
 					$db->sql_freeresult($result);
 
-					if (!sizeof($topic_ids))
+					if (!count($topic_ids))
 					{
 						return;
 					}
@@ -1473,7 +1473,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 				$post_ids[] = $post_id;
 			}
 
-			if (sizeof($post_ids))
+			if (count($post_ids))
 			{
 				$sql = 'UPDATE ' . POSTS_TABLE . '
 					SET post_reported = 1 - post_reported
@@ -1519,7 +1519,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			}
 			$db->sql_freeresult($result);
 
-			if (sizeof($topic_ids))
+			if (count($topic_ids))
 			{
 				$sql = 'UPDATE ' . TOPICS_TABLE . '
 					SET topic_reported = 1 - topic_reported
@@ -1578,7 +1578,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 				$post_ids[] = $post_id;
 			}
 
-			if (sizeof($post_ids))
+			if (count($post_ids))
 			{
 				$sql = 'UPDATE ' . POSTS_TABLE . '
 					SET post_attachment = 1 - post_attachment
@@ -1624,7 +1624,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			}
 			$db->sql_freeresult($result);
 
-			if (sizeof($topic_ids))
+			if (count($topic_ids))
 			{
 				$sql = 'UPDATE ' . TOPICS_TABLE . '
 					SET topic_attachment = 1 - topic_attachment
@@ -1673,7 +1673,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			}
 			$db->sql_freeresult($result);
 
-			if (!sizeof($forum_ids))
+			if (!count($forum_ids))
 			{
 				break;
 			}
@@ -1705,7 +1705,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			// 3: Get post count for each forum (optional)
 			if ($sync_extra)
 			{
-				if (sizeof($forum_ids) == 1)
+				if (count($forum_ids) == 1)
 				{
 					$sql = 'SELECT SUM(t.topic_replies + 1) AS forum_posts
 						FROM ' . TOPICS_TABLE . ' t
@@ -1727,7 +1727,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 
 				while ($row = $db->sql_fetchrow($result))
 				{
-					$forum_id = (sizeof($forum_ids) == 1) ? (int) $forum_ids[0] : (int) $row['forum_id'];
+					$forum_id = (count($forum_ids) == 1) ? (int) $forum_ids[0] : (int) $row['forum_id'];
 
 					$forum_data[$forum_id]['posts'] = (int) $row['forum_posts'];
 				}
@@ -1735,7 +1735,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			}
 
 			// 4: Get last_post_id for each forum
-			if (sizeof($forum_ids) == 1)
+			if (count($forum_ids) == 1)
 			{
 				$sql = 'SELECT MAX(t.topic_last_post_id) as last_post_id
 					FROM ' . TOPICS_TABLE . ' t
@@ -1755,7 +1755,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 
 			while ($row = $db->sql_fetchrow($result))
 			{
-				$forum_id = (sizeof($forum_ids) == 1) ? (int) $forum_ids[0] : (int) $row['forum_id'];
+				$forum_id = (count($forum_ids) == 1) ? (int) $forum_ids[0] : (int) $row['forum_id'];
 
 				$forum_data[$forum_id]['last_post_id'] = (int) $row['last_post_id'];
 
@@ -1764,7 +1764,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			$db->sql_freeresult($result);
 
 			// 5: Retrieve last_post infos
-			if (sizeof($post_ids))
+			if (count($post_ids))
 			{
 				$sql = 'SELECT p.post_id, p.poster_id, p.post_subject, p.post_time, p.post_username, u.username, u.user_colour
 					FROM ' . POSTS_TABLE . ' p, ' . USERS_TABLE . ' u
@@ -1832,7 +1832,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 					}
 				}
 
-				if (sizeof($sql_ary))
+				if (count($sql_ary))
 				{
 					$sql = 'UPDATE ' . FORUMS_TABLE . '
 						SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
@@ -1929,20 +1929,20 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			}
 
 			// Now we delete empty topics and orphan posts
-			if (sizeof($delete_posts))
+			if (count($delete_posts))
 			{
 				delete_posts('topic_id', array_keys($delete_posts), false);
 				unset($delete_posts);
 			}
 
-			if (!sizeof($topic_data))
+			if (!count($topic_data))
 			{
 				// If we get there, topic ids were invalid or topics did not contain any posts
 				delete_topics($where_type, $where_ids, true);
 				return;
 			}
 
-			if (sizeof($delete_topics))
+			if (count($delete_topics))
 			{
 				$delete_topic_ids = array();
 				foreach ($delete_topics as $topic_id => $void)
@@ -1990,7 +1990,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			$db->sql_freeresult($result);
 
 			// Make sure shadow topics do link to existing topics
-			if (sizeof($moved_topics))
+			if (count($moved_topics))
 			{
 				$delete_topics = array();
 
@@ -2007,7 +2007,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 				}
 				$db->sql_freeresult($result);
 
-				if (sizeof($delete_topics))
+				if (count($delete_topics))
 				{
 					delete_topics('topic_id', $delete_topics, false);
 				}
@@ -2030,7 +2030,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 				$db->sql_freeresult($result);
 
 				$sync_shadow_topics = array();
-				if (sizeof($post_ids))
+				if (count($post_ids))
 				{
 					$sql = 'SELECT p.post_id, p.topic_id, p.post_approved, p.poster_id, p.post_subject, p.post_username, p.post_time, u.username, u.user_colour
 						FROM ' . POSTS_TABLE . ' p, ' . USERS_TABLE . ' u
@@ -2084,7 +2084,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 					$shadow_topic_data = array();
 
 					// Update the information we collected
-					if (sizeof($sync_shadow_topics))
+					if (count($sync_shadow_topics))
 					{
 						foreach ($sync_shadow_topics as $sync_topic_id => $sql_ary)
 						{
@@ -2100,7 +2100,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			}
 
 			// approved becomes unapproved, and vice-versa
-			if (sizeof($approved_unapproved_ids))
+			if (count($approved_unapproved_ids))
 			{
 				$sql = 'UPDATE ' . TOPICS_TABLE . '
 					SET topic_approved = 1 - topic_approved
@@ -2159,7 +2159,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 					}
 				}
 
-				if (sizeof($sql_ary))
+				if (count($sql_ary))
 				{
 					$sql = 'UPDATE ' . TOPICS_TABLE . '
 						SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
@@ -2176,7 +2176,7 @@ function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false,
 			// if some topics have been resync'ed then resync parent forums
 			// except when we're only syncing a range, we don't want to sync forums during
 			// batch processing.
-			if ($resync_parents && sizeof($resync_forums) && $where_type != 'range')
+			if ($resync_parents && count($resync_forums) && $where_type != 'range')
 			{
 				sync('forum', 'forum_id', array_values($resync_forums), true, true);
 			}
@@ -2198,7 +2198,7 @@ function prune($forum_id, $prune_mode, $prune_date, $prune_flags = 0, $auto_sync
 		$forum_id = array($forum_id);
 	}
 
-	if (!sizeof($forum_id))
+	if (!count($forum_id))
 	{
 		return;
 	}
@@ -2339,7 +2339,7 @@ function cache_moderators()
 	$hold_ary = $auth->acl_user_raw_data(false, 'm_%', false);
 
 	// Add users?
-	if (sizeof($hold_ary))
+	if (count($hold_ary))
 	{
 		// At least one moderative option warrants a display
 		$ug_id_ary = array_keys($hold_ary);
@@ -2383,7 +2383,7 @@ function cache_moderators()
 		}
 		$db->sql_freeresult($result);
 
-		if (sizeof($hold_ary))
+		if (count($hold_ary))
 		{
 			// Get usernames...
 			$sql = 'SELECT user_id, username
@@ -2422,7 +2422,7 @@ function cache_moderators()
 	// Now to the groups...
 	$hold_ary = $auth->acl_group_raw_data(false, 'm_%', false);
 
-	if (sizeof($hold_ary))
+	if (count($hold_ary))
 	{
 		$ug_id_ary = array_keys($hold_ary);
 
@@ -2550,7 +2550,7 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 		$keywords_pattern = array();
 
 		// Build pattern and keywords...
-		for ($i = 0, $num_keywords = sizeof($keywords); $i < $num_keywords; $i++)
+		for ($i = 0, $num_keywords = count($keywords); $i < $num_keywords; $i++)
 		{
 			$keywords_pattern[] = preg_quote($keywords[$i], '#');
 			$keywords[$i] = $db->sql_like_expression($db->any_char . $keywords[$i] . $db->any_char);
@@ -2658,9 +2658,9 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 			{
 				// Check if there are more occurrences of % than arguments, if there are we fill out the arguments array
 				// It doesn't matter if we add more arguments than placeholders
-				if ((substr_count($log[$i]['action'], '%') - sizeof($log_data_ary)) > 0)
+				if ((substr_count($log[$i]['action'], '%') - count($log_data_ary)) > 0)
 				{
-					$log_data_ary = array_merge($log_data_ary, array_fill(0, substr_count($log[$i]['action'], '%') - sizeof($log_data_ary), ''));
+					$log_data_ary = array_merge($log_data_ary, array_fill(0, substr_count($log[$i]['action'], '%') - count($log_data_ary), ''));
 				}
 
 				$log[$i]['action'] = vsprintf($log[$i]['action'], $log_data_ary);
@@ -2690,7 +2690,7 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 	}
 	$db->sql_freeresult($result);
 
-	if (sizeof($topic_id_list))
+	if (count($topic_id_list))
 	{
 		$topic_id_list = array_unique($topic_id_list);
 
@@ -2744,7 +2744,7 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 		}
 	}
 
-	if (sizeof($reportee_id_list))
+	if (count($reportee_id_list))
 	{
 		$reportee_id_list = array_unique($reportee_id_list);
 		$reportee_names_list = array();
@@ -2783,7 +2783,7 @@ function update_foes($group_id = false, $user_id = false)
 	global $db, $auth;
 
 	// update foes for some user
-	if (is_array($user_id) && sizeof($user_id))
+	if (is_array($user_id) && count($user_id))
 	{
 		$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
 			WHERE ' . $db->sql_in_set('zebra_id', $user_id) . '
@@ -2793,7 +2793,7 @@ function update_foes($group_id = false, $user_id = false)
 	}
 
 	// update foes for some group
-	if (is_array($group_id) && sizeof($group_id))
+	if (is_array($group_id) && count($group_id))
 	{
 		// Grab group settings...
 		$sql = $db->sql_build_query('SELECT', array(
@@ -2826,7 +2826,7 @@ function update_foes($group_id = false, $user_id = false)
 		}
 		$db->sql_freeresult($result);
 
-		if (!sizeof($groups))
+		if (!count($groups))
 		{
 			return;
 		}
@@ -2856,7 +2856,7 @@ function update_foes($group_id = false, $user_id = false)
 				}
 				$db->sql_freeresult($result);
 
-				if (sizeof($users))
+				if (count($users))
 				{
 					$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
 						WHERE ' . $db->sql_in_set('zebra_id', $users) . '
@@ -2879,7 +2879,7 @@ function update_foes($group_id = false, $user_id = false)
 		}
 	}
 
-	if (sizeof($perms))
+	if (count($perms))
 	{
 		$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
 			WHERE ' . $db->sql_in_set('zebra_id', array_unique($perms)) . '
@@ -3061,7 +3061,7 @@ function get_database_size()
 			$result = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
-			
+
 			$sql = 'SELECT ((SUM(size) * 8.0) * 1024.0) as dbsize
 				FROM sysfiles';
 
@@ -3219,7 +3219,7 @@ function tidy_warnings()
 	}
 	$db->sql_freeresult($result);
 
-	if (sizeof($warning_list))
+	if (count($warning_list))
 	{
 		$db->sql_transaction('begin');
 
@@ -3303,7 +3303,7 @@ function add_permission_language()
 		}
 	}
 
-	if (!sizeof($files_to_add))
+	if (!count($files_to_add))
 	{
 		return false;
 	}
@@ -3371,4 +3371,3 @@ function enable_bitfield_column_flag($table_name, $column_name, $flag, $sql_more
 	$db->sql_query($sql);
 }
 
-?>

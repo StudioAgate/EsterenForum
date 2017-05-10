@@ -72,7 +72,7 @@ class phpbb_captcha_qa
 		$db->sql_freeresult($result);
 
 		// fallback to the board default lang
-		if (!sizeof($this->question_ids))
+		if (!count($this->question_ids))
 		{
 			$this->question_lang = $config['default_lang'];
 
@@ -87,7 +87,7 @@ class phpbb_captcha_qa
 			}
 			$db->sql_freeresult($result);
 		}
-	
+
 		// okay, if there is a confirm_id, we try to load that confirm's state. If not, we try to find one
 		if (!$this->load_answer() && (!$this->load_confirm_id() || !$this->load_answer()))
 		{
@@ -275,7 +275,7 @@ class phpbb_captcha_qa
 			}
 			while ($row = $db->sql_fetchrow($result));
 
-			if (sizeof($sql_in))
+			if (count($sql_in))
 			{
 				$sql = 'DELETE FROM ' . CAPTCHA_QA_CONFIRM_TABLE . '
 					WHERE ' . $db->sql_in_set('confirm_id', $sql_in);
@@ -365,12 +365,12 @@ class phpbb_captcha_qa
 		global $config, $db, $user;
 
 		$error = '';
-		
-		if (!sizeof($this->question_ids))
+
+		if (!count($this->question_ids))
 		{
 			return false;
 		}
-		
+
 		if (!$this->confirm_id)
 		{
 			$error = $user->lang['CONFIRM_QUESTION_WRONG'];
@@ -409,7 +409,7 @@ class phpbb_captcha_qa
 	{
 		global $db, $user;
 
-		if (!sizeof($this->question_ids))
+		if (!count($this->question_ids))
 		{
 			return false;
 		}
@@ -434,8 +434,8 @@ class phpbb_captcha_qa
 	function reselect_question()
 	{
 		global $db, $user;
-		
-		if (!sizeof($this->question_ids))
+
+		if (!count($this->question_ids))
 		{
 			return false;
 		}
@@ -505,8 +505,8 @@ class phpbb_captcha_qa
 	function load_answer()
 	{
 		global $db, $user;
-		
-		if (!strlen($this->confirm_id) || !sizeof($this->question_ids))
+
+		if (!strlen($this->confirm_id) || !count($this->question_ids))
 		{
 			return false;
 		}
@@ -958,7 +958,7 @@ class phpbb_captcha_qa
 
 		if (!isset($langs[$question_data['lang_iso']]) ||
 			!strlen($question_data['question_text']) ||
-			!sizeof($question_data['answers']) ||
+			!count($question_data['answers']) ||
 			!is_array($question_data['answers']))
 		{
 			return false;
@@ -990,9 +990,9 @@ class phpbb_captcha_qa
 
 		return $langs;
 	}
-	
-	
-	
+
+
+
 	/**
 	*  See if there is a question other than the one we have
 	*/
@@ -1019,4 +1019,3 @@ class phpbb_captcha_qa
 	}
 }
 
-?>

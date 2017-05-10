@@ -172,7 +172,7 @@ class mcp_ban
 				case 'user':
 					$pre_fill = (string) $db->sql_fetchfield('username');
 				break;
-				
+
 				case 'ip':
 					$pre_fill = (string) $db->sql_fetchfield('user_ip');
 				break;
@@ -187,7 +187,7 @@ class mcp_ban
 		{
 			$post_info = get_post_data($post_id, 'm_ban');
 
-			if (sizeof($post_info) && !empty($post_info[$post_id]))
+			if (count($post_info) && !empty($post_info[$post_id]))
 			{
 				switch ($mode)
 				{
@@ -216,4 +216,3 @@ class mcp_ban
 	}
 }
 
-?>

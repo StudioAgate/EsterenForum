@@ -237,4 +237,3 @@ $lang = array_merge($lang, array(
 	'WRONG_SIZE'				=> 'La taille de l’image doit être au moins de %1$d pixels de large et %2$d pixels de haut et au plus de %3$d pixels de large et %4$d pixels de haut. L’image que vous avez envoyé est de %5$d pixels de large et %6$d pixels de haut.',
 ));
 
-?>

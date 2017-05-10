@@ -518,7 +518,7 @@ class acp_language
 					'LANG_ENGLISH_NAME'	=> $lang_entries['lang_english_name'],
 					'LANG_ISO'			=> $lang_entries['lang_iso'],
 					'LANG_AUTHOR'		=> $lang_entries['lang_author'],
-					'ALLOW_UPLOAD'		=> sizeof($methods)
+					'ALLOW_UPLOAD'		=> count($methods)
 					)
 				);
 
@@ -533,7 +533,7 @@ class acp_language
 						{
 							$missing_vars[$file] = $this->compare_language_files($config['default_lang'], $lang_iso, '', $file);
 
-							if (sizeof($missing_vars[$file]))
+							if (count($missing_vars[$file]))
 							{
 								$is_missing_var = true;
 							}
@@ -551,7 +551,7 @@ class acp_language
 						{
 							$missing_vars['acp/' . $file] = $this->compare_language_files($config['default_lang'], $lang_iso, 'acp', $file);
 
-							if (sizeof($missing_vars['acp/' . $file]))
+							if (count($missing_vars['acp/' . $file]))
 							{
 								$is_missing_var = true;
 							}
@@ -562,7 +562,7 @@ class acp_language
 						}
 					}
 
-					if (sizeof($mods_files))
+					if (count($mods_files))
 					{
 						foreach ($mods_files as $file)
 						{
@@ -570,7 +570,7 @@ class acp_language
 							{
 								$missing_vars['mods/' . $file] = $this->compare_language_files($config['default_lang'], $lang_iso, 'mods', $file);
 
-								if (sizeof($missing_vars['mods/' . $file]))
+								if (count($missing_vars['mods/' . $file]))
 								{
 									$is_missing_var = true;
 								}
@@ -591,7 +591,7 @@ class acp_language
 						}
 					}
 
-					if (sizeof($missing_files))
+					if (count($missing_files))
 					{
 						$template->assign_vars(array(
 							'S_MISSING_FILES'		=> true,
@@ -610,7 +610,7 @@ class acp_language
 
 						foreach ($missing_vars as $file => $vars)
 						{
-							if (!sizeof($vars))
+							if (!count($vars))
 							{
 								continue;
 							}
@@ -659,7 +659,7 @@ class acp_language
 
 				foreach ($check_files as $check)
 				{
-					if (!sizeof(${$check . '_files'}))
+					if (!count(${$check . '_files'}))
 					{
 						continue;
 					}
@@ -724,7 +724,7 @@ class acp_language
 					$tpl = '';
 					$name = (($this->language_directory) ? $this->language_directory . '/' : '') . $this->language_file;
 
-					if (isset($missing_vars[$name]) && sizeof($missing_vars[$name]))
+					if (isset($missing_vars[$name]) && count($missing_vars[$name]))
 					{
 						$tpl .= $this->print_language_entries($missing_vars[$name], '* ');
 					}
@@ -905,7 +905,7 @@ class acp_language
 				}
 				$db->sql_freeresult($result);
 
-				if (sizeof($sql_ary))
+				if (count($sql_ary))
 				{
 					$db->sql_multi_insert(STYLES_IMAGESET_DATA_TABLE, $sql_ary);
 					$cache->destroy('sql', STYLES_IMAGESET_DATA_TABLE);
@@ -1067,7 +1067,7 @@ class acp_language
 				$compress->add_data('', 'language/' . $row['lang_iso'] . '/email/index.htm');
 				$compress->add_data('', 'language/' . $row['lang_iso'] . '/acp/index.htm');
 
-				if (sizeof($mod_files))
+				if (count($mod_files))
 				{
 					$compress->add_data('', 'language/' . $row['lang_iso'] . '/mods/index.htm');
 				}
@@ -1138,7 +1138,7 @@ class acp_language
 					{
 						if ($iso = file("{$phpbb_root_path}language/$file/iso.txt"))
 						{
-							if (sizeof($iso) == 3)
+							if (count($iso) == 3)
 							{
 								$new_ary[$file] = array(
 									'iso'		=> $file,
@@ -1156,7 +1156,7 @@ class acp_language
 
 		unset($installed);
 
-		if (sizeof($new_ary))
+		if (count($new_ary))
 		{
 			foreach ($new_ary as $iso => $lang_ary)
 			{
@@ -1462,4 +1462,3 @@ $lang = array_merge($lang, array(
 	}
 }
 
-?>

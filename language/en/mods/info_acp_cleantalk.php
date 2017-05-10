@@ -5,7 +5,7 @@
 *
 * @package language
 * @version $Id$
-* @copyright (c) 2014 CleanTalk welcome@cleantalk.org 
+* @copyright (c) 2014 CleanTalk welcome@cleantalk.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
@@ -72,4 +72,3 @@ $lang = array_merge($lang, array(
     'CT_MOD_HOMEPAGE_DATA'         => '<a href="http://cleantalk.org">cleantalk.org</a>',
 ));
 
-?>

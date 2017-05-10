@@ -51,7 +51,7 @@ class mcp_queue
 
 				$post_id_list = request_var('post_id_list', array(0));
 
-				if (!sizeof($post_id_list))
+				if (!count($post_id_list))
 				{
 					trigger_error('NO_POST_SELECTED');
 				}
@@ -94,7 +94,7 @@ class mcp_queue
 
 				$post_info = get_post_data(array($post_id), 'm_approve', true);
 
-				if (!sizeof($post_info))
+				if (!count($post_info))
 				{
 					trigger_error('NO_POST_SELECTED');
 				}
@@ -156,7 +156,7 @@ class mcp_queue
 					}
 					$db->sql_freeresult($result);
 
-					if (sizeof($attachments))
+					if (count($attachments))
 					{
 						$update_count = array();
 						parse_attachments($post_info['forum_id'], $message, $attachments, $update_count);
@@ -234,7 +234,7 @@ class mcp_queue
 				{
 					$topic_info = get_topic_data(array($topic_id));
 
-					if (!sizeof($topic_info))
+					if (!count($topic_info))
 					{
 						trigger_error('TOPIC_NOT_EXIST');
 					}
@@ -264,7 +264,7 @@ class mcp_queue
 						$forum_list[] = $row['forum_id'];
 					}
 
-					if (!sizeof($forum_list))
+					if (!count($forum_list))
 					{
 						trigger_error('NOT_MODERATOR');
 					}
@@ -284,7 +284,7 @@ class mcp_queue
 				{
 					$forum_info = get_forum_data(array($forum_id), 'm_approve');
 
-					if (!sizeof($forum_info))
+					if (!count($forum_info))
 					{
 						trigger_error('NOT_MODERATOR');
 					}
@@ -333,7 +333,7 @@ class mcp_queue
 					}
 					$db->sql_freeresult($result);
 
-					if (sizeof($post_ids))
+					if (count($post_ids))
 					{
 						$sql = 'SELECT t.topic_id, t.topic_title, t.forum_id, p.post_id, p.post_subject, p.post_username, p.poster_id, p.post_time, u.username, u.username_clean, u.user_colour
 							FROM ' . POSTS_TABLE . ' p, ' . TOPICS_TABLE . ' t, ' . USERS_TABLE . ' u
@@ -387,7 +387,7 @@ class mcp_queue
 					$db->sql_freeresult($result);
 				}
 
-				if (sizeof($forum_names))
+				if (count($forum_names))
 				{
 					// Select the names for the forum_ids
 					$sql = 'SELECT forum_id, forum_name
@@ -560,12 +560,12 @@ function approve_post($post_id_list, $id, $mode)
 		}
 
 		$post_id_list = array_values(array_diff($post_id_list, $post_approved_list));
-		for ($i = 0, $size = sizeof($post_approved_list); $i < $size; $i++)
+		for ($i = 0, $size = count($post_approved_list); $i < $size; $i++)
 		{
 			unset($post_info[$post_approved_list[$i]]);
 		}
 
-		if (sizeof($topic_approve_sql))
+		if (count($topic_approve_sql))
 		{
 			$sql = 'UPDATE ' . TOPICS_TABLE . '
 				SET topic_approved = 1
@@ -573,7 +573,7 @@ function approve_post($post_id_list, $id, $mode)
 			$db->sql_query($sql);
 		}
 
-		if (sizeof($post_approve_sql))
+		if (count($post_approve_sql))
 		{
 			$sql = 'UPDATE ' . POSTS_TABLE . '
 				SET post_approved = 1
@@ -588,7 +588,7 @@ function approve_post($post_id_list, $id, $mode)
 			add_log('mod', $log_data['forum_id'], $log_data['topic_id'], ($log_data['type'] == 'topic') ? 'LOG_TOPIC_APPROVED' : 'LOG_POST_APPROVED', $log_data['post_subject']);
 		}
 
-		if (sizeof($user_posts_sql))
+		if (count($user_posts_sql))
 		{
 			// Try to minimize the query count by merging users with the same post count additions
 			$user_posts_update = array();
@@ -674,7 +674,7 @@ function approve_post($post_id_list, $id, $mode)
 			}
 		}
 
-		if (sizeof($post_id_list) == 1)
+		if (count($post_id_list) == 1)
 		{
 			$post_data = $post_info[$post_id_list[0]];
 			$post_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f={$post_data['forum_id']}&amp;t={$post_data['topic_id']}&amp;p={$post_data['post_id']}") . '#p' . $post_data['post_id'];
@@ -687,7 +687,7 @@ function approve_post($post_id_list, $id, $mode)
 		}
 		else
 		{
-			$success_msg = (sizeof($post_id_list) + sizeof($post_approved_list) == 1) ? 'POST_APPROVED_SUCCESS' : 'POSTS_APPROVED_SUCCESS';
+			$success_msg = (count($post_id_list) + count($post_approved_list) == 1) ? 'POST_APPROVED_SUCCESS' : 'POSTS_APPROVED_SUCCESS';
 		}
 	}
 	else
@@ -715,7 +715,7 @@ function approve_post($post_id_list, $id, $mode)
 			'S_APPROVE'			=> true)
 		);
 
-		confirm_box(false, 'APPROVE_POST' . ((sizeof($post_id_list) == 1) ? '' : 'S'), $s_hidden_fields, 'mcp_approve.html');
+		confirm_box(false, 'APPROVE_POST' . ((count($post_id_list) == 1) ? '' : 'S'), $s_hidden_fields, 'mcp_approve.html');
 	}
 
 	$redirect = request_var('redirect', "index.$phpEx");
@@ -731,7 +731,7 @@ function approve_post($post_id_list, $id, $mode)
 
 		// If approving one post, also give links back to post...
 		$add_message = '';
-		if (sizeof($post_id_list) == 1 && !empty($post_url))
+		if (count($post_id_list) == 1 && !empty($post_url))
 		{
 			$add_message = '<br /><br />' . sprintf($user->lang['RETURN_POST'], '<a href="' . $post_url . '">', '</a>');
 		}
@@ -822,7 +822,7 @@ function disapprove_post($post_id_list, $id, $mode)
 		{
 			// If the count of disapproved posts for the topic is greater
 			// than topic's real replies count, the whole topic is disapproved/deleted
-			if (sizeof(array_keys($post_disapprove_list, $topic_id)) > $topic_replies_real[$topic_id])
+			if (count(array_keys($post_disapprove_list, $topic_id)) > $topic_replies_real[$topic_id])
 			{
 				// Don't write the log more than once for every topic
 				if (!isset($disapprove_log_topics[$topic_id]))
@@ -850,8 +850,8 @@ function disapprove_post($post_id_list, $id, $mode)
 		}
 
 		// Get disapproved posts/topics counts separately
-		$num_disapproved_topics = sizeof($disapprove_log_topics);
-		$num_disapproved_posts = sizeof($disapprove_log_posts);
+		$num_disapproved_topics = count($disapprove_log_topics);
+		$num_disapproved_posts = count($disapprove_log_posts);
 
 		// Build the whole log
 		$disapprove_log = array_merge($disapprove_log_topics, $disapprove_log_posts);
@@ -860,7 +860,7 @@ function disapprove_post($post_id_list, $id, $mode)
 		unset($post_data, $disapprove_log_topics, $disapprove_log_posts);
 
 		// Let's do the job - delete disapproved posts
-		if (sizeof($post_disapprove_list))
+		if (count($post_disapprove_list))
 		{
 			if (!function_exists('delete_posts'))
 			{
@@ -981,7 +981,7 @@ function disapprove_post($post_id_list, $id, $mode)
 			'ADDITIONAL_MSG'	=> $additional_msg)
 		);
 
-		confirm_box(false, 'DISAPPROVE_POST' . ((sizeof($post_id_list) == 1) ? '' : 'S'), $s_hidden_fields, 'mcp_approve.html');
+		confirm_box(false, 'DISAPPROVE_POST' . ((count($post_id_list) == 1) ? '' : 'S'), $s_hidden_fields, 'mcp_approve.html');
 	}
 
 	$redirect = request_var('redirect', "index.$phpEx");
@@ -998,4 +998,3 @@ function disapprove_post($post_id_list, $id, $mode)
 	}
 }
 
-?>

@@ -82,7 +82,7 @@ function init_ldap()
 	@ldap_close($ldap);
 
 
-	if (!is_array($result) || sizeof($result) < 2)
+	if (!is_array($result) || count($result) < 2)
 	{
 		return sprintf($user->lang['LDAP_NO_IDENTITY'], $user->data['username']);
 	}
@@ -177,7 +177,7 @@ function login_ldap(&$username, &$password)
 
 	$ldap_result = @ldap_get_entries($ldap, $search);
 
-	if (is_array($ldap_result) && sizeof($ldap_result) > 1)
+	if (is_array($ldap_result) && count($ldap_result) > 1)
 	{
 		if (@ldap_bind($ldap, $ldap_result[0]['dn'], htmlspecialchars_decode($password)))
 		{
@@ -350,4 +350,3 @@ function acp_ldap(&$new)
 	);
 }
 
-?>

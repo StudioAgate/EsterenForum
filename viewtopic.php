@@ -28,7 +28,7 @@ $topic_id	= request_var('t', 0);
 $post_id	= request_var('p', 0);
 $voted_id	= request_var('vote_id', array('' => 0));
 
-$voted_id = (sizeof($voted_id) > 1) ? array_unique($voted_id) : $voted_id;
+$voted_id = (count($voted_id) > 1) ? array_unique($voted_id) : $voted_id;
 
 
 $start		= request_var('start', 0);
@@ -629,7 +629,7 @@ $template->assign_vars(array(
 	'PAGE_NUMBER' 	=> on_page($total_posts, $config['posts_per_page'], $start),
 	'TOTAL_POSTS'	=> ($total_posts == 1) ? $user->lang['VIEW_TOPIC_POST'] : sprintf($user->lang['VIEW_TOPIC_POSTS'], $total_posts),
 	'U_MCP' 		=> ($auth->acl_get('m_', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $user->session_id) : '',
-	'MODERATORS'	=> (isset($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id])) ? implode(', ', $forum_moderators[$forum_id]) : '',
+	'MODERATORS'	=> (isset($forum_moderators[$forum_id]) && count($forum_moderators[$forum_id])) ? implode(', ', $forum_moderators[$forum_id]) : '',
 
 	'POST_IMG' 			=> ($topic_data['forum_status'] == ITEM_LOCKED) ? $user->img('button_topic_locked', 'FORUM_LOCKED') : $user->img('button_topic_new', 'POST_NEW_TOPIC'),
 	'QUOTE_IMG' 		=> $user->img('icon_post_quote', 'REPLY_WITH_QUOTE'),
@@ -656,7 +656,7 @@ $template->assign_vars(array(
 	'S_SELECT_SORT_DIR' 	=> $s_sort_dir,
 	'S_SELECT_SORT_KEY' 	=> $s_sort_key,
 	'S_SELECT_SORT_DAYS' 	=> $s_limit_days,
-	'S_SINGLE_MODERATOR'	=> (!empty($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id]) > 1) ? false : true,
+	'S_SINGLE_MODERATOR'	=> (!empty($forum_moderators[$forum_id]) && count($forum_moderators[$forum_id]) > 1) ? false : true,
 	'S_TOPIC_ACTION' 		=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start")),
 	'S_TOPIC_MOD' 			=> ($topic_mod != '') ? '<select name="action" id="quick-mod-select">' . $topic_mod . '</select>' : '',
 	'S_MOD_ACTION' 			=> append_sid("{$phpbb_root_path}mcp.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . "&amp;quickmod=1&amp;redirect=" . urlencode(str_replace('&amp;', '&', $viewtopic_url)), true, $user->session_id),
@@ -741,23 +741,23 @@ if (!empty($topic_data['poll_start']))
 		(($topic_data['poll_length'] != 0 && $topic_data['poll_start'] + $topic_data['poll_length'] > time()) || $topic_data['poll_length'] == 0) &&
 		$topic_data['topic_status'] != ITEM_LOCKED &&
 		$topic_data['forum_status'] != ITEM_LOCKED &&
-		(!sizeof($cur_voted_id) ||
+		(!count($cur_voted_id) ||
 		($auth->acl_get('f_votechg', $forum_id) && $topic_data['poll_vote_change']))) ? true : false;
-	$s_display_results = (!$s_can_vote || ($s_can_vote && sizeof($cur_voted_id)) || $view == 'viewpoll') ? true : false;
+	$s_display_results = (!$s_can_vote || ($s_can_vote && count($cur_voted_id)) || $view == 'viewpoll') ? true : false;
 
 	if ($update && $s_can_vote)
 	{
 
-		if (!sizeof($voted_id) || sizeof($voted_id) > $topic_data['poll_max_options'] || in_array(VOTE_CONVERTED, $cur_voted_id) || !check_form_key('posting'))
+		if (!count($voted_id) || count($voted_id) > $topic_data['poll_max_options'] || in_array(VOTE_CONVERTED, $cur_voted_id) || !check_form_key('posting'))
 		{
 			$redirect_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
 
 			meta_refresh(5, $redirect_url);
-			if (!sizeof($voted_id))
+			if (!count($voted_id))
 			{
 				$message = 'NO_VOTE_OPTION';
 			}
-			else if (sizeof($voted_id) > $topic_data['poll_max_options'])
+			else if (count($voted_id) > $topic_data['poll_max_options'])
 			{
 				$message = 'TOO_MANY_VOTE_OPTIONS';
 			}
@@ -854,7 +854,7 @@ if (!empty($topic_data['poll_start']))
 		$poll_bbcode = false;
 	}
 
-	for ($i = 0, $size = sizeof($poll_info); $i < $size; $i++)
+	for ($i = 0, $size = count($poll_info); $i < $size; $i++)
 	{
 		$poll_info[$i]['poll_option_text'] = censor_text($poll_info[$i]['poll_option_text']);
 
@@ -976,7 +976,7 @@ while ($row = $db->sql_fetchrow($result))
 }
 $db->sql_freeresult($result);
 
-if (!sizeof($post_list))
+if (!count($post_list))
 {
 	if ($sort_days)
 	{
@@ -1247,7 +1247,7 @@ if ($config['load_cpf_viewtopic'])
 }
 
 // Generate online information for user
-if ($config['load_onlinetrack'] && sizeof($id_cache))
+if ($config['load_onlinetrack'] && count($id_cache))
 {
 	$sql = 'SELECT session_user_id, MAX(session_time) as online_time, MIN(session_viewonline) AS viewonline
 		FROM ' . SESSIONS_TABLE . '
@@ -1265,7 +1265,7 @@ if ($config['load_onlinetrack'] && sizeof($id_cache))
 unset($id_cache);
 
 // Pull attachment data
-if (sizeof($attach_list))
+if (count($attach_list))
 {
 	if ($auth->acl_get('u_download') && $auth->acl_get('f_download', $forum_id))
 	{
@@ -1283,7 +1283,7 @@ if (sizeof($attach_list))
 		$db->sql_freeresult($result);
 
 		// No attachments exist, but post table thinks they do so go ahead and reset post_attach flags
-		if (!sizeof($attachments))
+		if (!count($attachments))
 		{
 			$sql = 'UPDATE ' . POSTS_TABLE . '
 				SET post_attachment = 0
@@ -1291,7 +1291,7 @@ if (sizeof($attach_list))
 			$db->sql_query($sql);
 
 			// We need to update the topic indicator too if the complete topic is now without an attachment
-			if (sizeof($rowset) != $total_posts)
+			if (count($rowset) != $total_posts)
 			{
 				// Not all posts are displayed so we query the db to find if there's any attachment for this topic
 				$sql = 'SELECT a.post_msg_id as post_id
@@ -1342,16 +1342,16 @@ if ($bbcode_bitfield !== '')
 	$bbcode = new bbcode(base64_encode($bbcode_bitfield));
 }
 
-$i_total = sizeof($rowset) - 1;
+$i_total = count($rowset) - 1;
 $prev_post_id = '';
 
 $template->assign_vars(array(
-	'S_NUM_POSTS' => sizeof($post_list))
+	'S_NUM_POSTS' => count($post_list))
 );
 
 // Output the posts
 $first_unread = $post_unread = false;
-for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
+for ($i = 0, $end = count($post_list); $i < $end; ++$i)
 {
 	// A non-existing rowset only happens if there was no user present for the entered poster_id
 	// This could be a broken posts table.
@@ -1409,7 +1409,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 	if (($row['post_edit_count'] && $config['display_last_edited']) || $row['post_edit_reason'])
 	{
 		// Get usernames for all following posts if not already stored
-		if (!sizeof($post_edit_list) && ($row['post_edit_reason'] || ($row['post_edit_user'] && !isset($user_cache[$row['post_edit_user']]))))
+		if (!count($post_edit_list) && ($row['post_edit_reason'] || ($row['post_edit_user'] && !isset($user_cache[$row['post_edit_user']]))))
 		{
 			// Remove all post_ids already parsed (we do not have to check them)
 			$post_storage_list = (!$store_reverse) ? array_slice($post_list, $i) : array_slice(array_reverse($post_list), $i);
@@ -1591,14 +1591,14 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'S_FRIEND'			=> ($row['friend']) ? true : false,
 		'S_UNREAD_POST'		=> $post_unread,
 		'S_FIRST_UNREAD'	=> $s_first_unread,
-		'S_CUSTOM_FIELDS'	=> (isset($cp_row['row']) && sizeof($cp_row['row'])) ? true : false,
+		'S_CUSTOM_FIELDS'	=> (isset($cp_row['row']) && count($cp_row['row'])) ? true : false,
 		'S_TOPIC_POSTER'	=> ($topic_data['topic_poster'] == $poster_id) ? true : false,
 
 		'S_IGNORE_POST'		=> ($row['hide_post']) ? true : false,
 		'L_IGNORE_POST'		=> ($row['hide_post']) ? sprintf($user->lang['POST_BY_FOE'], get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']), '<a href="' . $viewtopic_url . "&amp;p={$row['post_id']}&amp;view=show#p{$row['post_id']}" . '">', '</a>') : '',
 	);
 
-	if (isset($cp_row['row']) && sizeof($cp_row['row']))
+	if (isset($cp_row['row']) && count($cp_row['row']))
 	{
 		$postrow = array_merge($postrow, $cp_row['row']);
 	}
@@ -1641,7 +1641,7 @@ if (isset($user->data['session_page']) && !$user->data['is_bot'] && (strpos($use
 	$db->sql_query($sql);
 
 	// Update the attachment download counts
-	if (sizeof($update_count))
+	if (count($update_count))
 	{
 		$sql = 'UPDATE ' . ATTACHMENTS_TABLE . '
 			SET download_count = download_count + 1
@@ -1788,4 +1788,3 @@ make_jumpbox(append_sid("{$phpbb_root_path}viewforum.$phpEx"), $forum_id);
 
 page_footer();
 
-?>

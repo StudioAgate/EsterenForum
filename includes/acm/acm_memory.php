@@ -249,7 +249,7 @@ class acm_memory
 		}
 		else
 		{
-			if (!sizeof($this->vars))
+			if (!count($this->vars))
 			{
 				$this->load();
 			}
@@ -265,7 +265,7 @@ class acm_memory
 	{
 		// Remove extra spaces and tabs
 		$query = preg_replace('/[\n\r\s\t]+/', ' ', $query);
-		$query_id = sizeof($this->sql_rowset);
+		$query_id = count($this->sql_rowset);
 
 		if (($result = $this->_read('sql_' . md5($query))) === false)
 		{
@@ -335,7 +335,7 @@ class acm_memory
 		}
 
 		// store them in the right place
-		$query_id = sizeof($this->sql_rowset);
+		$query_id = count($this->sql_rowset);
 		$this->sql_rowset[$query_id] = array();
 		$this->sql_row_pointer[$query_id] = 0;
 
@@ -363,7 +363,7 @@ class acm_memory
 	*/
 	function sql_fetchrow($query_id)
 	{
-		if ($this->sql_row_pointer[$query_id] < sizeof($this->sql_rowset[$query_id]))
+		if ($this->sql_row_pointer[$query_id] < count($this->sql_rowset[$query_id]))
 		{
 			return $this->sql_rowset[$query_id][$this->sql_row_pointer[$query_id]++];
 		}
@@ -376,7 +376,7 @@ class acm_memory
 	*/
 	function sql_fetchfield($query_id, $field)
 	{
-		if ($this->sql_row_pointer[$query_id] < sizeof($this->sql_rowset[$query_id]))
+		if ($this->sql_row_pointer[$query_id] < count($this->sql_rowset[$query_id]))
 		{
 			return (isset($this->sql_rowset[$query_id][$this->sql_row_pointer[$query_id]][$field])) ? $this->sql_rowset[$query_id][$this->sql_row_pointer[$query_id]++][$field] : false;
 		}
@@ -389,7 +389,7 @@ class acm_memory
 	*/
 	function sql_rowseek($rownum, $query_id)
 	{
-		if ($rownum >= sizeof($this->sql_rowset[$query_id]))
+		if ($rownum >= count($this->sql_rowset[$query_id]))
 		{
 			return false;
 		}
@@ -448,4 +448,3 @@ class acm_memory
 	}
 }
 
-?>

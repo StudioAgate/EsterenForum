@@ -35,7 +35,7 @@ function ct_error_mail( $message = '', $subject = null )
 {
 
 	global $config, $user, $phpbb_root_path, $phpEx;
-	
+
 	$user->add_lang('mods/info_acp_cleantalk');
 
 	if (!function_exists('phpbb_mail'))
@@ -69,7 +69,7 @@ function ct_error_mail( $message = '', $subject = null )
 /*
 	Get value of $ct_check_js
 	JavaScript avaibility test. Work only if S_FORM_TOKEN have filled.
-	
+
 	Possible return status:
 	null - JS html code not inserted into phpBB templates
 	0 - JS disabled at the client browser
@@ -77,7 +77,7 @@ function ct_error_mail( $message = '', $subject = null )
 */
 function get_ct_checkjs()
 {
-	
+
 	global $template, $user;
 
 	$ct_checkjs = request_var('ct_checkjs', '');
@@ -96,7 +96,7 @@ function get_ct_checkjs()
 	// If default value we should null variable to correctly processing request at the server side
 	if ($ct_checkjs === '')
     {
-		$result = CT_JS_UKNOWN; 
+		$result = CT_JS_UKNOWN;
 	}
 
 	return $result;
@@ -129,9 +129,9 @@ function get_sender_info($profile = false)
 			'cms_lang' => $config['default_lang'],
 			'REFFERRER' => $refferrer,
 			'USER_AGENT' => $user_agent,
-			'site_url' => generate_board_url(true) 
+			'site_url' => generate_board_url(true)
 		);
-		
+
 		if ($profile)
         {
 			$result['profile'] = 1;
@@ -146,7 +146,7 @@ function get_sender_info($profile = false)
 /**
 * Saves form load time to sessions table
 */
-function ct_set_submit_time () 
+function ct_set_submit_time ()
 {
     global $db, $user;
 
@@ -154,8 +154,7 @@ function ct_set_submit_time ()
         SET ct_submit_time = " . time() . "
         WHERE session_id = '" . $db->sql_escape($user->session_id) . "'";
 	$db->sql_query($sql);
-    
+
     return null;
 }
 
-?>

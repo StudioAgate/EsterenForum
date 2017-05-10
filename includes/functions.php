@@ -933,8 +933,8 @@ if (!function_exists('array_combine'))
 		$keys = array_values($keys);
 		$values = array_values($values);
 
-		$n = sizeof($keys);
-		$m = sizeof($values);
+		$n = count($keys);
+		$m = count($values);
 		if (!$n || !$m || ($n != $m))
 		{
 			return false;
@@ -1095,7 +1095,7 @@ function phpbb_own_realpath($path)
 	$bits = array_values(array_diff($bits, array('.')));
 
 	// Lets get looping, run over and resolve any .. (up directory)
-	for ($i = 0, $max = sizeof($bits); $i < $max; $i++)
+	for ($i = 0, $max = count($bits); $i < $max; $i++)
 	{
 		// @todo Optimise
 		if ($bits[$i] == '..' )
@@ -1126,7 +1126,7 @@ function phpbb_own_realpath($path)
 
 	$resolved = '';
 
-	$max = sizeof($bits) - 1;
+	$max = count($bits) - 1;
 
 	// Check if we are able to resolve symlinks, Windows cannot.
 	$symlink_resolve = (function_exists('readlink')) ? true : false;
@@ -1226,7 +1226,7 @@ function phpbb_clean_path($path)
 			continue;
 		}
 
-		if ($part === '..' && !empty($filtered) && $filtered[sizeof($filtered) - 1] !== '..')
+		if ($part === '..' && !empty($filtered) && $filtered[count($filtered) - 1] !== '..')
 		{
 			array_pop($filtered);
 		}
@@ -1344,7 +1344,7 @@ function markread($mode, $forum_id = false, $topic_id = false, $post_time = 0, $
 
 	if ($mode == 'all')
 	{
-		if ($forum_id === false || !sizeof($forum_id))
+		if ($forum_id === false || !count($forum_id))
 		{
 			if ($config['load_db_lastread'] && $user->data['is_registered'])
 			{
@@ -1408,7 +1408,7 @@ function markread($mode, $forum_id = false, $topic_id = false, $post_time = 0, $
 			}
 			$db->sql_freeresult($result);
 
-			if (sizeof($sql_update))
+			if (count($sql_update))
 			{
 				$sql = 'UPDATE ' . FORUMS_TRACK_TABLE . '
 					SET mark_time = ' . time() . "
@@ -1527,7 +1527,7 @@ function markread($mode, $forum_id = false, $topic_id = false, $post_time = 0, $
 
 				// We get the ten most minimum stored time offsets and its associated topic ids
 				$time_keys = array();
-				for ($i = 0; $i < 10 && sizeof($tracking['t']); $i++)
+				for ($i = 0; $i < 10 && count($tracking['t']); $i++)
 				{
 					$min_value = min($tracking['t']);
 					$m_tkey = array_search($min_value, $tracking['t']);
@@ -1618,12 +1618,12 @@ function get_topic_tracking($forum_id, $topic_ids, &$rowset, $forum_mark_time, $
 
 	$topic_ids = array_diff($topic_ids, array_keys($last_read));
 
-	if (sizeof($topic_ids))
+	if (count($topic_ids))
 	{
 		$mark_time = array();
 
 		// Get global announcement info
-		if ($global_announce_list && sizeof($global_announce_list))
+		if ($global_announce_list && count($global_announce_list))
 		{
 			if (!isset($forum_mark_time[0]))
 			{
@@ -1706,13 +1706,13 @@ function get_complete_topic_tracking($forum_id, $topic_ids, $global_announce_lis
 
 		$topic_ids = array_diff($topic_ids, array_keys($last_read));
 
-		if (sizeof($topic_ids))
+		if (count($topic_ids))
 		{
 			$sql = 'SELECT forum_id, mark_time
 				FROM ' . FORUMS_TRACK_TABLE . "
 				WHERE user_id = {$user->data['user_id']}
 					AND forum_id " .
-					(($global_announce_list && sizeof($global_announce_list)) ? "IN (0, $forum_id)" : "= $forum_id");
+					(($global_announce_list && count($global_announce_list)) ? "IN (0, $forum_id)" : "= $forum_id");
 			$result = $db->sql_query($sql);
 
 			$mark_time = array();
@@ -1741,7 +1741,7 @@ function get_complete_topic_tracking($forum_id, $topic_ids, $global_announce_lis
 	{
 		global $tracking_topics;
 
-		if (!isset($tracking_topics) || !sizeof($tracking_topics))
+		if (!isset($tracking_topics) || !count($tracking_topics))
 		{
 			$tracking_topics = (isset($_COOKIE[$config['cookie_name'] . '_track'])) ? ((STRIP) ? stripslashes($_COOKIE[$config['cookie_name'] . '_track']) : $_COOKIE[$config['cookie_name'] . '_track']) : '';
 			$tracking_topics = ($tracking_topics) ? tracking_unserialize($tracking_topics) : array();
@@ -1768,10 +1768,10 @@ function get_complete_topic_tracking($forum_id, $topic_ids, $global_announce_lis
 
 		$topic_ids = array_diff($topic_ids, array_keys($last_read));
 
-		if (sizeof($topic_ids))
+		if (count($topic_ids))
 		{
 			$mark_time = array();
-			if ($global_announce_list && sizeof($global_announce_list))
+			if ($global_announce_list && count($global_announce_list))
 			{
 				if (isset($tracking_topics['f'][0]))
 				{
@@ -2106,7 +2106,7 @@ function tracking_unserialize($string, $max_depth = 3)
 				switch ($string[$i])
 				{
 					case '(':
-						if (sizeof($stack) >= $max_depth)
+						if (count($stack) >= $max_depth)
 						{
 							die('Invalid data supplied');
 						}
@@ -2160,7 +2160,7 @@ function tracking_unserialize($string, $max_depth = 3)
 		}
 	}
 
-	if (sizeof($stack) != 0 || ($mode != 0 && $mode != 3))
+	if (count($stack) != 0 || ($mode != 0 && $mode != 3))
 	{
 		die('Invalid data supplied');
 	}
@@ -2551,7 +2551,7 @@ function redirect($url, $return = false, $disable_cd_check = false)
 				$root_dirs = array_diff_assoc($root_dirs, $intersection);
 				$page_dirs = array_diff_assoc($page_dirs, $intersection);
 
-				$dir = str_repeat('../', sizeof($root_dirs)) . implode('/', $page_dirs);
+				$dir = str_repeat('../', count($root_dirs)) . implode('/', $page_dirs);
 
 				// Strip / from the end
 				if ($dir && substr($dir, -1, 1) == '/')
@@ -3388,9 +3388,9 @@ function parse_cfg_file($filename, $lines = false)
 		{
 			$value = '';
 		}
-		else if (($value[0] == "'" && $value[sizeof($value) - 1] == "'") || ($value[0] == '"' && $value[sizeof($value) - 1] == '"'))
+		else if (($value[0] == "'" && $value[count($value) - 1] == "'") || ($value[0] == '"' && $value[count($value) - 1] == '"'))
 		{
-			$value = htmlspecialchars(substr($value, 1, sizeof($value)-2));
+			$value = htmlspecialchars(substr($value, 1, count($value)-2));
 		}
 		else
 		{
@@ -3399,7 +3399,7 @@ function parse_cfg_file($filename, $lines = false)
 
 		$parsed_items[$key] = $value;
 	}
-	
+
 	if (isset($parsed_items['inherit_from']) && isset($parsed_items['name']) && $parsed_items['inherit_from'] == $parsed_items['name'])
 	{
 		unset($parsed_items['inherit_from']);
@@ -3430,7 +3430,7 @@ function add_log()
 	$forum_id		= ($mode == 'mod') ? intval(array_shift($args)) : '';
 	$topic_id		= ($mode == 'mod') ? intval(array_shift($args)) : '';
 	$action			= array_shift($args);
-	$data			= (!sizeof($args)) ? '' : serialize($args);
+	$data			= (!count($args)) ? '' : serialize($args);
 
 	$sql_ary = array(
 		'user_id'		=> (empty($user->data)) ? ANONYMOUS : $user->data['user_id'],
@@ -4231,7 +4231,7 @@ function obtain_users_online_string($online_users, $item_id = 0, $item = 'forum'
 	// Need caps version of $item for language-strings
 	$item_caps = strtoupper($item);
 
-	if (sizeof($online_users['online_users']))
+	if (count($online_users['online_users']))
 	{
 		$sql = 'SELECT username, username_clean, user_id, user_type, user_allow_viewonline, user_colour
 				FROM ' . USERS_TABLE . '
@@ -4950,4 +4950,3 @@ function phpbb_user_session_handler()
 	return;
 }
 
-?>

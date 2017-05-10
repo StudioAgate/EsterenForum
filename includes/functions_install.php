@@ -106,7 +106,7 @@ function get_available_dbms($dbms = false, $return_unavailable = false, $only_20
 			'DRIVER'		=> 'mssqlnative',
 			'AVAILABLE'		=> true,
 			'2.0.x'			=> false,
-		),			
+		),
 		'oracle'	=>	array(
 			'LABEL'			=> 'Oracle',
 			'SCHEMA'		=> 'oracle',
@@ -323,7 +323,7 @@ function connect_check_db($error_connect, &$error, $dbms_details, $table_prefix,
 			$tables = array_map('strtolower', $tables);
 			$table_intersect = array_intersect($tables, $table_ary);
 
-			if (sizeof($table_intersect))
+			if (count($table_intersect))
 			{
 				$error[] = $lang['INST_ERR_PREFIX'];
 			}
@@ -395,7 +395,7 @@ function connect_check_db($error_connect, &$error, $dbms_details, $table_prefix,
 					// Setup the stuff for our random table
 					$char_array = array_merge(range('A', 'Z'), range('0', '9'));
 					$char_len = mt_rand(7, 9);
-					$char_array_len = sizeof($char_array) - 1;
+					$char_array_len = count($char_array) - 1;
 
 					$final = '';
 
@@ -467,7 +467,7 @@ function connect_check_db($error_connect, &$error, $dbms_details, $table_prefix,
 
 	}
 
-	if ($error_connect && (!isset($error) || !sizeof($error)))
+	if ($error_connect && (!isset($error) || !count($error)))
 	{
 		return true;
 	}
@@ -603,4 +603,3 @@ function phpbb_create_config_file_data($data, $dbms, $load_extensions, $debug = 
 	return $config_data;
 }
 
-?>

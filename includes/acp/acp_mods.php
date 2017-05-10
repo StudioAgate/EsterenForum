@@ -401,7 +401,7 @@ class acp_mods
 		// get available MOD paths
 		$available_mods = $this->find_mods($this->mods_dir, 1);
 
-		if (!sizeof($available_mods['main']))
+		if (!count($available_mods['main']))
 		{
 			return;
 		}
@@ -615,7 +615,7 @@ class acp_mods
 						$this->handle_template_prompt($children, $elements, 'details');
 
 						// Now offer to install additional templates
-						if (isset($children['template']) && sizeof($children['template']))
+						if (isset($children['template']) && count($children['template']))
 						{
 							// These are the instructions included with the MOD
 							foreach ($children['template'] as $template_name)
@@ -648,7 +648,7 @@ class acp_mods
 					}
 					else
 					{
-						if (isset($children['uninstall']) && sizeof($children['uninstall']))
+						if (isset($children['uninstall']) && count($children['uninstall']))
 						{
 							// Override already exising actions with the ones
 							global $rev_actions;
@@ -1255,9 +1255,9 @@ class acp_mods
 				'mod_author_email'	=> (string) $details['AUTHOR_DETAILS'][0]['AUTHOR_EMAIL'],
 				'mod_author_url'	=> (string) $details['AUTHOR_DETAILS'][0]['AUTHOR_WEBSITE'],
 				'mod_actions'		=> (string) serialize($actions),
-				'mod_languages'		=> (string) (isset($elements['language']) && sizeof($elements['language'])) ? implode(',', $elements['language']) : '',
-				'mod_template'		=> (string) (isset($elements['template']) && sizeof($elements['template'])) ? implode(',', $elements['template']) : '',
-				'mod_contribs'		=> (string) (isset($elements['contrib']) && sizeof($elements['contrib'])) ? implode(',', $elements['contrib']) : '',
+				'mod_languages'		=> (string) (isset($elements['language']) && count($elements['language'])) ? implode(',', $elements['language']) : '',
+				'mod_template'		=> (string) (isset($elements['template']) && count($elements['template'])) ? implode(',', $elements['template']) : '',
+				'mod_contribs'		=> (string) (isset($elements['contrib']) && count($elements['contrib'])) ? implode(',', $elements['contrib']) : '',
 			));
 			$db->sql_query($sql);
 
@@ -1694,7 +1694,7 @@ class acp_mods
 							if (preg_match('#.*install.*xml$#i', $file) && preg_match('#.*install.*xml$#i', $check) && strnatcasecmp(basename($check), $file) > 0)
 							{
 
-								$index = max(0, sizeof($mods['main']) - 1);
+								$index = max(0, count($mods['main']) - 1);
 								$mods['main'][$index] = array(
 									'href'		=> "$dir/$file",
 									'realname'	=> core_basename($file),
@@ -1705,7 +1705,7 @@ class acp_mods
 							}
 							else if (preg_match('#.*install.*xml$#i', $file) && !preg_match('#.*install.*xml$#i', $check))
 							{
-								$index = max(0, sizeof($mods['main']) - 1);
+								$index = max(0, count($mods['main']) - 1);
 								$mods['main'][$index] = array(
 									'href'		=> "$dir/$file",
 									'realname'	=> core_basename($file),
@@ -2014,7 +2014,7 @@ class acp_mods
 									$mod_installed = false;
 								}
 
-								if (sizeof($inline_template_ary))
+								if (count($inline_template_ary))
 								{
 									foreach ($inline_template_ary as $inline_template)
 									{
@@ -2445,7 +2445,7 @@ class acp_mods
 				{
 					continue;
 				}
-				$child_count = sizeof($children[$type]);
+				$child_count = count($children[$type]);
 				// Remove duplicate hrefs if they exist (links in multiple languages can cause this)
 				for ($i = 1; $i < $child_count; $i++)
 				{
@@ -2467,7 +2467,7 @@ class acp_mods
 
 	function handle_dependency(&$children, $mode, $mod_path)
 	{
-		if (isset($children['dependency']) && sizeof($children['dependency']))
+		if (isset($children['dependency']) && count($children['dependency']))
 		{
 			// TODO: check for the chance that the MOD has been installed by AutoMOD
 			// previously
@@ -2521,7 +2521,7 @@ class acp_mods
 	{
 		global $template, $parent_id, $phpbb_root_path, $user, $db;
 
-		if (isset($children['contrib']) && sizeof($children['contrib']))
+		if (isset($children['contrib']) && count($children['contrib']))
 		{
 			$template->assign_var('S_CONTRIB_AVAILABLE', true);
 
@@ -2529,7 +2529,7 @@ class acp_mods
 			// Start with getting the Enlgish links.
 			$contrib_en = $this->get_contrib_lang($children['contrib']);
 
-			if ($user->data['user_lang'] == 'en' || sizeof($contrib_en) == sizeof($children['contrib']))
+			if ($user->data['user_lang'] == 'en' || count($contrib_en) == count($children['contrib']))
 			{
 				// Our user has either English or there is only English links.
 				$children['contrib'] = $contrib_en;
@@ -2539,7 +2539,7 @@ class acp_mods
 				// If there are any links in the users language, let's get them.
 				$contrib_lang = $this->get_contrib_lang($children['contrib'], $user->data['user_lang']);
 
-				if (!sizeof($contrib_lang))
+				if (!count($contrib_lang))
 				{
 					// There is no links in the right language, give them the English links.
 					$children['contrib'] = $contrib_en;
@@ -2591,7 +2591,7 @@ class acp_mods
 
 	function handle_merge($type, &$actions, &$children, $process_files)
 	{
-		if (!isset($children[$type]) || !sizeof($process_files))
+		if (!isset($children[$type]) || !count($process_files))
 		{
 			return;
 		}
@@ -2649,7 +2649,7 @@ class acp_mods
 	{
 		global $db, $template, $parent_id, $phpbb_root_path;
 
-		if (isset($children['language']) && sizeof($children['language']))
+		if (isset($children['language']) && count($children['language']))
 		{
 			// additional languages are available...find out which ones we may want to apply
 			$sql = 'SELECT lang_id, lang_iso FROM ' . LANG_TABLE;
@@ -2675,7 +2675,7 @@ class acp_mods
 			$unknown_languages = array_diff($available_languages, $installed_languages);
 
 			// Inform the user if there are languages provided for by the MOD
-			if (sizeof($children['language']))
+			if (count($children['language']))
 			{
 				if (!empty($parent_id))
 				{
@@ -2715,7 +2715,7 @@ class acp_mods
 	{
 		global $db, $template, $phpbb_root_path, $parent_id;
 
-		if (isset($children['template']) && sizeof($children['template']))
+		if (isset($children['template']) && count($children['template']))
 		{
 			// additional styles are available for this MOD
 			$sql = 'SELECT template_id, template_name FROM ' . STYLES_TEMPLATE_TABLE;
@@ -2812,16 +2812,16 @@ class acp_mods
 		{
 			trigger_error($user->lang['NO_UPLOAD_FILE'] . adm_back_link($this->u_action), E_USER_WARNING);
 		}
-		else if ($file->init_error || sizeof($file->error))
+		else if ($file->init_error || count($file->error))
 		{
 			$file->remove();
-			trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['MOD_UPLOAD_INIT_FAIL']) . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error((count($file->error) ? implode('<br />', $file->error) : $user->lang['MOD_UPLOAD_INIT_FAIL']) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$file->clean_filename('real');
 		$file->move_file(str_replace($phpbb_root_path, '', $upload_dir), true, true);
 
-		if (sizeof($file->error))
+		if (count($file->error))
 		{
 			$file->remove();
 			trigger_error(implode('<br />', $file->error) . adm_back_link($this->u_action), E_USER_WARNING);
@@ -2837,7 +2837,7 @@ class acp_mods
 		$folder_contents = array_diff($folder_contents, array('.', '..'));
 
 		// We need to check if there's only one (main) directory inside the temp MOD directory
-		if (sizeof($folder_contents) == 1)
+		if (count($folder_contents) == 1)
 		{
 			$folder_contents = implode(null, $folder_contents);
 			$from_dir = $mod_dir . '_tmp/' . $folder_contents;
@@ -2935,4 +2935,3 @@ class acp_mods
 	}
 }
 
-?>

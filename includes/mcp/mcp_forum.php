@@ -71,14 +71,14 @@ function mcp_forum_view($id, $mode, $action, $forum_info)
 	}
 
 	$selected_ids = '';
-	if (sizeof($post_id_list) && $action != 'merge_topics')
+	if (count($post_id_list) && $action != 'merge_topics')
 	{
 		foreach ($post_id_list as $num => $post_id)
 		{
 			$selected_ids .= '&amp;post_id_list[' . $num . ']=' . $post_id;
 		}
 	}
-	else if (sizeof($topic_id_list) && $action == 'merge_topics')
+	else if (count($topic_id_list) && $action == 'merge_topics')
 	{
 		foreach ($topic_id_list as $num => $topic_id)
 		{
@@ -174,13 +174,13 @@ function mcp_forum_view($id, $mode, $action, $forum_info)
 	$db->sql_freeresult($result);
 
 	// If there is more than one page, but we have no topic list, then the start parameter is... erm... out of sync
-	if (!sizeof($topic_list) && $forum_topics && $start > 0)
+	if (!count($topic_list) && $forum_topics && $start > 0)
 	{
 		redirect($url . "&amp;i=$id&amp;action=$action&amp;mode=$mode");
 	}
 
 	// Get topic tracking info
-	if (sizeof($topic_list))
+	if (count($topic_list))
 	{
 		if ($config['load_db_lastread'])
 		{
@@ -295,7 +295,7 @@ function mcp_resync_topics($topic_ids)
 {
 	global $auth, $db, $template, $phpEx, $user, $phpbb_root_path;
 
-	if (!sizeof($topic_ids))
+	if (!count($topic_ids))
 	{
 		trigger_error('NO_TOPIC_SELECTED');
 	}
@@ -322,7 +322,7 @@ function mcp_resync_topics($topic_ids)
 	}
 	$db->sql_freeresult($result);
 
-	$msg = (sizeof($topic_ids) == 1) ? $user->lang['TOPIC_RESYNC_SUCCESS'] : $user->lang['TOPICS_RESYNC_SUCCESS'];
+	$msg = (count($topic_ids) == 1) ? $user->lang['TOPIC_RESYNC_SUCCESS'] : $user->lang['TOPICS_RESYNC_SUCCESS'];
 
 	$redirect = request_var('redirect', $user->data['session_page']);
 
@@ -339,7 +339,7 @@ function merge_topics($forum_id, $topic_ids, $to_topic_id)
 {
 	global $db, $template, $user, $phpEx, $phpbb_root_path, $auth;
 
-	if (!sizeof($topic_ids))
+	if (!count($topic_ids))
 	{
 		$template->assign_var('MESSAGE', $user->lang['NO_TOPIC_SELECTED']);
 		return;
@@ -352,7 +352,7 @@ function merge_topics($forum_id, $topic_ids, $to_topic_id)
 
 	$topic_data = get_topic_data(array($to_topic_id), 'm_merge');
 
-	if (!sizeof($topic_data))
+	if (!count($topic_data))
 	{
 		$template->assign_var('MESSAGE', $user->lang['NO_FINAL_TOPIC_SELECTED']);
 		return;
@@ -363,7 +363,7 @@ function merge_topics($forum_id, $topic_ids, $to_topic_id)
 	$post_id_list	= request_var('post_id_list', array(0));
 	$start			= request_var('start', 0);
 
-	if (!sizeof($post_id_list) && sizeof($topic_ids))
+	if (!count($post_id_list) && count($topic_ids))
 	{
 		$sql = 'SELECT post_id
 			FROM ' . POSTS_TABLE . '
@@ -378,7 +378,7 @@ function merge_topics($forum_id, $topic_ids, $to_topic_id)
 		$db->sql_freeresult($result);
 	}
 
-	if (!sizeof($post_id_list))
+	if (!count($post_id_list))
 	{
 		$template->assign_var('MESSAGE', $user->lang['NO_POST_SELECTED']);
 		return;
@@ -447,4 +447,3 @@ function merge_topics($forum_id, $topic_ids, $to_topic_id)
 	}
 }
 
-?>

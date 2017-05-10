@@ -272,7 +272,7 @@ class filespec
 	{
 		global $user, $phpbb_root_path;
 
-		if (sizeof($this->error))
+		if (count($this->error))
 		{
 			return false;
 		}
@@ -344,7 +344,7 @@ class filespec
 			// Remove temporary filename
 			@unlink($this->filename);
 
-			if (sizeof($this->error))
+			if (count($this->error))
 			{
 				return false;
 			}
@@ -458,7 +458,7 @@ class fileerror extends filespec
 class fileupload
 {
 	var $allowed_extensions = array();
-	var $disallowed_content = array('body', 'head', 'html', 'img', 'plaintext', 'a href', 'pre', 'script', 'table', 'title'); 
+	var $disallowed_content = array('body', 'head', 'html', 'img', 'plaintext', 'a href', 'pre', 'script', 'table', 'title');
 	var $max_filesize = 0;
 	var $min_width = 0;
 	var $min_height = 0;
@@ -1061,4 +1061,3 @@ class fileupload
 	}
 }
 
-?>

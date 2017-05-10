@@ -216,7 +216,7 @@ class p_master
 				}
 			}
 
-			$depth = sizeof($this->module_cache['parents'][$row['module_id']]);
+			$depth = count($this->module_cache['parents'][$row['module_id']]);
 
 			// We need to prefix the functions to not create a naming conflict
 
@@ -238,7 +238,7 @@ class p_master
 				'parent'	=> (int) $row['parent_id'],
 				'cat'		=> ($row['right_id'] > $row['left_id'] + 1) ? true : false,
 
-				'is_duplicate'	=> ($row['module_basename'] && sizeof($names[$row['module_basename'] . '_' . $row['module_mode']]) > 1) ? true : false,
+				'is_duplicate'	=> ($row['module_basename'] && count($names[$row['module_basename'] . '_' . $row['module_mode']]) > 1) ? true : false,
 
 				'name'		=> (string) $row['module_basename'],
 				'mode'		=> (string) $row['module_mode'],
@@ -331,7 +331,7 @@ class p_master
 			[^\s(),]+)/x', $module_auth, $match);
 
 		$tokens = $match[0];
-		for ($i = 0, $size = sizeof($tokens); $i < $size; $i++)
+		for ($i = 0, $size = count($tokens); $i < $size; $i++)
 		{
 			$token = &$tokens[$i];
 
@@ -872,7 +872,7 @@ class p_master
 				closedir($dir);
 			}
 
-			if (sizeof($add_files))
+			if (count($add_files))
 			{
 				$user->add_lang($add_files);
 			}
@@ -880,4 +880,3 @@ class p_master
 	}
 }
 
-?>

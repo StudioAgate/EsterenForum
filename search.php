@@ -73,7 +73,7 @@ switch ($search_id)
 			login_box('', $user->lang['LOGIN_EXPLAIN_UNREADSEARCH']);
 		}
 	break;
-	
+
 	// The "new posts" search uses user_lastvisit which is user based, so it should require user to log in.
 	case 'newposts':
 		if ($user->data['user_id'] == ANONYMOUS)
@@ -81,7 +81,7 @@ switch ($search_id)
 			login_box('', $user->lang['LOGIN_EXPLAIN_NEWPOSTS']);
 		}
 	break;
-	
+
 	default:
 		// There's nothing to do here for now ;)
 	break;
@@ -169,7 +169,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			$sql_author_match = (strpos($author, '*') !== false) ? ' ' . $db->sql_like_expression(str_replace('*', $db->any_char, utf8_clean_string($author))) : " = '" . $db->sql_escape(utf8_clean_string($author)) . "'";
 		}
 
-		if (!sizeof($author_id_ary))
+		if (!count($author_id_ary))
 		{
 			trigger_error('NO_SEARCH_RESULTS');
 		}
@@ -191,7 +191,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 	}
 
 	// Which forums should not be searched? Author searches are also carried out in unindexed forums
-	if (empty($keywords) && sizeof($author_id_ary))
+	if (empty($keywords) && count($author_id_ary))
 	{
 		$ex_fid_ary = array_keys($auth->acl_getf('!f_read', true));
 	}
@@ -200,7 +200,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 		$ex_fid_ary = array_unique(array_merge(array_keys($auth->acl_getf('!f_read', true)), array_keys($auth->acl_getf('!f_search', true))));
 	}
 
-	$not_in_fid = (sizeof($ex_fid_ary)) ? 'WHERE ' . $db->sql_in_set('f.forum_id', $ex_fid_ary, true) . " OR (f.forum_password <> '' AND fa.user_id <> " . (int) $user->data['user_id'] . ')' : "";
+	$not_in_fid = (count($ex_fid_ary)) ? 'WHERE ' . $db->sql_in_set('f.forum_id', $ex_fid_ary, true) . " OR (f.forum_password <> '' AND fa.user_id <> " . (int) $user->data['user_id'] . ')' : "";
 
 	$sql = 'SELECT f.forum_id, f.forum_name, f.parent_id, f.forum_type, f.right_id, f.forum_password, f.forum_flags, fa.user_id
 		FROM ' . FORUMS_TABLE . ' f
@@ -227,7 +227,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			continue;
 		}
 
-		if (sizeof($search_forum))
+		if (count($search_forum))
 		{
 			if ($search_child)
 			{
@@ -259,7 +259,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 	else if ($auth->acl_getf_global('m_approve'))
 	{
 		$m_approve_fid_ary = array_diff(array_keys($auth->acl_getf('!m_approve', true)), $ex_fid_ary);
-		$m_approve_fid_sql = ' AND (p.post_approved = 1' . ((sizeof($m_approve_fid_ary)) ? ' OR ' . $db->sql_in_set('p.forum_id', $m_approve_fid_ary, true) : '') . ')';
+		$m_approve_fid_sql = ' AND (p.post_approved = 1' . ((count($m_approve_fid_ary)) ? ' OR ' . $db->sql_in_set('p.forum_id', $m_approve_fid_ary, true) : '') . ')';
 	}
 	else
 	{
@@ -295,14 +295,14 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 	if ($keywords)
 	{
 		$correct_query = $search->split_keywords($keywords, $search_terms);
-		if (!$correct_query || (empty($search->search_query) && !sizeof($author_id_ary) && !$search_id))
+		if (!$correct_query || (empty($search->search_query) && !count($author_id_ary) && !$search_id))
 		{
-			$ignored = (sizeof($search->common_words)) ? sprintf($user->lang['IGNORED_TERMS_EXPLAIN'], implode(' ', $search->common_words)) . '<br />' : '';
+			$ignored = (count($search->common_words)) ? sprintf($user->lang['IGNORED_TERMS_EXPLAIN'], implode(' ', $search->common_words)) . '<br />' : '';
 			trigger_error($ignored . sprintf($user->lang['NO_KEYWORDS'], $search->word_length['min'], $search->word_length['max']));
 		}
 	}
 
-	if (!$keywords && sizeof($author_id_ary))
+	if (!$keywords && count($author_id_ary))
 	{
 		// if it is an author search we want to show topics by default
 		$show_results = ($topic_id) ? 'posts' : request_var('sr', ($search_id == 'egosearch') ? 'topics' : 'posts');
@@ -337,7 +337,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 					WHERE t.topic_moved_id = 0
 						$last_post_time_sql
 						" . str_replace(array('p.', 'post_'), array('t.', 'topic_'), $m_approve_fid_sql) . '
-						' . ((sizeof($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '') . '
+						' . ((count($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '') . '
 					ORDER BY t.topic_last_post_time DESC';
 				$field = 'topic_id';
 			break;
@@ -375,7 +375,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 							AND p.topic_id = t.topic_id
 							$last_post_time
 							$m_approve_fid_sql
-							" . ((sizeof($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('p.forum_id', $ex_fid_ary, true) : '') . "
+							" . ((count($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('p.forum_id', $ex_fid_ary, true) : '') . "
 							$sql_sort";
 					$field = 'post_id';
 				}
@@ -388,7 +388,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 							AND p.topic_id = t.topic_id
 							$last_post_time
 							$m_approve_fid_sql
-							" . ((sizeof($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('p.forum_id', $ex_fid_ary, true) : '') . "
+							" . ((count($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('p.forum_id', $ex_fid_ary, true) : '') . "
 						$sql_sort";
 					$field = 'topic_id';
 				}
@@ -404,7 +404,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 				$sql_where = 'AND t.topic_moved_id = 0
 					' . str_replace(array('p.', 'post_'), array('t.', 'topic_'), $m_approve_fid_sql) . '
-					' . ((sizeof($ex_fid_ary)) ? 'AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '');
+					' . ((count($ex_fid_ary)) ? 'AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '');
 
 				gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 				$s_sort_key = $s_sort_dir = $u_sort_param = $s_limit_days = '';
@@ -428,7 +428,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 						FROM ' . POSTS_TABLE . ' p
 						WHERE p.post_time > ' . $user->data['user_lastvisit'] . "
 							$m_approve_fid_sql
-							" . ((sizeof($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('p.forum_id', $ex_fid_ary, true) : '') . "
+							" . ((count($ex_fid_ary)) ? ' AND ' . $db->sql_in_set('p.forum_id', $ex_fid_ary, true) : '') . "
 						$sql_sort";
 					$field = 'post_id';
 				}
@@ -439,7 +439,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 						WHERE t.topic_last_post_time > ' . $user->data['user_lastvisit'] . '
 							AND t.topic_moved_id = 0
 							' . str_replace(array('p.', 'post_'), array('t.', 'topic_'), $m_approve_fid_sql) . '
-							' . ((sizeof($ex_fid_ary)) ? 'AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '') . "
+							' . ((count($ex_fid_ary)) ? 'AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '') . "
 						$sql_sort";
 /*
 		[Fix] queued replies missing from "view new posts" (Bug #42705 - Patch by Paul)
@@ -451,7 +451,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 							AND t.topic_id = p.topic_id
 							AND t.topic_moved_id = 0
 							' . $m_approve_fid_sql . '
-							' . ((sizeof($ex_fid_ary)) ? 'AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '') . "
+							' . ((count($ex_fid_ary)) ? 'AND ' . $db->sql_in_set('t.forum_id', $ex_fid_ary, true) : '') . "
 						GROUP BY t.topic_id
 						$sql_sort";
 */
@@ -496,7 +496,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			$search_id = '';
 		}
 
-		$total_match_count = sizeof($id_ary);
+		$total_match_count = count($id_ary);
 		if ($total_match_count)
 		{
 			// Limit the number to $total_matches_limit for pre-made searches
@@ -534,7 +534,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 	{
 		$total_match_count = $search->keyword_search($show_results, $search_fields, $search_terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $m_approve_fid_ary, $topic_id, $author_id_ary, $sql_author_match, $id_ary, $start, $per_page);
 	}
-	else if (sizeof($author_id_ary))
+	else if (count($author_id_ary))
 	{
 		$firstpost_only = ($search_fields === 'firstpost' || $search_fields == 'titleonly') ? true : false;
 		$total_match_count = $search->author_search($show_results, $firstpost_only, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $m_approve_fid_ary, $topic_id, $author_id_ary, $sql_author_match, $id_ary, $start, $per_page);
@@ -542,10 +542,10 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 	$sql_where = '';
 
-	if (sizeof($id_ary))
+	if (count($id_ary))
 	{
 		$sql_where .= $db->sql_in_set(($show_results == 'posts') ? 'p.post_id' : 't.topic_id', $id_ary);
-		$sql_where .= (sizeof($ex_fid_ary)) ? ' AND (' . $db->sql_in_set('f.forum_id', $ex_fid_ary, true) . ' OR f.forum_id IS NULL)' : '';
+		$sql_where .= (count($ex_fid_ary)) ? ' AND (' . $db->sql_in_set('f.forum_id', $ex_fid_ary, true) . ' OR f.forum_id IS NULL)' : '';
 		$sql_where .= ($show_results == 'posts') ? $m_approve_fid_sql : str_replace(array('p.post_approved', 'p.forum_id'), array('t.topic_approved', 't.forum_id'), $m_approve_fid_sql);
 	}
 
@@ -599,7 +599,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 		'SEARCH_MATCHES'	=> $l_search_matches,
 		'SEARCH_WORDS'		=> $keywords,
 		'SEARCHED_QUERY'	=> $search->search_query,
-		'IGNORED_WORDS'		=> (sizeof($search->common_words)) ? implode(' ', $search->common_words) : '',
+		'IGNORED_WORDS'		=> (count($search->common_words)) ? implode(' ', $search->common_words) : '',
 		'PAGINATION'		=> generate_pagination($u_search, $total_match_count, $per_page, $start),
 		'PAGE_NUMBER'		=> on_page($total_match_count, $per_page, $start),
 		'TOTAL_MATCHES'		=> $total_match_count,
@@ -711,7 +711,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			$db->sql_freeresult($result);
 
 			// If we have some shadow topics, update the rowset to reflect their topic information
-			if (sizeof($shadow_topic_list))
+			if (count($shadow_topic_list))
 			{
 				$sql = 'SELECT *
 					FROM ' . TOPICS_TABLE . '
@@ -803,7 +803,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			}
 
 			// Pull attachment data
-			if (sizeof($attach_list))
+			if (count($attach_list))
 			{
 				$use_attach_list = $attach_list;
 				$attach_list = array();
@@ -817,7 +817,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 				}
 			}
 
-			if (sizeof($attach_list))
+			if (count($attach_list))
 			{
 				$sql = 'SELECT *
 					FROM ' . ATTACHMENTS_TABLE . '
@@ -866,7 +866,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 						FROM ' . FORUMS_TABLE . '
 						WHERE forum_type = ' . FORUM_POST;
 
-					if (sizeof($forum_ary))
+					if (count($forum_ary))
 					{
 						$sql .= ' AND ' . $db->sql_in_set('forum_id', $forum_ary, true);
 					}
@@ -1232,4 +1232,3 @@ make_jumpbox(append_sid("{$phpbb_root_path}viewforum.$phpEx"));
 
 page_footer();
 
-?>

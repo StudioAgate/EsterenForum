@@ -582,7 +582,7 @@ class utf_normalizer
 							if (isset($decomp_seq[1]))
 							{
 								// The char expanded into several chars
-								$decomp_cnt = sizeof($decomp_seq);
+								$decomp_cnt = count($decomp_seq);
 
 								foreach ($decomp_seq as $decomp_i => $decomp_char)
 								{
@@ -655,7 +655,7 @@ class utf_normalizer
 										if (isset($decomp_seq[1]))
 										{
 											// The char expanded into several chars
-											$decomp_cnt = sizeof($decomp_seq);
+											$decomp_cnt = count($decomp_seq);
 											foreach ($decomp_seq as $decomp_i => $utf_char)
 											{
 												$utf_seq[$k + $decomp_i - $decomp_cnt] = $utf_char;
@@ -757,7 +757,7 @@ class utf_normalizer
 				// STEP 4: Sort and combine
 
 				// Here we sort...
-				$k_max = $k + sizeof($utf_seq);
+				$k_max = $k + count($utf_seq);
 
 				if (!$k && $k_max == 1)
 				{
@@ -1513,4 +1513,3 @@ class utf_normalizer
 	}
 }
 
-?>

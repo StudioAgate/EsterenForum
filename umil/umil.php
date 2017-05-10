@@ -297,11 +297,11 @@ class umil
 
 		// Set up the command.  This will get the arguments sent to the function.
 		$args = func_get_args();
-		if (sizeof($args))
+		if (count($args))
 		{
 			$lang_key = array_shift($args);
 
-			if (sizeof($args))
+			if (count($args))
 			{
 				$lang_args = array();
 				foreach ($args as $arg)
@@ -870,7 +870,7 @@ class umil
 						$matches = array();
 						preg_match_all('/@import url\(["\'](.*)["\']\);/i', $stylesheet, $matches);
 
-						if (sizeof($matches))
+						if (count($matches))
 						{
 							foreach ($matches[0] as $idx => $match)
 							{
@@ -1706,7 +1706,7 @@ class umil
 		}
 		$this->db->sql_freeresult($result);
 
-		if (!sizeof($new_auth))
+		if (!count($new_auth))
 		{
 			return false;
 		}
@@ -1856,7 +1856,7 @@ class umil
 		}
 		$this->db->sql_freeresult($result);
 
-		if (!sizeof($to_remove))
+		if (!count($to_remove))
 		{
 			return false;
 		}
@@ -2306,7 +2306,7 @@ class umil
 			return;
 		}
 
-		if (!sizeof($data))
+		if (!count($data))
 		{
 			return $this->umil_end('FAIL');
 		}
@@ -2345,7 +2345,7 @@ class umil
 			return;
 		}
 
-		if (!sizeof($data))
+		if (!count($data))
 		{
 			return $this->umil_end('FAIL');
 		}
@@ -2877,4 +2877,3 @@ class umil
 	}
 }
 
-?>

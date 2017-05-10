@@ -120,7 +120,7 @@ class parser
 		$remove_remarks = $available_dbms[$dbms]['COMMENTS'];
 		$delimiter = $available_dbms[$dbms]['DELIM'];
 
-		if (sizeof($sql_query) == 1)
+		if (count($sql_query) == 1)
 		{
 			// do some splitting here
 			$sql_query = preg_replace('#phpbb_#i', $table_prefix, $sql_query);
@@ -129,7 +129,7 @@ class parser
 		}
 		else
 		{
-			$query_count = sizeof($sql_query);
+			$query_count = count($sql_query);
 			for ($i = 0; $i < $query_count; $i++)
 			{
 				$sql_query[$i] = preg_replace('#phpbb_#i', $table_prefix, $sql_query[$i]);
@@ -248,7 +248,7 @@ class parser
 			return $reverse_edits;
 		}
 
-		if (sizeof($actions['SQL']) == 1)
+		if (count($actions['SQL']) == 1)
 		{
 			$actions['SQL'] = explode("\n", $actions['SQL'][0]);
 		}
@@ -361,7 +361,7 @@ class parser_xml
 		$author_info = $header['AUTHOR-GROUP'][0]['children']['AUTHOR'];
 
 		$author_details = array();
-		for ($i = 0; $i < sizeof($author_info); $i++)
+		for ($i = 0; $i < count($author_info); $i++)
 		{
 			$author_details[] = array(
 				'AUTHOR_NAME'		=> isset($author_info[$i]['children']['USERNAME'][0]['data']) ? trim($author_info[$i]['children']['USERNAME'][0]['data']) : '',
@@ -373,7 +373,7 @@ class parser_xml
 
 		// history
 		$history_info = (!empty($header['HISTORY'][0]['children']['ENTRY'])) ? $header['HISTORY'][0]['children']['ENTRY'] : array();
-		$history_size = sizeof($history_info);
+		$history_size = count($history_info);
 
 		$mod_history = array();
 		for ($i = 0; $i < $history_size; $i++)
@@ -381,7 +381,7 @@ class parser_xml
 			$changes	= array();
 			$entry		= $history_info[$i]['children'];
 			$changelog	= isset($entry['CHANGELOG']) ? $entry['CHANGELOG'] : array();
-			$changelog_size = sizeof($changelog);
+			$changelog_size = count($changelog);
 			$changelog_id = 0;
 
 			for ($j = 0; $j < $changelog_size; $j++)
@@ -395,7 +395,7 @@ class parser_xml
 				}
 			}
 
-			$change_count = isset($changelog[$changelog_id]['children']['CHANGE']) ? sizeof($changelog[$changelog_id]['children']['CHANGE']) : 0;
+			$change_count = isset($changelog[$changelog_id]['children']['CHANGE']) ? count($changelog[$changelog_id]['children']['CHANGE']) : 0;
 			for ($j = 0; $j < $change_count; $j++)
 			{
 				$changes[] = $changelog[$changelog_id]['children']['CHANGE'][$j]['data'];
@@ -434,11 +434,11 @@ class parser_xml
 
 			if (isset($link_group['LINK']))
 			{
-				for ($i = 0, $size = sizeof($link_group['LINK']); $i <= $size; $i++)
+				for ($i = 0, $size = count($link_group['LINK']); $i <= $size; $i++)
 				{
 					// do some stuff with attrs
 					// commented out due to a possible PHP bug.  When using this,
-					// sizeof($link_group) changed each time ...
+					// count($link_group) changed each time ...
 					// $attrs = &$link_group[$i]['attrs'];
 
 					if (!isset($link_group['LINK'][$i]))
@@ -539,7 +539,7 @@ class parser_xml
 			break;
 		}
 
-		for ($i = 0; $i < sizeof($sql_info); $i++)
+		for ($i = 0; $i < count($sql_info); $i++)
 		{
 			if ($this->modx_version == 1.0)
 			{
@@ -564,10 +564,10 @@ class parser_xml
 
 		// new files
 		$new_files_info = (!empty($xml_actions['COPY'])) ? $xml_actions['COPY'] : array();
-		for ($i = 0; $i < sizeof($new_files_info); $i++)
+		for ($i = 0; $i < count($new_files_info); $i++)
 		{
 			$new_files = $new_files_info[$i]['children']['FILE'];
-			for ($j = 0; $j < sizeof($new_files); $j++)
+			for ($j = 0; $j < count($new_files); $j++)
 			{
 				$from = str_replace('\\', '/', $new_files[$j]['attrs']['FROM']);
 				$to = str_replace('\\', '/', $new_files[$j]['attrs']['TO']);
@@ -576,10 +576,10 @@ class parser_xml
 		}
 
 		$delete_files_info = (!empty($xml_actions['DELETE'])) ? $xml_actions['DELETE'] : array();
-		for ($i = 0; $i < sizeof($delete_files_info); $i++)
+		for ($i = 0; $i < count($delete_files_info); $i++)
 		{
 			$delete_files = $delete_files_info[$i]['children']['FILE'];
-			for ($j = 0; $j < sizeof($delete_files); $j++)
+			for ($j = 0; $j < count($delete_files); $j++)
 			{
 				$name = str_replace('\\', '/', $delete_files[$j]['attrs']['NAME']);
 				$actions['DELETE_FILES'][] = $name;
@@ -588,14 +588,14 @@ class parser_xml
 
 		// open
 		$open_info = (!empty($xml_actions['OPEN'])) ? $xml_actions['OPEN'] : array();
-		for ($i = 0; $i < sizeof($open_info); $i++)
+		for ($i = 0; $i < count($open_info); $i++)
 		{
 			$current_file = str_replace('\\', '/', trim($open_info[$i]['attrs']['SRC']));
 			$actions['EDITS'][$current_file] = array();
 
 			$edit_info = (!empty($open_info[$i]['children']['EDIT'])) ? $open_info[$i]['children']['EDIT'] : array();
 			// find, after add, before add, replace with
-			for ($j = 0; $j < sizeof($edit_info); $j++)
+			for ($j = 0; $j < count($edit_info); $j++)
 			{
 				$action_info = (!empty($edit_info[$j]['children'])) ? $edit_info[$j]['children'] : array();
 
@@ -603,22 +603,22 @@ class parser_xml
 				$action_count = $total_action_count = $remove_count = $find_count = 0;
 				if (isset($action_info['ACTION']))
 				{
-					$action_count += sizeof($action_info['ACTION']);
+					$action_count += count($action_info['ACTION']);
 				}
 
 				if (isset($action_info['INLINE-EDIT']))
 				{
-					$total_action_count += sizeof($action_info['INLINE-EDIT']);
+					$total_action_count += count($action_info['INLINE-EDIT']);
 				}
 
 				if (isset($action_info['REMOVE']))
 				{
-					$remove_count = sizeof($action_info['REMOVE']); // should be an integer bounded between zero and one
+					$remove_count = count($action_info['REMOVE']); // should be an integer bounded between zero and one
 				}
 
 				if (isset($action_info['FIND']))
 				{
-					$find_count = sizeof($action_info['FIND']);
+					$find_count = count($action_info['FIND']);
 				}
 
 				// the basic idea is to transform a "remove" tag into a replace-with action
@@ -637,7 +637,7 @@ class parser_xml
 					// action, and let the logic below sort out the relationships.
                     for ($k = 0; $k < $remove_count; $k++)
 					{
-						$insert_index = (isset($action_info['ACTION'])) ? sizeof($action_info['ACTION']) : 0;
+						$insert_index = (isset($action_info['ACTION'])) ? count($action_info['ACTION']) : 0;
 
 						$action_info['ACTION'][$insert_index] = array(
 							'data' => '',
@@ -690,7 +690,7 @@ class parser_xml
 				{
 					$inline_info = (!empty($action_info['INLINE-EDIT'])) ? $action_info['INLINE-EDIT'] : array();
 
-					if (isset($inline_info[0]['children']['INLINE-REMOVE']) && sizeof($inline_info[0]['children']['INLINE-REMOVE']))
+					if (isset($inline_info[0]['children']['INLINE-REMOVE']) && count($inline_info[0]['children']['INLINE-REMOVE']))
 					{
 						// overwrite the existing array with the new one
 						$inline_info[0]['children'] = array(
@@ -722,11 +722,11 @@ class parser_xml
 					* find_ in the <edit> tag.  This is the intended behavior
 					* Any additional finds ought to be in a different edit tag
 					*/
-					for ($k = 0; $k < sizeof($inline_info); $k++)
+					for ($k = 0; $k < count($inline_info); $k++)
 					{
 						$inline_data = (!empty($inline_info[$k]['children'])) ? $inline_info[$k]['children'] : array();
 
-						$inline_find_count = (isset($inline_data['INLINE-FIND'])) ? sizeof($inline_data['INLINE-FIND']) : 0;
+						$inline_find_count = (isset($inline_data['INLINE-FIND'])) ? count($inline_data['INLINE-FIND']) : 0;
 
 						$inline_comment = localise_tags($inline_data, 'INLINE-COMMENT');
 						$actions['EDITS'][$current_file][$j][trim($action_info['FIND'][$find_count - 1]['data'], "\r\n")]['in-line-edit']['inline-comment'] = $inline_comment;
@@ -757,7 +757,7 @@ class parser_xml
 							}
 							else
 							{
-								for ($m = 0; $m < sizeof($inline_actions); $m++)
+								for ($m = 0; $m < count($inline_actions); $m++)
 								{
 									$type = str_replace(',', '-', str_replace(' ', '', $inline_actions[$m]['attrs']['TYPE']));
 									if (!empty($inline_actions[$m]['data']))
@@ -832,22 +832,21 @@ class xml_array
 
 		if ($tag_data !== '')
 		{
-			if (isset($this->output[sizeof($this->output) - 1]['data']))
+			if (isset($this->output[count($this->output) - 1]['data']))
 			{
-				$this->output[sizeof($this->output) - 1]['data'] .= $tag_data;
+				$this->output[count($this->output) - 1]['data'] .= $tag_data;
 			}
 			else
 			{
-				$this->output[sizeof($this->output) - 1]['data'] = $tag_data;
+				$this->output[count($this->output) - 1]['data'] = $tag_data;
 			}
 		}
 	}
 
 	function tag_closed($parser, $name)
 	{
-		$this->output[sizeof($this->output) - 2]['children'][$name][] = $this->output[sizeof($this->output) - 1];
+		$this->output[count($this->output) - 2]['children'][$name][] = $this->output[count($this->output) - 1];
 		array_pop($this->output);
 	}
 }
 
-?>

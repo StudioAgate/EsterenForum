@@ -93,13 +93,13 @@ class bbcode
 						${$type}['replace'][] = $replace;
 					}
 
-					if (sizeof($str['search']))
+					if (count($str['search']))
 					{
 						$message = str_replace($str['search'], $str['replace'], $message);
 						$str = array('search' => array(), 'replace' => array());
 					}
 
-					if (sizeof($preg['search']))
+					if (count($preg['search']))
 					{
 						// we need to turn the entities back into their original form to allow the
 						// search patterns to work properly
@@ -109,7 +109,7 @@ class bbcode
 							$undid_bbcode_specialchars = true;
 						}
 
-						$message = preg_replace($preg['search'], $preg['replace'], $message);
+						$message = @preg_replace($preg['search'], $preg['replace'], $message);
 						$preg = array('search' => array(), 'replace' => array());
 					}
 				}
@@ -177,7 +177,7 @@ class bbcode
 			}
 		}
 
-		if (sizeof($sql))
+		if (count($sql))
 		{
 			global $db;
 
@@ -381,7 +381,9 @@ class bbcode
 						}
 
 						// Replace {L_*} lang strings
-						$bbcode_tpl = preg_replace('/{L_([A-Z0-9_]+)}/e', "(!empty(\$user->lang['\$1'])) ? \$user->lang['\$1'] : ucwords(strtolower(str_replace('_', ' ', '\$1')))", $bbcode_tpl);
+                        $bbcode_tpl = preg_replace_callback('/{L_([A-Z0-9_]+)}/', function() use ($user) {
+                            return (!empty($user->lang['$1'])) ? $user->lang['$1'] : ucwords(strtolower(str_replace('_', ' ', '$1')));
+                        }, $bbcode_tpl);
 
 						if (!empty($rowset[$bbcode_id]['second_pass_replace']))
 						{
@@ -485,7 +487,9 @@ class bbcode
 			'email'					=> array('{EMAIL}'		=> '$1', '{DESCRIPTION}'	=> '$2')
 		);
 
-		$tpl = preg_replace('/{L_([A-Z0-9_]+)}/e', "(!empty(\$user->lang['\$1'])) ? \$user->lang['\$1'] : ucwords(strtolower(str_replace('_', ' ', '\$1')))", $tpl);
+		$tpl = preg_replace_callback('/{L_([A-Z0-9_]+)}/', function() use ($user) {
+            return (!empty($user->lang['$1'])) ? $user->lang['$1'] : ucwords(strtolower(str_replace('_', ' ', '$1')));
+        }, $tpl);
 
 		if (!empty($replacements[$tpl_name]))
 		{
@@ -611,4 +615,3 @@ class bbcode
 	}
 }
 
-?>

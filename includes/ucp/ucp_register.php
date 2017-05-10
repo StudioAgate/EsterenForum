@@ -125,7 +125,7 @@ class ucp_register
 				unset($now);
 
 				$template->assign_vars(array(
-					'S_LANG_OPTIONS'	=> (sizeof($lang_row) > 1) ? language_select($user_lang) : '',
+					'S_LANG_OPTIONS'	=> (count($lang_row) > 1) ? language_select($user_lang) : '',
 					'L_COPPA_NO'		=> sprintf($user->lang['UCP_COPPA_BEFORE'], $coppa_birthday),
 					'L_COPPA_YES'		=> sprintf($user->lang['UCP_COPPA_ON_AFTER'], $coppa_birthday),
 
@@ -140,7 +140,7 @@ class ucp_register
 			else
 			{
 				$template->assign_vars(array(
-					'S_LANG_OPTIONS'	=> (sizeof($lang_row) > 1) ? language_select($user_lang) : '',
+					'S_LANG_OPTIONS'	=> (count($lang_row) > 1) ? language_select($user_lang) : '',
 					'L_TERMS_OF_USE'	=> sprintf($user->lang['TERMS_OF_USE_CONTENT'], $config['sitename'], generate_board_url()),
 
 					'S_SHOW_COPPA'		=> false,
@@ -157,7 +157,7 @@ class ucp_register
 		}
 
 
-		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change. 
+		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change.
 		if ($config['enable_confirm'])
 		{
 			include($phpbb_root_path . 'includes/captcha/captcha_factory.' . $phpEx);
@@ -231,7 +231,7 @@ class ucp_register
 			// validate custom profile fields
 			$cp->submit_cp_field('register', $user->get_iso_lang_id(), $cp_data, $error);
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				if ($data['new_password'] != $data['password_confirm'])
 				{
@@ -243,11 +243,11 @@ class ucp_register
 					$error[] = $user->lang['NEW_EMAIL_ERROR'];
 				}
 			}
-			// Begin: Cleantalk. Spam protect 
-			if (!sizeof($error) && $config['ct_newuser'] && $config['ct_enable'])
+			// Begin: Cleantalk. Spam protect
+			if (!count($error) && $config['ct_newuser'] && $config['ct_enable'])
 			{
 		        $user->add_lang('mods/info_acp_cleantalk');
-                
+
                 if (!class_exists('Cleantalk'))
                 {
                     include($phpbb_root_path . 'includes/cleantalk.class.' . $phpEx);
@@ -265,10 +265,10 @@ class ucp_register
                 $ct_request->sender_nickname = $data['username'];
                 $ct_request->sender_ip		 = $ct->ct_session_ip($user->data['session_ip']);
                 $ct_request->agent			 = 'ct-phpbb-' . preg_replace("/(\d)\.(\w+)/", "$1$2", $config['ct_version']);
-                $ct_request->submit_time	 = (!empty($user->data['ct_submit_time'])) ? time() - $user->data['ct_submit_time'] : null; 
-                $ct_request->js_on			 = get_ct_checkjs(); 
+                $ct_request->submit_time	 = (!empty($user->data['ct_submit_time'])) ? time() - $user->data['ct_submit_time'] : null;
+                $ct_request->js_on			 = get_ct_checkjs();
                 $ct_request->tz				 = $data['tz'];
-                $ct_request->sender_info	 = get_sender_info(); 
+                $ct_request->sender_info	 = get_sender_info();
 
                 $ct->work_url		 = $config['ct_work_url'];
                 $ct->server_url		 = $config['ct_server_url'];
@@ -292,12 +292,12 @@ class ucp_register
 
                     $config['email_enable'] = 1;
                     $config['require_activation'] = USER_ACTIVATION_ADMIN;
-                    
+
                     if ($ct_result->errno > 0)
                     {
                         ct_error_mail($ct_result->errstr);
                     }
-                    
+
                 }
                 if ($ct_result->allow === 0 && !isset($ct_result->sms_allow) && $ct_result->inactive == 0)
                 {
@@ -307,7 +307,7 @@ class ucp_register
 			}
 			// End: Cleantalk. Spam protect
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				$server_url = generate_board_url();
 
@@ -403,10 +403,10 @@ class ucp_register
 					$email_template = 'user_welcome';
 				}
                 // Begin : Cleantalk. Spam protect
-                if (isset($ct_result->allow) && $ct_result->allow == 1 && isset($user->lang['CT_SIGNUP_APPROVED'])) 
+                if (isset($ct_result->allow) && $ct_result->allow == 1 && isset($user->lang['CT_SIGNUP_APPROVED']))
                 {
                     // Comment for visitor about automatically approvement
-                    $message .= '<br /><br />' . $user->lang['CT_SIGNUP_APPROVED'];  
+                    $message .= '<br /><br />' . $user->lang['CT_SIGNUP_APPROVED'];
                 }
                 // End: Cleantalk. Spam protect
 
@@ -449,7 +449,7 @@ class ucp_register
 						// Also include founders
 						$where_sql = ' WHERE user_type = ' . USER_FOUNDER;
 
-						if (sizeof($admin_ary))
+						if (count($admin_ary))
 						{
 							$where_sql .= ' OR ' . $db->sql_in_set('user_id', $admin_ary);
 						}
@@ -540,7 +540,7 @@ class ucp_register
 		}
 
 		$template->assign_vars(array(
-			'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'ERROR'				=> (count($error)) ? implode('<br />', $error) : '',
 			'USERNAME'			=> $data['username'],
 			'PASSWORD'			=> $data['new_password'],
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
@@ -572,4 +572,3 @@ class ucp_register
 	}
 }
 
-?>

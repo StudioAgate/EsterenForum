@@ -46,7 +46,7 @@ class search_backend
 	*/
 	function get_ignore_words()
 	{
-		if (!sizeof($this->ignore_words))
+		if (!count($this->ignore_words))
 		{
 			global $user, $phpEx;
 
@@ -68,7 +68,7 @@ class search_backend
 	*/
 	function get_synonyms()
 	{
-		if (!sizeof($this->match_synonym))
+		if (!count($this->match_synonym))
 		{
 			global $user, $phpEx;
 
@@ -159,7 +159,7 @@ class search_backend
 	{
 		global $cache, $config, $db, $user;
 
-		$length = min(sizeof($id_ary), $config['search_block_size']);
+		$length = min(count($id_ary), $config['search_block_size']);
 
 		// nothing to cache so exit
 		if (!$length)
@@ -174,7 +174,7 @@ class search_backend
 		if (!($store = $cache->get('_search_results_' . $search_key)))
 		{
 			// add the current keywords to the recent searches in the cache which are listed on the search page
-			if (!empty($keywords) || sizeof($author_ary))
+			if (!empty($keywords) || count($author_ary))
 			{
 				$sql = 'SELECT search_time
 					FROM ' . SEARCH_RESULTS_TABLE . '
@@ -227,7 +227,7 @@ class search_backend
 			$store += $store_ids;
 
 			// if the cache is too big
-			if (sizeof($store) - 2 > 20 * $config['search_block_size'])
+			if (count($store) - 2 > 20 * $config['search_block_size'])
 			{
 				// remove everything in front of two blocks in front of the current start index
 				for ($i = 0, $n = $id_range[0] - 2 * $config['search_block_size']; $i < $n; $i++)
@@ -269,7 +269,7 @@ class search_backend
 		global $db, $cache, $config;
 
 		// clear all searches that searched for the specified words
-		if (sizeof($words))
+		if (count($words))
 		{
 			$sql_where = '';
 			foreach ($words as $word)
@@ -290,7 +290,7 @@ class search_backend
 		}
 
 		// clear all searches that searched for the specified authors
-		if (is_array($authors) && sizeof($authors))
+		if (is_array($authors) && count($authors))
 		{
 			$sql_where = '';
 			foreach ($authors as $author)
@@ -317,4 +317,3 @@ class search_backend
 	}
 }
 
-?>

@@ -194,7 +194,7 @@ switch ($mode)
 
 			if (isset($forum_id_ary[$row['user_id']]) && !in_array($row['user_id'], $global_mod_id_ary))
 			{
-				if ($which_row == 'mod' && sizeof(array_diff(array_keys($forums), $forum_id_ary[$row['user_id']])))
+				if ($which_row == 'mod' && count(array_diff(array_keys($forums), $forum_id_ary[$row['user_id']])))
 				{
 					foreach ($forum_id_ary[$row['user_id']] as $forum_id)
 					{
@@ -621,7 +621,7 @@ switch ($mode)
 
 			'S_PROFILE_ACTION'	=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=group'),
 			'S_GROUP_OPTIONS'	=> $group_options,
-			'S_CUSTOM_FIELDS'	=> (isset($profile_fields['row']) && sizeof($profile_fields['row'])) ? true : false,
+			'S_CUSTOM_FIELDS'	=> (isset($profile_fields['row']) && count($profile_fields['row'])) ? true : false,
 
 			'U_USER_ADMIN'			=> ($auth->acl_get('a_user')) ? append_sid("{$phpbb_root_path}adm/index.$phpEx", 'i=users&amp;mode=overview&amp;u=' . $user_id, true, $user->session_id) : '',
 			'U_USER_BAN'			=> ($auth->acl_get('m_ban') && $user_id != $user->data['user_id']) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=ban&amp;mode=user&amp;u=' . $user_id, true, $user->session_id) : '',
@@ -836,7 +836,7 @@ switch ($mode)
 				}
 			}
 
-			if (!sizeof($error))
+			if (!count($error))
 			{
 				$sql = 'UPDATE ' . USERS_TABLE . '
 					SET user_emailtime = ' . time() . '
@@ -943,7 +943,7 @@ switch ($mode)
 		}
 
 		$template->assign_vars(array(
-			'ERROR_MESSAGE'		=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'ERROR_MESSAGE'		=> (count($error)) ? implode('<br />', $error) : '',
 			'SUBJECT'			=> $subject,
 			'MESSAGE'			=> $message,
 			)
@@ -1007,7 +1007,7 @@ switch ($mode)
 		// We validate form and field here, only id/class allowed
 		$form = (!preg_match('/^[a-z0-9_-]+$/i', $form)) ? '' : $form;
 		$field = (!preg_match('/^[a-z0-9_-]+$/i', $field)) ? '' : $field;
-		if (($mode == 'searchuser' || sizeof(array_intersect(array_keys($_GET), $search_params)) > 0) && ($config['load_search'] || $auth->acl_get('a_')))
+		if (($mode == 'searchuser' || count(array_intersect(array_keys($_GET), $search_params)) > 0) && ($config['load_search'] || $auth->acl_get('a_')))
 		{
 			$username	= request_var('username', '', true);
 			$email		= strtolower(request_var('email', ''));
@@ -1062,7 +1062,7 @@ switch ($mode)
 			$sql_where .= ($jabber) ? ' AND u.user_jabber ' . $db->sql_like_expression(str_replace('*', $db->any_char, $jabber)) . ' ' : '';
 			$sql_where .= (is_numeric($count) && isset($find_key_match[$count_select])) ? ' AND u.user_posts ' . $find_key_match[$count_select] . ' ' . (int) $count . ' ' : '';
 
-			if (isset($find_key_match[$joined_select]) && sizeof($joined) == 3)
+			if (isset($find_key_match[$joined_select]) && count($joined) == 3)
 			{
 				// Before PHP 5.1 an error value -1 can be returned instead of false.
 				// Theoretically gmmktime() can also legitimately return -1 as an actual timestamp.
@@ -1077,7 +1077,7 @@ switch ($mode)
 				}
 			}
 
-			if (isset($find_key_match[$active_select]) && sizeof($active) == 3 && $auth->acl_get('u_viewonline'))
+			if (isset($find_key_match[$active_select]) && count($active) == 3 && $auth->acl_get('u_viewonline'))
 			{
 				$active_time = gmmktime(0, 0, 0, (int) $active[1], (int) $active[2], (int) $active[0]);
 
@@ -1468,7 +1468,7 @@ switch ($mode)
 		$db->sql_freeresult($result);
 		$leaders_set = false;
 		// So, did we get any users?
-		if (sizeof($user_list))
+		if (count($user_list))
 		{
 			// Session time?! Session time...
 			$sql = 'SELECT session_user_id, MAX(session_time) AS session_time
@@ -1530,7 +1530,7 @@ switch ($mode)
 				usort($user_list,  '_sort_last_active');
 			}
 
-			for ($i = 0, $end = sizeof($user_list); $i < $end; ++$i)
+			for ($i = 0, $end = count($user_list); $i < $end; ++$i)
 			{
 				$user_id = $user_list[$i];
 				$row =& $id_cache[$user_id];
@@ -1546,20 +1546,20 @@ switch ($mode)
 				$memberrow = array_merge(show_profile($row), array(
 					'ROW_NUMBER'		=> $i + ($start + 1),
 
-					'S_CUSTOM_PROFILE'	=> (isset($cp_row['row']) && sizeof($cp_row['row'])) ? true : false,
+					'S_CUSTOM_PROFILE'	=> (isset($cp_row['row']) && count($cp_row['row'])) ? true : false,
 					'S_GROUP_LEADER'	=> $is_leader,
 
 					'U_VIEW_PROFILE'	=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $user_id))
 				);
 
-				if (isset($cp_row['row']) && sizeof($cp_row['row']))
+				if (isset($cp_row['row']) && count($cp_row['row']))
 				{
 					$memberrow = array_merge($memberrow, $cp_row['row']);
 				}
 
 				$template->assign_block_vars('memberrow', $memberrow);
 
-				if (isset($cp_row['blockrow']) && sizeof($cp_row['blockrow']))
+				if (isset($cp_row['blockrow']) && count($cp_row['blockrow']))
 				{
 					foreach ($cp_row['blockrow'] as $field_data)
 					{
@@ -1760,4 +1760,3 @@ function _sort_last_active($first, $second)
 	}
 }
 
-?>

@@ -72,4 +72,3 @@ $lang = array_merge($lang, array(
     'CT_MOD_HOMEPAGE_DATA'         => '<a href="http://cleantalk.org" target="_blank">cleantalk.org</a>',
 ));
 
-?>

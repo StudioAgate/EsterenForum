@@ -50,7 +50,7 @@ class result_mssqlnative
 			}
 		}
 
-		$this->m_row_count = sizeof($this->m_rows);
+		$this->m_row_count = count($this->m_rows);
 	}
 
 	private function array_to_obj($array, &$obj)
@@ -437,7 +437,7 @@ class dbal_mssqlnative extends dbal
 				unset($row['line2'], $row['line3']);
 			}
 		}
-		return (sizeof($row)) ? $row : false;
+		return (count($row)) ? $row : false;
 	}
 
 	/**
@@ -649,4 +649,3 @@ class dbal_mssqlnative extends dbal
 	}
 }
 
-?>

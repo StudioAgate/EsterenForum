@@ -575,4 +575,3 @@ function check_empty_dir($dir)
 	return(true);
 }
 
-?>

@@ -177,13 +177,13 @@ class template
 		{
 			// Nested block.
 			$blocks = explode('.', $blockname);
-			$blockcount = sizeof($blocks) - 1;
+			$blockcount = count($blocks) - 1;
 
 			$str = &$this->_tpldata;
 			for ($i = 0; $i < $blockcount; $i++)
 			{
 				$str = &$str[$blocks[$i]];
-				$str = &$str[sizeof($str) - 1];
+				$str = &$str[count($str) - 1];
 			}
 
 			unset($str[$blocks[$blockcount]]);
@@ -353,7 +353,7 @@ class template
 				$db->sql_freeresult($result);
 			}
 
-			if (sizeof($rows))
+			if (count($rows))
 			{
 				foreach ($rows as $row)
 				{
@@ -473,16 +473,16 @@ class template
 		{
 			// Nested block.
 			$blocks = explode('.', $blockname);
-			$blockcount = sizeof($blocks) - 1;
+			$blockcount = count($blocks) - 1;
 
 			$str = &$this->_tpldata;
 			for ($i = 0; $i < $blockcount; $i++)
 			{
 				$str = &$str[$blocks[$i]];
-				$str = &$str[sizeof($str) - 1];
+				$str = &$str[count($str) - 1];
 			}
 
-			$s_row_count = isset($str[$blocks[$blockcount]]) ? sizeof($str[$blocks[$blockcount]]) : 0;
+			$s_row_count = isset($str[$blocks[$blockcount]]) ? count($str[$blocks[$blockcount]]) : 0;
 			$vararray['S_ROW_COUNT'] = $s_row_count;
 
 			// Assign S_FIRST_ROW
@@ -507,7 +507,7 @@ class template
 		else
 		{
 			// Top-level block.
-			$s_row_count = (isset($this->_tpldata[$blockname])) ? sizeof($this->_tpldata[$blockname]) : 0;
+			$s_row_count = (isset($this->_tpldata[$blockname])) ? count($this->_tpldata[$blockname]) : 0;
 			$vararray['S_ROW_COUNT'] = $s_row_count;
 
 			// Assign S_FIRST_ROW
@@ -569,7 +569,7 @@ class template
 		// Change key to zero (change first position) if false and to last position if true
 		if ($key === false || $key === true)
 		{
-			$key = ($key === false) ? 0 : sizeof($this->_tpldata[$blockname]);
+			$key = ($key === false) ? 0 : count($this->_tpldata[$blockname]);
 		}
 
 		// Get correct position if array given
@@ -599,9 +599,9 @@ class template
 		if ($mode == 'insert')
 		{
 			// Make sure we are not exceeding the last iteration
-			if ($key >= sizeof($this->_tpldata[$blockname]))
+			if ($key >= count($this->_tpldata[$blockname]))
 			{
-				$key = sizeof($this->_tpldata[$blockname]);
+				$key = count($this->_tpldata[$blockname]);
 				unset($this->_tpldata[$blockname][($key - 1)]['S_LAST_ROW']);
 				$vararray['S_LAST_ROW'] = true;
 			}
@@ -612,7 +612,7 @@ class template
 			}
 
 			// Re-position template blocks
-			for ($i = sizeof($this->_tpldata[$blockname]); $i > $key; $i--)
+			for ($i = count($this->_tpldata[$blockname]); $i > $key; $i--)
 			{
 				$this->_tpldata[$blockname][$i] = $this->_tpldata[$blockname][$i-1];
 				$this->_tpldata[$blockname][$i]['S_ROW_COUNT'] = $i;
@@ -628,7 +628,7 @@ class template
 		// Which block to change?
 		if ($mode == 'change')
 		{
-			if ($key == sizeof($this->_tpldata[$blockname]))
+			if ($key == count($this->_tpldata[$blockname]))
 			{
 				$key--;
 			}
@@ -689,4 +689,3 @@ class template
 	}
 }
 
-?>

@@ -546,7 +546,7 @@ if (isset($forum)) ...
 if (isset($forum) &amp;&amp; $forum == 5)
 	</pre></div>
 
-	<p>The <code>empty()</code> function is useful if you want to check if a variable is not set or being empty (an empty string, 0 as an integer or string, NULL, false, an empty array or a variable declared, but without a value in a class). Therefore empty should be used in favor of <code>isset($array) &amp;&amp; sizeof($array) &gt; 0</code> - this can be written in a shorter way as <code>!empty($array)</code>.</p>
+	<p>The <code>empty()</code> function is useful if you want to check if a variable is not set or being empty (an empty string, 0 as an integer or string, NULL, false, an empty array or a variable declared, but without a value in a class). Therefore empty should be used in favor of <code>isset($array) &amp;&amp; count($array) &gt; 0</code> - this can be written in a shorter way as <code>!empty($array)</code>.</p>
 
 	<h4>Switch statements:</h4>
 	<p>Switch/case code blocks can get a bit long sometimes. To have some level of notice and being in-line with the opening/closing brace requirement (where they are on the same line for better readability), this also applies to switch/case code blocks and the breaks. An example:</p>
@@ -895,7 +895,7 @@ $sql = $db-&gt;sql_build_query('SELECT', $sql_array);
 
 	<p class="bad">// On every iteration the sizeof function is called</p>
 	<div class="codebox"><pre>
-for ($i = 0; $i &lt; sizeof($post_data); $i++)
+for ($i = 0; $i &lt; count($post_data); $i++)
 {
 	do_something();
 }
@@ -903,7 +903,7 @@ for ($i = 0; $i &lt; sizeof($post_data); $i++)
 
 	<p class="good">// You are able to assign the (not changing) result within the loop itself</p>
 	<div class="codebox"><pre>
-for ($i = 0, $size = sizeof($post_data); $i &lt; $size; $i++)
+for ($i = 0, $size = count($post_data); $i &lt; $size; $i++)
 {
 	do_something();
 }
