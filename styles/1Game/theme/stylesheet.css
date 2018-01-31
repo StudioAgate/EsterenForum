@@ -51,7 +51,7 @@ a.subforum.read {
     background: none;
 }
 
-a.subforum.unread {
+span.imageset.forum_unread {
     background-image: url("../imageset/subforum_unread.png");
     background-repeat: no-repeat;
     background-position: 0 50%;
