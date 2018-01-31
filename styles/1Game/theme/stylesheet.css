@@ -37,11 +37,13 @@ body {
     background-position: top center;
 }
 
+span.imageset.forum_read,
 span.imageset.forum_read_subforum {
-    background: url(../imageset/subforum_read.png) no-repeat 0 50%;
+    background: url(../imageset/subforum_read.png) no-repeat 0 0;
+    background-size: 50px 50px;
     font-size: 0;
-    width: 50px;
-    height: 50px;
+    width: 59px;
+    height: 59px;
     display: block;
 }
 
@@ -50,8 +52,10 @@ span.imageset.forum_read_subforum {
     background: none;
 }
 
-span.imageset.forum_unread {
-    background: url(../imageset/subforum_unread.png) no-repeat 0 50%;
+span.imageset.forum_unread,
+span.imageset.forum_unread_subforum {
+    background: url(../imageset/subforum_unread.png) no-repeat 0 0;
+    background-size: 50px 50px;
     font-size: 0;
     width: 50px;
     height: 50px;
