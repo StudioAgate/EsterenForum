@@ -1,33 +1,18 @@
 <?php
 /**
-* This file is part of French (Formal Honorifics) phpBB Translation.
-* Copyright (C) 2010 phpBB.fr
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; version 2 of the License.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License along
-* with this program; if not, write to the Free Software Foundation, Inc.,
-* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*
-* captcha_qa [French (Formal Honorifics)]
-*
-* @package   language
-* @author    Maël Soucaze <maelsoucaze@phpbb.fr> (Maël Soucaze) http://www.phpbb.fr/
-* @copyright 2009 phpBB Group
-* @license   http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License
-* @version   $Id: captcha_qa.php 10450 2010-01-26 10:57:00Z Kellanved $
-*/
+ * This file is part of the French language pack for the
+ * phpBB forum software.
+ *
+ * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ * For more information about the language pack, please visit
+ * https://www.phpbb.com/customise/db/translation/french/
+ */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -35,7 +20,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -50,31 +35,29 @@ if (empty($lang) || !is_array($lang))
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
-$lang = array_merge($lang, array(
-	'CAPTCHA_QA'				=> 'Q&amp;R du CAPTCHA',
-	'CONFIRM_QUESTION_EXPLAIN'	=> 'Cette question est un moyen d’identification et de prévention contre les actions automatisées.',
-	'CONFIRM_QUESTION_WRONG'	=> 'Vous n’avez pas répondu correctement à la question de confirmation.',
+$lang = array_merge($lang, [
+	'CAPTCHA_QA'               => 'Questions-Réponses',
+	'CONFIRM_QUESTION_EXPLAIN' => 'Cette question vous permet de vous prémunir contre les soumissions automatisées et intensives effectuées par des robots malveillants.',
+	'CONFIRM_QUESTION_WRONG'   => 'Vous n’avez pas répondu correctement à la question.',
+	'CONFIRM_QUESTION_MISSING' => 'Les questions relatives au CAPTCHA sont introuvables. Veuillez contacter un administrateur du forum.',
 
-	'QUESTION_ANSWERS'			=> 'Réponses',
-	'ANSWERS_EXPLAIN'			=> 'Veuillez répondre correctement à la question. Chaque réponse doit être saisie sur une nouvelle ligne.',
-	'CONFIRM_QUESTION'			=> 'Question',
+	'QUESTION_ANSWERS' => 'Réponses',
+	'ANSWERS_EXPLAIN'  => 'Veuillez répondre correctement à la question. Chaque réponse doit être saisie sur une nouvelle ligne.',
+	'CONFIRM_QUESTION' => 'Question',
 
-	'ANSWER'					=> 'Réponse',
-	'EDIT_QUESTION'				=> 'Modifier la question',
-	'QUESTIONS'					=> 'Questions',
-	'QUESTIONS_EXPLAIN'			=> 'Durant leur inscription, les utilisateurs devront répondre à une des questions spécifiées ici. Pour utiliser ce plugin, vous devez régler au moins une question dans la langue par défaut. Nous vous recommandons de cibler ces questions selon votre audience afin que les réponses soient plus faciles à trouver pour vos utilisateurs qu’aux robots capables d’exécuter des recherches sur Google™, qui devraient rencontrer plus de difficultés. L’utilisation et la mise à jour régulière d’un grand nombre de questions fournira de meilleurs résultats. Activez la vérification stricte si votre question demande une ou des réponses contenant des signes de ponctuation ou des majuscules.',
-	'QUESTION_DELETED'			=> 'Question supprimée',
-	'QUESTION_LANG'				=> 'Langue',
-	'QUESTION_LANG_EXPLAIN'		=> 'La langue dans laquelle cette question et ses réponses sont rédigées.',
-	'QUESTION_STRICT'			=> 'Vérification stricte',
-	'QUESTION_STRICT_EXPLAIN'	=> 'Si activée, les majuscules et les espaces seront également pris en compte.',
+	'ANSWER'                  => 'Réponse',
+	'EDIT_QUESTION'           => 'Modifier la question',
+	'QUESTIONS'               => 'Questions',
+	'QUESTIONS_EXPLAIN'       => 'Lors de chaque soumission de formulaires où le module d’extension des questions-réponses est activé, les utilisateurs seront invités à répondre à une des questions spécifiées ici. Pour utiliser ce module d’extension, au moins une des questions devra être rédigée dans la langue par défaut. Il est recommandé de cibler ces questions selon votre audience, qui devrait être capable de répondre plus facilement que des robots malveillants capables d’exécuter des requêtes sur les moteurs de recherche. Plus les questions sont nombreuses et mises à jour régulièrement, plus les résultats seront efficaces. Activez la vérification stricte si une des réponses à votre question contient des majuscules, des minuscules, des signes de ponctuation ou des espaces.',
+	'QUESTION_DELETED'        => 'Question supprimée',
+	'QUESTION_LANG'           => 'Langue',
+	'QUESTION_LANG_EXPLAIN'   => 'La langue dans laquelle cette question et ses réponses sont rédigées.',
+	'QUESTION_STRICT'         => 'Vérification stricte',
+	'QUESTION_STRICT_EXPLAIN' => 'Activez cette option afin de prendre en compte la sensibilité à la casse, les signes de ponctuation et les espaces.',
 
-	'QUESTION_TEXT'				=> 'Question',
-	'QUESTION_TEXT_EXPLAIN'		=> 'La question qui sera demandée lors des inscriptions.',
+	'QUESTION_TEXT'         => 'Question',
+	'QUESTION_TEXT_EXPLAIN' => 'La question qui sera affichée aux utilisateurs.',
 
-	'QA_ERROR_MSG'				=> 'Veuillez remplir tous les champs et saisir au moins une réponse.',
-	'QA_LAST_QUESTION'			=> 'Vous ne pouvez pas supprimer toutes les questions lorsque le plugin est actif.',
-
-));
-
-?>
+	'QA_ERROR_MSG'     => 'Veuillez renseigner tous les champs et saisir au moins une réponse.',
+	'QA_LAST_QUESTION' => 'Vous ne pouvez pas supprimer toutes les questions lorsque le module d’extension est actif.',
+]);
