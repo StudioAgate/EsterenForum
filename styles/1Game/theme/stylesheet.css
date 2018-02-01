@@ -142,6 +142,30 @@ span.imageset.icon_topic_newest {
     text-indent: -99999px;
 }
 
+span.imageset.icon_post_edit {
+    background: url(../imageset/fr/icon_post_edit.png) no-repeat center center;
+    display: inline-block;
+    width: 72px;
+    height: 20px;
+    text-indent: -99999px;
+}
+
+span.imageset.icon_post_delete {
+    background: url(../imageset/fr/icon_post_delete.png) no-repeat center center;
+    display: inline-block;
+    width: 72px;
+    height: 20px;
+    text-indent: -99999px;
+}
+
+span.imageset.icon_post_report {
+    background: url(../imageset/fr/icon_post_report.png) no-repeat center center;
+    display: inline-block;
+    width: 72px;
+    height: 20px;
+    text-indent: -99999px;
+}
+
 #top {
     background-image: url(images/top.png);
     width: 960px;
