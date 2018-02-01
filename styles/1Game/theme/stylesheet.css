@@ -28,13 +28,9 @@ body {
     /* Text-Sizing with ems: http://www.clagnut.com/blog/348/ */
     font-family: «Arial», Verdana, Helvetica, Arial, sans-serif;
     color: #d7c6b1;
-    background-color: #000;
     font-size: 62.5%; /* This sets the default font size to be equivalent to 10px */
     margin: 6px;
-    background-image: url("images/fond02.jpg");
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: top center;
+    background: #000 url("images/fond02.jpg") no-repeat fixed top center;
 }
 
 span.imageset.forum_read,
@@ -240,8 +236,7 @@ span.imageset.icon_topic_newest {
 }
 
 #uplink {
-    background: transparent;
-    background-image: url('images/row1_fond.png');
+    background: transparent url('images/row1_fond.png');
     padding: 4px;
 
 }
@@ -347,8 +342,7 @@ span.imageset.icon_topic_newest {
     height: 82px;
     text-align: center;
     clear: both;
-    background-image: url('images/foot.png');
-    background-repeat: no-repeat;
+    background: url('images/foot.png') no-repeat;
     padding: 10px 0 0 0;
 }
 
@@ -356,9 +350,7 @@ span.imageset.icon_topic_newest {
     width: 100%;
     margin: 0;
     background-color: #262626;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #1e1e1e;
+    border: 1px solid #1e1e1e;
 }
 
 #logodesc {
@@ -385,9 +377,7 @@ span.imageset.icon_topic_newest {
 
 .forumrules {
     background-color: #3e3e3e;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #4787a7;
+    border: 1px solid #4787a7;
     padding: 4px;
     font-weight: normal;
     font-size: 1.1em;
@@ -645,11 +635,11 @@ td.profile {
     margin: 0;
     padding: 0;
     border: 0;
-    background: white url('styles/1Game/theme/images/cellpic2.jpg') repeat-y scroll top left;
+    background: white url('images/cellpic2.jpg') repeat-y scroll top left;
 }
 
 .rtl .catdiv {
-    background: white url('styles/1Game/theme/images/cellpic2_rtl.jpg') repeat-y scroll top right;
+    background: white url('images/cellpic2_rtl.jpg') repeat-y scroll top right;
 }
 
 .cat {
@@ -657,8 +647,7 @@ td.profile {
     margin: 0;
     padding: 0;
     border: 0;
-    background-color: #000;
-    background-image: url('images/cat_fond.jpg');
+    background: #000 url('images/cat_fond.jpg');
     text-indent: 4px;
 }
 
@@ -812,8 +801,7 @@ input.radio {
 
 .post {
     background-color: #262626;
-    border-style: solid;
-    border-width: 1px;
+    border: 1px solid;
 }
 
 .btnbbcode {
@@ -861,9 +849,8 @@ input.radio {
 .quotetitle, .attachtitle {
     margin: 10px 5px 0 5px;
     padding: 4px;
-    border-width: 1px 1px 0 1px;
-    border-style: solid;
-    border-color: #1e1e1e;
+    border: 1px solid #1e1e1e;
+    border-bottom-width: 0;
     color: #333;
     background-color: #1e1e1e;
     font-size: 0.85em;
@@ -877,9 +864,8 @@ input.radio {
 .quotecontent, .attachcontent {
     margin: 0 5px 10px 5px;
     padding: 5px;
-    border-color: #1e1e1e;
-    border-width: 0 1px 1px 1px;
-    border-style: solid;
+    border: 1px solid #1e1e1e;
+    border-top-width: 0;
     font-weight: normal;
     font-size: 1em;
     line-height: 1.4em;
@@ -895,9 +881,8 @@ input.radio {
 .codetitle {
     margin: 10px 5px 0 5px;
     padding: 2px 4px;
-    border-width: 1px 1px 0 1px;
-    border-style: solid;
-    border-color: #1e1e1e;
+    border: 1px solid #1e1e1e;
+    border-bottom-width: 0;
     color: #333;
     background-color: #1e1e1e;
     font-family: «Arial», Verdana, Helvetica, Arial, sans-serif;
@@ -908,9 +893,8 @@ input.radio {
     direction: ltr;
     margin: 0 5px 10px 5px;
     padding: 5px;
-    border-color: #1e1e1e;
-    border-width: 0 1px 1px 1px;
-    border-style: solid;
+    border: 1px solid #1e1e1e;
+    border-top-width: 0;
     font-weight: normal;
     color: #fff;
     font-size: 0.85em;
@@ -994,7 +978,7 @@ input.radio {
 }
 
 #chatbox #chat_messages td.chat_info .chat_actions {
-    bottom: 0pt;
+    bottom: 0;
     font-weight: bold;
     float: right;
 }
