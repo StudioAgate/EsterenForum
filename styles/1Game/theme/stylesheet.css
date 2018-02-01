@@ -155,15 +155,6 @@ span.imageset.icon_post_edit {
     color: transparent;
 }
 
-span.imageset.icon_post_delete {
-    background: url(../imageset/fr/icon_post_delete.png) no-repeat center center;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    text-indent: -99999px;
-    color: transparent;
-}
-
 span.imageset.icon_post_quote {
     background: url(../imageset/fr/icon_post_quote.png) no-repeat center center;
     display: inline-block;
@@ -173,10 +164,37 @@ span.imageset.icon_post_quote {
     color: transparent;
 }
 
+span.imageset.icon_post_delete {
+    background: url(../imageset/fr/icon_post_delete.png) no-repeat center center;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-indent: -99999px;
+    color: transparent;
+}
+
 span.imageset.icon_post_report {
     background: url(../imageset/fr/icon_post_report.png) no-repeat center center;
     display: inline-block;
-    width: 72px;
+    width: 20px;
+    height: 20px;
+    text-indent: -99999px;
+    color: transparent;
+}
+
+span.imageset.icon_user_warn {
+    background: url(../imageset/fr/icon_user_warn.png) no-repeat center center;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-indent: -99999px;
+    color: transparent;
+}
+
+span.imageset.icon_post_info {
+    background: url(../imageset/fr/icon_post_info.png) no-repeat center center;
+    display: inline-block;
+    width: 20px;
     height: 20px;
     text-indent: -99999px;
     color: transparent;
