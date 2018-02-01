@@ -40,7 +40,9 @@ body {
 span.imageset.forum_read,
 span.imageset.forum_read_subforum,
 span.imageset.topic_read,
-span.imageset.topic_read_hot_mine {
+span.imageset.topic_read_hot_mine,
+span.imageset.sticky_read,
+span.imageset.sticky_read_mine {
     background: url(../imageset/subforum_read.png) no-repeat center center;
     background-size: 50px 50px;
     opacity: 0.6;
@@ -50,7 +52,8 @@ span.imageset.topic_read_hot_mine {
     display: block;
 }
 
-span.imageset.forum_read_locked {
+span.imageset.forum_read_locked,
+span.imageset.sticky_read_locked {
     background: url(../imageset/forum_read_locked.png) no-repeat center center;
     background-size: 50px 50px;
     opacity: 0.6;
@@ -60,7 +63,8 @@ span.imageset.forum_read_locked {
     display: block;
 }
 
-span.imageset.forum_unread_locked {
+span.imageset.forum_unread_locked,
+span.imageset.sticky_unread_locked {
     background: url(../imageset/forum_unread_locked.png) no-repeat center center;
     background-size: 50px 50px;
     opacity: 0.6;
@@ -73,7 +77,9 @@ span.imageset.forum_unread_locked {
 span.imageset.forum_unread,
 span.imageset.forum_unread_subforum,
 span.imageset.topic_unread,
-span.imageset.topic_unread_subforum {
+span.imageset.topic_unread_subforum,
+span.imageset.sticky_unread,
+span.imageset.sticky_unread_mine {
     background: url(../imageset/subforum_unread.png) no-repeat center center;
     background-size: 50px 50px;
     font-size: 0;
