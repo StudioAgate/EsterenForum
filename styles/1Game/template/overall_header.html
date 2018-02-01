@@ -92,7 +92,7 @@ function marklist(id, name, state)
 	}
 
 	var rb = parent.getElementsByTagName('input');
-	
+
 	for (var r = 0; r < rb.length; r++)
 	{
 		if (rb[r].name.substr(0, name.length) == name)
@@ -149,7 +149,7 @@ function marklist(id, name, state)
 <div id="top">
   <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
    <tr>
-    <td align="center" valign="center"><a href="http://www.esteren.org/forum/" target="_self"><img src="/forum/banner_index/none.gif" width="900" height="130" alt="Index du forum">
+    <td align="center" valign="center"><a href="http://www.esteren.org/forum/" target="_self"><img src="/forum/styles/1Game/theme/images/none.gif" alt="Index du forum">
     </td>
    </tr>
   </table>
@@ -164,20 +164,20 @@ function marklist(id, name, state)
   </table>
 </div>
 <div id="render"></div>
-    
-  
+
+
 
 
 <div id="wrap">
 <div class="borderwrap">
 
-	<div id="submenu">		
+	<div id="submenu">
 	<div class="left"><a href="{U_INDEX}">{L_INDEX}</a></div>
 		<div class="left"><a href="{U_PROFILE}">{L_PROFILE}</a></div>
 		<div class="left"><a href="{U_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a></div>
 		<div class="right"><a href="{U_FAQ}">{L_FAQ}</a></div>
 		<div class="right"><a href="{U_SEARCH}"> <font color="red">{L_SEARCH}</font></a></div>
-		<div class="right"><a href="{U_MEMBERLIST}">{L_MEMBERLIST}</a></div>	
+		<div class="right"><a href="{U_MEMBERLIST}">{L_MEMBERLIST}</a></div>
 <div class="right">	<!-- IF S_DISPLAY_PM --><a href="{U_PRIVATEMSGS}"><!-- IF S_DISPLAY_PM -->{PRIVATE_MESSAGE_INFO}<!-- ENDIF --></a></div>
 	<!-- ELSEIF S_REGISTER_ENABLED --><div class="right"><a href="{U_REGISTER}">{L_REGISTER}</a></div><!-- ENDIF -->
 	</div>

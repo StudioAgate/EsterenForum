@@ -209,6 +209,12 @@ span.imageset.icon_post_info {
     margin: 0 auto;
 }
 
+#top a {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
 #top_banner {
     background-image: url(images/top_2_OK.jpg);
     width: 960px;
