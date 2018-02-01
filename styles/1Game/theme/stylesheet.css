@@ -33,6 +33,8 @@ body {
     background: #000 url("images/fond02.jpg") no-repeat fixed top center;
 }
 
+/* Forum icons */
+
 span.imageset.forum_read,
 span.imageset.forum_read_subforum,
 span.imageset.topic_read,
@@ -142,20 +144,33 @@ span.imageset.icon_topic_newest {
     text-indent: -99999px;
 }
 
+/* Topic buttons */
+
 span.imageset.icon_post_edit {
     background: url(../imageset/fr/icon_post_edit.png) no-repeat center center;
     display: inline-block;
     width: 72px;
     height: 20px;
     text-indent: -99999px;
+    color: transparent;
 }
 
 span.imageset.icon_post_delete {
     background: url(../imageset/fr/icon_post_delete.png) no-repeat center center;
     display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-indent: -99999px;
+    color: transparent;
+}
+
+span.imageset.icon_post_quote {
+    background: url(../imageset/fr/icon_post_quote.png) no-repeat center center;
+    display: inline-block;
     width: 72px;
     height: 20px;
     text-indent: -99999px;
+    color: transparent;
 }
 
 span.imageset.icon_post_report {
@@ -164,7 +179,10 @@ span.imageset.icon_post_report {
     width: 72px;
     height: 20px;
     text-indent: -99999px;
+    color: transparent;
 }
+
+/* Rest of the style */
 
 #top {
     background-image: url(images/top.png);
