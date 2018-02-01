@@ -78,6 +78,44 @@ span.imageset.forum_unread_subforum {
     display: block;
 }
 
+span.imageset.announce_unread {
+    background: url(../imageset/annonce_unread.png) no-repeat center center;
+    background-size: 50px 50px;
+    font-size: 0;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+span.imageset.announce_read {
+    background: url(../imageset/annonce_read.png) no-repeat center center;
+    background-size: 50px 50px;
+    opacity: 0.75;
+    font-size: 0;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+span.imageset.announce_unread_locked {
+    background: url(../imageset/announce_unread_locked.png) no-repeat center center;
+    background-size: 50px 50px;
+    font-size: 0;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+span.imageset.announce_read_locked {
+    background: url(../imageset/announce_read_locked.png) no-repeat center center;
+    background-size: 50px 50px;
+    opacity: 0.75;
+    font-size: 0;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
 span.imageset.icon_topic_latest {
     background: url(../imageset/icon_post_target.gif) no-repeat center center;
     display: inline-block;
