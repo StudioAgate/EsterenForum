@@ -39,27 +39,51 @@ body {
 
 span.imageset.forum_read,
 span.imageset.forum_read_subforum {
-    background: url(../imageset/subforum_read.png) no-repeat 0 0;
+    background: url(../imageset/subforum_read.png) no-repeat center center;
     background-size: 50px 50px;
+    opacity: 0.6;
     font-size: 0;
     width: 59px;
     height: 59px;
     display: block;
 }
 
-.forumdesc a.subforum.read,
-.forumdesc a.subforum.unread {
-    background: none;
+span.imageset.forum_read_locked {
+    background: url(../imageset/forum_read_locked.png) no-repeat center center;
+    background-size: 50px 50px;
+    opacity: 0.6;
+    font-size: 0;
+    width: 59px;
+    height: 59px;
+    display: block;
+}
+
+span.imageset.forum_unread_locked {
+    background: url(../imageset/forum_unread_locked.png) no-repeat center center;
+    background-size: 50px 50px;
+    opacity: 0.6;
+    font-size: 0;
+    width: 59px;
+    height: 59px;
+    display: block;
 }
 
 span.imageset.forum_unread,
 span.imageset.forum_unread_subforum {
-    background: url(../imageset/subforum_unread.png) no-repeat 0 0;
+    background: url(../imageset/subforum_unread.png) no-repeat center center;
     background-size: 50px 50px;
     font-size: 0;
     width: 50px;
     height: 50px;
     display: block;
+}
+
+span.imageset.icon_topic_latest {
+    background: url(../imageset/icon_post_target.gif) no-repeat center center;
+    display: inline-block;
+    width: 16px;
+    height: 14px;
+    text-indent: -99999px;
 }
 
 #top {
