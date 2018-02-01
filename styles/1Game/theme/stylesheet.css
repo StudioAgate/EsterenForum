@@ -163,16 +163,16 @@ span.imageset.icon_topic_newest {
 #wrap {
     width: 960px;
     min-width: 650px;
-    margin: 0px auto;
-    padding: 0 0px 0 0px;
+    margin: 0 auto;
+    padding: 0 0 0 0;
     background-image: url("images/wrap_fond.jpg");
 }
 
 .borderwrap {
 
-    border: 0px;
-    padding: 0px;
-    margin: 0px;
+    border: 0;
+    padding: 0;
+    margin: 0;
 }
 
 #logo {
@@ -205,13 +205,13 @@ span.imageset.icon_topic_newest {
     font-size: 11px;
     line-height: 30px;
     font-weight: bold;
-    margin: 0px;
+    margin: 0;
     width: auto;
 }
 
 .left {
     float: left;
-    border-left: 0px;
+    border-left: 0;
 }
 
 .left a:link,
