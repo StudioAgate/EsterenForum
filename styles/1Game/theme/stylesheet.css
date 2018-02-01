@@ -138,6 +138,14 @@ span.imageset.icon_topic_latest {
     text-indent: -99999px;
 }
 
+span.imageset.icon_topic_newest {
+    background: url(../imageset/icon_topic_newest.gif) no-repeat center center;
+    display: inline-block;
+    width: 18px;
+    height: 14px;
+    text-indent: -99999px;
+}
+
 #top {
     background-image: url(images/top.png);
     width: 960px;
