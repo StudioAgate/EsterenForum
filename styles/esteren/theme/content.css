@@ -232,7 +232,7 @@ dd.option {
 	padding: 0;
 	line-height: 1.48em;
 	width: 76%;
-	float: left;
+	float: right;
 	position: relative;
 }
 
@@ -703,7 +703,7 @@ fieldset.polls dd div {
 	border: 1px solid transparent;
 	border-width: 0 0 0 1px;
 	width: 22%;
-	float: right;
+	float: left;
 	display: inline;
 }
 
