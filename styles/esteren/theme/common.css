@@ -1,5 +1,9 @@
 /* General Markup Styles
 ---------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
 html {
 	font-size: 100%;
 	/* Always show a scrollbar for short pages - stops the jump when the scrollbar appears. non-IE browsers */
@@ -7,11 +11,13 @@ html {
 }
 
 body {
+    background: url(./images/background.jpg) fixed;
+    background-size: cover;
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 10px;
 	line-height: normal;
 	margin: 0;
-	padding: 12px 0;
+	padding: 0;
 	word-wrap: break-word;
 	-webkit-print-color-adjust: exact;
 }
@@ -152,9 +158,31 @@ a:hover	{ text-decoration: underline; }
 	}
 }
 
+.page-body, .navbar {
+    background-image: url(./images/background_wrap_left.png), url(./images/background_wrap_right.png), url(./images/background_wrap_middle.png);
+    background-position: top left, top right, top center;
+    background-repeat: repeat-y, repeat-y, repeat;
+}
 .page-body {
-	margin: 4px 0;
+    padding: 0 25px;
+	margin: 0 auto 4px auto;
 	clear: both;
+    border-top: solid 1px #000;
+    width: 960px;
+}
+
+.page-body > p.time {
+    margin: 0;
+    padding: 5px 0;
+}
+
+#top-banner {
+    background: url(./images/banner_top.jpg) top center no-repeat;
+    height: 180px;
+    width: 960px;
+    margin: 0 auto;
+    padding-right: 30px;
+    position: relative;
 }
 
 .page-footer {
@@ -166,9 +194,7 @@ a:hover	{ text-decoration: underline; }
 }
 
 .logo {
-	float: left;
-	width: auto;
-	padding: 10px 13px 0 10px;
+    display: block;
 }
 
 .logo:hover {
@@ -176,15 +202,15 @@ a:hover	{ text-decoration: underline; }
 }
 
 .site_logo {
-	display: inline-block;
-	width: 149px;
-	height: 52px;
+	display: block;
+    margin: 0 auto;
+	width: 960px;
+	height: 249px;
 }
 
 /* Site description and logo */
 .site-description {
-	float: left;
-	width: 65%;
+	width: 100%;
 }
 
 .site-description h1 {
@@ -193,35 +219,33 @@ a:hover	{ text-decoration: underline; }
 
 /* Round cornered boxes and backgrounds
 ---------------------------------------- */
-.headerbar {
-	margin-bottom: 4px;
-	padding: 5px;
-	border-radius: 7px;
+.navbar .inner {
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 0 30px;
 }
-
 .navbar {
-	padding: 3px 10px;
-	border-radius: 7px;
+    color: #ddd;
+    width: 960px;
+    border-top: solid 1px black;
+    margin: 0 auto;
 }
 
 .forabg {
 	margin-bottom: 4px;
 	padding: 5px;
 	clear: both;
-	border-radius: 7px;
 }
 
 .forumbg {
 	margin-bottom: 4px;
 	padding: 5px;
 	clear: both;
-	border-radius: 7px;
 }
 
 .panel {
+    margin-top: 4px;
 	margin-bottom: 4px;
 	padding: 5px 10px;
-	border-radius: 7px;
 }
 
 .post {
@@ -240,8 +264,11 @@ a:hover	{ text-decoration: underline; }
 /* Horizontal lists
 ----------------------------------------*/
 .navbar ul.linklist {
-	padding: 2px 0;
 	list-style-type: none;
+}
+
+.navbar a {
+    color: #ddd;
 }
 
 ul.linklist {
@@ -268,10 +295,6 @@ ul.linklist > li.rightside, p.rightside, a.rightside {
 	margin-right: 0;
 	margin-left: 7px;
 	text-align: right;
-}
-
-ul.navlinks {
-	border-top: 1px solid transparent;
 }
 
 ul.leftside {

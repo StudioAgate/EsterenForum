@@ -4,7 +4,7 @@ Colours and backgrounds for common.css
 -------------------------------------------------------------- */
 
 html, body {
-	color: #536482;
+    color: #d7c6b1;
 	background-color: #F5F7FA;
 }
 
@@ -12,13 +12,10 @@ h1 {
 	color: #FFFFFF;
 }
 
-h2 {
-	color: #28313F;
-}
-
 h3 {
 	border-bottom-color: #CCCCCC;
-	color: #115098;
+	color: #c7b6a2;
+    font-weight: bold;
 }
 
 hr {
@@ -31,8 +28,9 @@ hr {
 Colours and backgrounds for links.css
 -------------------------------------------------------------- */
 
-a { color: #105289; }
-a:hover { color: #D31141; }
+a { color: #fff; }
+
+a:hover { color: #a69686; }
 
 /* Links on gradient backgrounds */
 .forumbg .header a, .forabg .header a, th a {
@@ -40,28 +38,12 @@ a:hover { color: #D31141; }
 }
 
 .forumbg .header a:hover, .forabg .header a:hover, th a:hover {
-	color: #A8D8FF;
+	color: #ac9d8b;
 }
 
 /* Notification mark read link */
 .dropdown-extended a.mark_read {
 	background-color: #FFFFFF;
-}
-
-/* Post body links */
-.postlink {
-	border-bottom-color: #368AD2;
-	color: #368AD2;
-}
-
-.postlink:visited {
-	border-bottom-color: #5D8FBD;
-	color: #5D8FBD;
-}
-
-.postlink:hover {
-	background-color: #D0E4F6;
-	color: #0D4473;
 }
 
 .signature a, .signature a:hover {
@@ -81,8 +63,8 @@ a:hover { color: #D31141; }
 /* Round cornered boxes and backgrounds
 ---------------------------------------- */
 .wrap {
-	background-color: #FFF;
-	border-color: #E6E9ED;
+	background-color: transparent;
+	border: none 0 transparent;
 }
 
 .headerbar {
@@ -90,54 +72,15 @@ a:hover { color: #D31141; }
 }
 
 .headerbar, .forumbg {
-	background-color: #12A3EB;
-	background-image: -webkit-linear-gradient(top, #6ACEFF 0%, #0076B1 2px, #12A3EB 92px, #12A3EB 100%);
-	background-image: linear-gradient(to bottom, #6ACEFF 0%,#0076B1 2px,#12A3EB 92px,#12A3EB 100%);
-	background-repeat: repeat-x;
-}
-
-.forabg {
-	background-color: #0076B1;
-	background-image: -webkit-linear-gradient(top, #6ACEFF 0%, #12A3EB 2px, #0076B1 92px, #0076B1 100%);
-	background-image: linear-gradient(to bottom, #6ACEFF 0%,#12A3EB 2px,#0076B1 92px,#0076B1 100%);
-	background-repeat: repeat-x;
-}
-
-.navbar {
-	background-color: #CADCEB;
-}
-
-.panel {
-	background-color: #ECF1F3;
-	color: #28313F;
-}
-
-.post:target .content {
-	color: #000000;
-}
-
-.post:target h3 a {
-	color: #000000;
-}
-
-.bg1 {
-	background-color: #ECF3F7;
+	background-color: transparent;
 }
 
 table.zebra-list tr:nth-child(odd) td, ul.zebra-list li:nth-child(odd) {
 	background-color: #ECF3F7;
 }
 
-.bg2 {
-	background-color: #E1EBF2;
-}
-
 table.zebra-list tr:nth-child(even) td, ul.zebra-list li:nth-child(even) {
 	background-color: #E1EBF2;
-}
-
-.bg3	{
-	background-color: #CADCEB;
 }
 
 .ucprowbg {
@@ -149,7 +92,7 @@ table.zebra-list tr:nth-child(even) td, ul.zebra-list li:nth-child(even) {
 }
 
 .site_logo {
-	background-image: url("./images/site_logo.gif");
+	background-image: url("./images/site_logo.png");
 }
 
 /* Horizontal lists
@@ -194,13 +137,6 @@ table.info tbody th {
 
 /* Misc layout styles
 ---------------------------------------- */
-dl.details dt {
-	color: #000000;
-}
-
-dl.details dd {
-	color: #536482;
-}
 
 .sep {
 	color: #1198D9;
@@ -318,66 +254,13 @@ p.post-notice {
 Colours and backgrounds for content.css
 -------------------------------------------------------------- */
 
-ul.forums {
-	background-color: #EEF5F9; /* Old browsers */ /* FF3.6+ */
-	background-image: -webkit-linear-gradient(top, #D2E0EB 0%, #EEF5F9 100%);
-	background-image: linear-gradient(to bottom, #D2E0EB 0%,#EEF5F9 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#D2E0EB', endColorstr='#EEF5F9',GradientType=0 ); /* IE6-9 */
-}
-
-ul.topiclist li {
-	color: #4C5D77;
-}
-
-ul.topiclist dd {
-	border-left-color: #FFFFFF;
-}
-
-.rtl ul.topiclist dd {
-	border-right-color: #FFFFFF;
-	border-left-color: transparent;
-}
-
-li.row {
-	border-top-color:  #FFFFFF;
-	border-bottom-color: #00608F;
-}
-
-li.row strong {
-	color: #000000;
-}
-
-li.row:hover {
-	background-color: #F6F4D0;
-}
-
-li.row:hover dd {
-	border-left-color: #CCCCCC;
-}
-
-.rtl li.row:hover dd {
-	border-right-color: #CCCCCC;
-	border-left-color: transparent;
-}
-
 li.header dt, li.header dd {
 	color: #FFFFFF;
 }
 
-/* Post body styles
-----------------------------------------*/
-.postbody {
-	color: #333333;
-}
-
 /* Content container styles
 ----------------------------------------*/
-.content {
-	color: #333333;
-}
-
 .content h2, .panel h2 {
-	color: #115098;
 	border-bottom-color:  #CCCCCC;
 }
 
@@ -408,18 +291,8 @@ dl.faq dt {
 ----------------------------------------*/
 /* Quote block */
 blockquote {
-	background-color: #EBEADD;
-	border-color:#DBDBCE;
-}
-
-blockquote blockquote {
-	/* Nested quotes */
-	background-color:#EFEED9;
-}
-
-blockquote blockquote blockquote {
-	/* Nested quotes */
-	background-color: #EBEADD;
+    background-color: rgba(0, 0, 0, 0.13);
+    border-color: #d7c6b18a;
 }
 
 /* Code block */
@@ -559,16 +432,7 @@ fieldset.polls dd div {
 /* Poster profile block
 ----------------------------------------*/
 .postprofile {
-	color: #666666;
-	border-color: #FFFFFF;
-}
-
-.pm .postprofile {
-	border-color: #DDDDDD;
-}
-
-.postprofile strong {
-	color: #000000;
+	color: #bbb;
 }
 
 .online {
@@ -632,17 +496,16 @@ Colours and backgrounds for buttons.css
 ---------------------------------------- */
 
 .pagination li a {
-	background: #ECEDEE;
+    background: transparent;
+    border-color: transparent;
 	filter: none;
-	border-color: #B4BAC0;
 	box-shadow: none;
 	-webkit-box-shadow: none;
-	color: #5C758C;
+	color: #ddd;
 }
 
 .pagination li.ellipsis span {
 	background: transparent;
-	color:	#000000;
 }
 
 .pagination li.active span {
@@ -652,8 +515,8 @@ Colours and backgrounds for buttons.css
 }
 
 .pagination li a:hover, .pagination li a:hover .icon, .pagination .dropdown-visible a.dropdown-trigger, .nojs .pagination .dropdown-container:hover a.dropdown-trigger {
-	background: #368AD2;
-	border-color: #368AD2;
+    background: #52402b;
+    border-color: #82603c;
 	filter: none;
 	color: #FFFFFF;
 	text-shadow: none;
@@ -661,16 +524,6 @@ Colours and backgrounds for buttons.css
 
 /* Search box
 --------------------------------------------- */
-
-.search-box .inputbox,
-.search-box .inputbox:hover,
-.search-box .inputbox:focus {
-	border-color: #C7C3BF;
-}
-
-.search-header {
-	box-shadow: 0 0 10px #0075B0;
-}
 
 /* Icon images
 ---------------------------------------- */
@@ -758,8 +611,7 @@ Colours and backgrounds for cp.css
 }
 
 .panel-container .panel li.row {
-	border-bottom-color: #B5C1CB;
-	border-top-color: #F9F9F9;
+	border-bottom-color: #aaa;
 }
 
 ul.cplist {
@@ -783,24 +635,18 @@ ul.cplist {
 /* CP tabbed menu
 ----------------------------------------*/
 .tabs .tab > a {
-	background: #BACCD9;
-	color: #536482;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .tabs .tab > a:hover {
-	background: #DDEDFB;
-	color: #D31141;
+    background-color: rgba(0, 0, 0, 0.16);
+	color: #ddd;
 }
 
 .tabs .activetab > a,
 .tabs .activetab > a:hover {
-	background-color: #CADCEB; /* Old browsers */ /* FF3.6+ */
-	background-image: -webkit-linear-gradient(top, #E2F2FF 0%, #CADCEB 100%);
-	background-image: linear-gradient(to bottom, #E2F2FF 0%,#CADCEB 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F2FF', endColorstr='#CADCEB',GradientType=0 ); /* IE6-9 */
-	border-color: #CADCEB;
-	box-shadow: 0 1px 1px #F2F9FF inset;
-	color: #333333;
+	background-color: rgba(0, 0, 0, 0.1);
+	border-color: #ddd;
 }
 
 .tabs .activetab > a:hover {
@@ -834,55 +680,25 @@ ul.cplist {
 
 /* Link styles for the sub-section links */
 .navigation a {
-	color: #333;
-	background: #CADCEB; /* Old browsers */ /* FF3.6+ */
-	background: -webkit-linear-gradient(left, #B4C4D1 50%, #CADCEB 100%);
-	background: linear-gradient(to right, #B4C4D1 50%,#CADCEB 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#B4C4D1', endColorstr='#CADCEB',GradientType=1 ); /* IE6-9 */
-}
-
-.rtl .navigation a {
-	background: #B4C4D1; /* Old browsers */ /* FF3.6+ */
-	background: -webkit-linear-gradient(left, #CADCEB 50%, #B4C4D1 100%);
-	background: linear-gradient(to right, #CADCEB 50%,#B4C4D1 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CADCEB', endColorstr='#B4C4D1',GradientType=1 ); /* IE6-9 */
-}
-
-.navigation a:hover {
-	background: #AABAC6;
-	color: #BC2A4D;
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	color: #ddd;
+	background: rgba(0, 0, 0, 0.5);
+    font-weight: normal;
 }
 
 .navigation .active-subsection a {
-	background: #F9F9F9;
-	color: #D31141;
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.navigation .active-subsection a:hover {
-	color: #D31141;
-}
-
-@media only screen and (max-width: 900px), only screen and (max-device-width: 900px)
-{
-	#navigation a, .rtl #navigation a {
-		background: #B2C2CF;
-	}
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.12);
 }
 
 /* Preferences pane layout
 ----------------------------------------*/
-.panel-container h2 {
-	color: #333333;
-}
 
 .panel-container .panel {
-	background-color: #F9F9F9;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .cp-main .pm {
-	background-color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 /* Friends list */
@@ -909,10 +725,6 @@ dl.mini dt {
 
 .pmlist li.pm_marked_colour, .pm_marked_colour {
 	border-color: #FF6600;
-}
-
-.pmlist li.pm_replied_colour, .pm_replied_colour {
-	border-color: #A9B8C2;
 }
 
 .pmlist li.pm_friend_colour, .pm_friend_colour {
@@ -947,7 +759,7 @@ select {
 }
 
 label {
-	color: #425067;
+	color: #e1cfb9;
 }
 
 option.disabled-option {
@@ -957,7 +769,7 @@ option.disabled-option {
 /* Definition list layout for forms
 ---------------------------------------- */
 dd label {
-	color: #333;
+	color: #ddd;
 }
 
 fieldset.fields1 {
@@ -966,7 +778,7 @@ fieldset.fields1 {
 
 /* Hover effects */
 fieldset dl:hover dt label {
-	color: #000000;
+	color: #ddd;
 }
 
 fieldset.fields2 dl:hover dt label {

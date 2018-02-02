@@ -1,5 +1,41 @@
 /* Content Styles
 ---------------------------------------- */
+ul.forums,
+.bg1,
+.bg2,
+.bg3,
+.panel
+{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+ul.topiclist li.header {
+    background: url(./images/background_title.jpg);
+    padding: 6px 0;
+}
+ul.topiclist li.header .row-item dd {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+ul.topiclist li.header dt {
+    padding-left: 15px;
+}
+
+ul.topiclist li,
+.content {
+    color: #d7c6b1;
+}
+
+a.forumtitle,
+a.subforum,
+a.lastsubject {
+    color: #fcfceb;
+}
+
+li.row strong {
+    font-weight: bold;
+}
 
 ul.topiclist {
 	display: block;
@@ -15,10 +51,6 @@ ul.topiclist li {
 
 ul.topiclist dl {
 	position: relative;
-}
-
-ul.topiclist li.row dl {
-	margin: 2px 0;
 }
 
 ul.topiclist dt, ul.topiclist dd {
@@ -62,8 +94,11 @@ ul.topiclist.two-columns dt .list-inner {
 	margin-right: 80px;
 }
 
+ul.topiclist li.row {
+    border-top: 1px solid #b89f8f;
+}
 ul.topiclist dd {
-	border-left: 1px solid transparent;
+	border-left: 1px solid #b89f8f;
 	padding: 4px 0;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -90,7 +125,6 @@ ul.topiclist dfn {
 
 li.row {
 	border-top: 1px solid transparent;
-	border-bottom: 1px solid transparent;
 }
 
 li.row strong {
@@ -100,12 +134,11 @@ li.row strong {
 li.header dt, li.header dd {
 	line-height: 1em;
 	border-left-width: 0;
-	margin: 2px 0 4px 0;
+	margin: 0 0 0 0;
 	padding-top: 2px;
 	padding-bottom: 2px;
 	font-size: 1em;
 	font-family: Arial, Helvetica, sans-serif;
-	text-transform: uppercase;
 }
 
 li.header dt {
@@ -700,8 +733,6 @@ fieldset.polls dd div {
 .postprofile {
 	margin: 5px 0 10px 0;
 	min-height: 80px;
-	border: 1px solid transparent;
-	border-width: 0 0 0 1px;
 	width: 22%;
 	float: left;
 	display: inline;
@@ -715,10 +746,6 @@ fieldset.polls dd div {
 .postprofile dd {
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-.postprofile strong {
-	font-weight: normal;
 }
 
 .postprofile dt.no-profile-rank, .postprofile dd.profile-rank, .postprofile .search-result-date {
