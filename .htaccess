@@ -55,3 +55,7 @@
 		</Files>
 	</IfModule>
 </IfModule>
+<If "%{QUERY_STRING} =~ /assets_version=\d+/">
+Header set Cache-Control "max-age=86400, public"
+</If>
+
