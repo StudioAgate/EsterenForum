@@ -296,7 +296,6 @@ fieldset.submit-buttons input {
 	outline-style: none;
 }
 
-input.inputbox	{ width: 85%; }
 input.medium	{ width: 50%; }
 input.narrow	{ width: 25%; }
 input.tiny	{ width: 150px; }
@@ -391,11 +390,9 @@ input.button1:focus, input.button2:focus, input.button3:focus {
 }
 
 .search-box .inputbox {
-	background: rgba(255, 255, 255, 0.5);
-    color: #ddd;
-    border: solid 1px #C7C3BF;
+	background: rgba(255, 255, 255, 0.3);
+    color: #eee;
 	border-right-width: 0;
-	border-radius: 4px 0 0 4px;
 	float: left;
 	height: 24px;
 	padding: 3px;

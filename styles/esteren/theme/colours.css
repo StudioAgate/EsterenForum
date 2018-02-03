@@ -221,7 +221,10 @@ table.info tbody th {
 ---------------------------------------- */
 
 .copyright {
-	color: #555555;
+	color: #999;
+}
+.copyright a {
+    color: #ddd;
 }
 
 .error {
@@ -700,14 +703,8 @@ ul.cplist {
 .cp-main .pm {
     background: rgba(0, 0, 0, 0.1);
 }
-
-/* Friends list */
 .cp-mini {
-	background-color: #EEF5F9;
-}
-
-dl.mini dt {
-	color: #425067;
+    background: rgba(0, 0, 0, 0.3);
 }
 
 /* PM Styles
@@ -728,7 +725,7 @@ dl.mini dt {
 }
 
 .pmlist li.pm_friend_colour, .pm_friend_colour {
-	border-color: #5D8FBD;
+	border-color: #d7c6b1;
 }
 
 .pmlist li.pm_foe_colour, .pm_foe_colour {
@@ -821,12 +818,8 @@ fieldset.quick-login input.inputbox {
 	color: #333333;
 }
 
-.inputbox:hover {
-	border-color: #11A3EA;
-}
-
 .inputbox:focus {
-	border-color: #11A3EA;
+	border-color: #ddd;
 }
 
 .inputbox:focus:-moz-placeholder {
@@ -843,10 +836,7 @@ fieldset.quick-login input.inputbox {
 
 a.button1, input.button1, input.button3, a.button2, input.button2 {
 	color: #000;
-	background-color: #EFEFEF; /* Old browsers */ /* FF3.6+ */
-	background-image: -webkit-linear-gradient(top, #D2D2D2 0%, #EFEFEF 100%);
-	background-image: linear-gradient(to bottom, #D2D2D2 0%,#EFEFEF 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#D2D2D2', endColorstr='#EFEFEF',GradientType=0 ); /* IE6-9 */
+	background-color: #ddd;
 }
 
 a.button1, input.button1 {
@@ -871,10 +861,7 @@ a.button1, a.button2 {
 a.button1:hover, input.button1:hover, a.button2:hover, input.button2:hover, input.button3:hover {
 	border-color: #D31141;
 	color: #D31141;
-	background-color: #D2D2D2; /* Old browsers */ /* FF3.6+ */
-	background-image: -webkit-linear-gradient(top, #EFEFEF 0%, #D2D2D2 100%);
-	background-image: linear-gradient(to bottom, #EFEFEF 0%,#D2D2D2 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EFEFEF', endColorstr='#D2D2D2',GradientType=0 ); /* IE6-9 */
+	background-color: #ccc;
 }
 
 /* Focus states */
@@ -941,9 +928,9 @@ input.disabled {
 }
 
 .dropdown .dropdown-contents {
-	background: #fff;
+	background: rgba(43, 34, 23, 0.9);
 	border-color: #B9B9B9;
-	box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 3px 5px rgba(0, 0, 0, 1);
 }
 
 .dropdown-up .dropdown-contents {

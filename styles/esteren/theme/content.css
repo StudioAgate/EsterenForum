@@ -4,9 +4,16 @@ ul.forums,
 .bg1,
 .bg2,
 .bg3,
-.panel
+.panel,
+#pre-footer
 {
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+#pre-footer {
+    padding: 1px 10px;
+    margin: 0 5px;
+    border: solid 1px #000;
 }
 
 ul.topiclist li.header {

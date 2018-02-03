@@ -165,7 +165,7 @@ a:hover	{ text-decoration: underline; }
 }
 .page-body {
     padding: 0 25px;
-	margin: 0 auto 4px auto;
+	margin: 0 auto;
 	clear: both;
     border-top: solid 1px #000;
     width: 960px;
@@ -178,7 +178,7 @@ a:hover	{ text-decoration: underline; }
 
 #top-banner {
     background: url(./images/banner_top.jpg) top center no-repeat;
-    height: 180px;
+    height: 160px;
     width: 960px;
     margin: 0 auto;
     padding-right: 30px;
