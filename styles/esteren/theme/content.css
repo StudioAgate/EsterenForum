@@ -303,6 +303,10 @@ dd.option {
 	line-height: 125%;
 }
 
+.postbody h3 a {
+    color: #D7C6B1;
+}
+
 .postbody h3 img {
 	vertical-align: bottom;
 }
@@ -327,6 +331,10 @@ dd.option {
 
 .search .postbody {
 	width: 68%
+}
+
+#qr_postform .panel {
+    border: solid 1px #000;
 }
 
 /* Topic review panel
