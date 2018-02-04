@@ -2263,8 +2263,6 @@ if ($s_can_vote || $s_quick_reply)
 }
 // now I have the urge to wash my hands :(
 
-$user->add_lang('groups');
-
 // We overwrite $_REQUEST['f'] if there is no forum specified
 // to be able to display the correct online list.
 // One downside is that the user currently viewing this topic/post is not taken into account.

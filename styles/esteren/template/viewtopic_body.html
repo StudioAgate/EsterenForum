@@ -336,11 +336,16 @@
 
 			<div class="content">
                 {postrow.MESSAGE}
-                <!-- IF postrow.POST_ID == 9 and U_JOIN_LEADERS_GROUP -->
+                <!-- IF (postrow.POST_ID == 9 or postrow.POST_ID == 14159) and U_JOIN_LEADERS_GROUP -->
                 <form action="{U_JOIN_LEADERS_GROUP}" method="post">
                     <input type="hidden" name="selected" value="10">
                     <input type="hidden" name="action" value="join">
-                    <input type="submit" name="submit" class="button2" value="{T_GROUP_JOIN}">
+                    <!-- IF postrow.POST_ID == 14159 -->
+                        <!-- DEFINE $T_GROUP_JOIN = 'Join the group' -->
+                    <!-- ELSE -->
+                        <!-- DEFINE $T_GROUP_JOIN = 'Rejoindre le groupe' -->
+                    <!-- ENDIF -->
+                    <input type="submit" name="submit" class="button2" value="{$T_GROUP_JOIN}">
                 </form>
                 <!-- ENDIF -->
             </div>
