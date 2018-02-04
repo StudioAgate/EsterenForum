@@ -786,10 +786,6 @@ fieldset.quick-login input.inputbox {
 /* Posting page styles
 ----------------------------------------*/
 
-.message-box textarea {
-	color: #333333;
-}
-
 .message-box textarea.drag-n-drop {
 	outline-color: rgba(102, 102, 102, 0.5);
 }
@@ -801,17 +797,9 @@ fieldset.quick-login input.inputbox {
 /* Input field styles
 ---------------------------------------- */
 .inputbox {
-	background-color: #FFFFFF;
+    background-color: #262626;
 	border-color: #B4BAC0;
-	color: #333333;
-}
-
-.inputbox:-moz-placeholder {
-	color: #333333;
-}
-
-.inputbox::-webkit-input-placeholder {
-	color: #333333;
+	color: #fff;
 }
 
 .inputbox:focus {
