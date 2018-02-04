@@ -503,7 +503,7 @@ class messenger
 		$vars = array('headers');
 		extract($phpbb_dispatcher->trigger_event('core.modify_email_headers', compact($vars)));
 
-		if (count($this->extra_headers))
+		if (count($this->extra_headers ?: []))
 		{
 			$headers = array_merge($headers, $this->extra_headers);
 		}
