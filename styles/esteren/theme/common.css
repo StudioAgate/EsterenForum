@@ -813,7 +813,8 @@ fieldset.fields1 dl.pmlist dd.recipients {
 	margin-top: 2em;
 }
 
-.action-bar .button {
+.action-bar .button,
+.action-bar .post_button {
 	margin-right: 5px;
 	float: left;
 }

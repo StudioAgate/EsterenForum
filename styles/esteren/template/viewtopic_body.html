@@ -31,11 +31,11 @@
 	<!-- EVENT viewtopic_buttons_top_before -->
 
 	<!-- IF not S_IS_BOT and S_DISPLAY_REPLY_INFO -->
-		<a href="{U_POST_REPLY_TOPIC}" class="button" title="<!-- IF S_IS_LOCKED -->{L_TOPIC_LOCKED}<!-- ELSE -->{L_POST_REPLY}<!-- ENDIF -->">
+		<a href="{U_POST_REPLY_TOPIC}" class="post_button" title="<!-- IF S_IS_LOCKED -->{L_TOPIC_LOCKED}<!-- ELSE -->{L_POST_REPLY}<!-- ENDIF -->">
 			<!-- IF S_IS_LOCKED -->
-				<span>{L_BUTTON_TOPIC_LOCKED}</span> <i class="icon fa-lock fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_lock.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_TOPIC_LOCKED}">
 			<!-- ELSE -->
-				<span>{L_BUTTON_POST_REPLY}</span> <i class="icon fa-reply fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_reply.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_POST_REPLY}">
 			<!-- ENDIF -->
 		</a>
 	<!-- ENDIF -->
@@ -265,7 +265,7 @@
 					<!-- IF postrow.U_INFO -->
 						<li>
 							<a href="{postrow.U_INFO}" title="{L_INFORMATION}">
-                                <img src="{T_THEME_PATH}/images/buttons/icon_post_info.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_EDIT}">
+                                <img src="{T_THEME_PATH}/images/buttons/icon_post_info.png?assets_version={T_ASSETS_VERSION}" alt="{L_INFORMATION}">
 							</a>
 						</li>
 					<!-- ENDIF -->
@@ -397,11 +397,11 @@
 	<!-- EVENT viewtopic_buttons_bottom_before -->
 
 	<!-- IF not S_IS_BOT and S_DISPLAY_REPLY_INFO -->
-		<a href="{U_POST_REPLY_TOPIC}" class="button" title="<!-- IF S_IS_LOCKED -->{L_TOPIC_LOCKED}<!-- ELSE -->{L_POST_REPLY}<!-- ENDIF -->">
+		<a href="{U_POST_REPLY_TOPIC}" class="post_button" title="<!-- IF S_IS_LOCKED -->{L_TOPIC_LOCKED}<!-- ELSE -->{L_POST_REPLY}<!-- ENDIF -->">
 			<!-- IF S_IS_LOCKED -->
-				<span>{L_BUTTON_TOPIC_LOCKED}</span> <i class="icon fa-lock fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_lock.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_TOPIC_LOCKED}">
 			<!-- ELSE -->
-				<span>{L_BUTTON_POST_REPLY}</span> <i class="icon fa-reply fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_reply.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_POST_REPLY}">
 			<!-- ENDIF -->
 		</a>
 	<!-- ENDIF -->

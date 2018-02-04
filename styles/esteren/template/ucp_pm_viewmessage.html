@@ -88,34 +88,34 @@
 		<!-- IF $SHOW_PM_POST_BUTTONS -->
 		<ul class="post-buttons">
 			<!-- EVENT ucp_pm_viewmessage_post_buttons_before -->
-			<!-- IF U_EDIT -->
-				<li>
-					<a href="{U_EDIT}" title="{L_POST_EDIT_PM}" class="button button-icon-only">
-						<i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_POST_EDIT_PM}</span>
-					</a>
-				</li>
-			<!-- ENDIF -->
 			<!-- IF U_DELETE -->
 				<li>
-					<a href="{U_DELETE}" title="{L_DELETE_MESSAGE}" class="button button-icon-only">
-						<i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_MESSAGE}</span>
+					<a href="{U_DELETE}" title="{L_DELETE_MESSAGE}">
+                        <img src="{T_THEME_PATH}/images/buttons/icon_post_delete.png?assets_version={T_ASSETS_VERSION}" alt="{L_DELETE_MESSAGE}">
 					</a>
 				</li>
 			<!-- ENDIF -->
 			<!-- IF U_REPORT -->
 				<li>
-					<a href="{U_REPORT}" title="{L_REPORT_PM}" class="button button-icon-only">
-						<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">{L_REPORT_PM}</span>
+					<a href="{U_REPORT}" title="{L_REPORT_PM}">
+                        <img src="{T_THEME_PATH}/images/buttons/icon_user_warn.png?assets_version={T_ASSETS_VERSION}" alt="{L_REPORT_PM}">
 					</a>
 				</li>
 			<!-- ENDIF -->
 			<!-- IF U_QUOTE -->
 				<li>
-					<a href="{U_QUOTE}" title="{L_POST_QUOTE_PM}" class="button button-icon-only">
-						<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_POST_QUOTE_PM}</span>
+					<a href="{U_QUOTE}" title="{L_POST_QUOTE_PM}">
+                        <img src="{T_THEME_PATH}/images/buttons/icon_post_quote.png?assets_version={T_ASSETS_VERSION}" alt="{L_POST_QUOTE_PM}">
 					</a>
 				</li>
 			<!-- ENDIF -->
+            <!-- IF U_EDIT -->
+            <li>
+                <a href="{U_EDIT}" title="{L_POST_EDIT_PM}">
+                    <img src="{T_THEME_PATH}/images/buttons/icon_post_edit.png?assets_version={T_ASSETS_VERSION}" alt="{L_POST_EDIT_PM}">
+                </a>
+            </li>
+            <!-- ENDIF -->
 			<!-- EVENT ucp_pm_viewmessage_post_buttons_after -->
 		</ul>
 		<!-- ENDIF -->

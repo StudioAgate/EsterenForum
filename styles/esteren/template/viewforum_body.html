@@ -40,11 +40,11 @@
 	<!-- IF not S_IS_BOT and S_DISPLAY_POST_INFO -->
 			<!-- EVENT viewforum_buttons_top_before -->
 
-		<a href="{U_POST_NEW_TOPIC}" class="button" title="<!-- IF S_IS_LOCKED -->{L_FORUM_LOCKED}<!-- ELSE -->{L_POST_TOPIC}<!-- ENDIF -->">
+		<a href="{U_POST_NEW_TOPIC}" class="post_button" title="<!-- IF S_IS_LOCKED -->{L_FORUM_LOCKED}<!-- ELSE -->{L_POST_TOPIC}<!-- ENDIF -->">
 			<!-- IF S_IS_LOCKED -->
-				<span>{L_BUTTON_FORUM_LOCKED}</span> <i class="icon fa-lock fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_lock.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_FORUM_LOCKED}">
 			<!-- ELSE -->
-				<span>{L_BUTTON_NEW_TOPIC}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_new.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_NEW_TOPIC}">
 			<!-- ENDIF -->
 		</a>
 			<!-- EVENT viewforum_buttons_top_after -->
@@ -264,11 +264,11 @@
 		<!-- IF not S_IS_BOT and S_DISPLAY_POST_INFO -->
 			<!-- EVENT viewforum_buttons_bottom_before -->
 
-			<a href="{U_POST_NEW_TOPIC}" class="button" title="<!-- IF S_IS_LOCKED -->{L_FORUM_LOCKED}<!-- ELSE -->{L_POST_TOPIC}<!-- ENDIF -->">
+			<a href="{U_POST_NEW_TOPIC}" class="post_button" title="<!-- IF S_IS_LOCKED -->{L_FORUM_LOCKED}<!-- ELSE -->{L_POST_TOPIC}<!-- ENDIF -->">
 			<!-- IF S_IS_LOCKED -->
-				<span>{L_BUTTON_FORUM_LOCKED}</span> <i class="icon fa-lock fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_lock.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_FORUM_LOCKED}">
 			<!-- ELSE -->
-				<span>{L_BUTTON_NEW_TOPIC}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+                <img src="{T_THEME_PATH}/images/buttons/button_new.png?assets_version={T_ASSETS_VERSION}" alt="{L_BUTTON_NEW_TOPIC}">
 			<!-- ENDIF -->
 			</a>
 
