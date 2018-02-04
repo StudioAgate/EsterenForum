@@ -334,7 +334,16 @@
 			</p>
 			<!-- ENDIF -->
 
-			<div class="content">{postrow.MESSAGE}</div>
+			<div class="content">
+                {postrow.MESSAGE}
+                <!-- IF postrow.POST_ID == 9 and U_JOIN_LEADERS_GROUP -->
+                <form action="{U_JOIN_LEADERS_GROUP}" method="post">
+                    <input type="hidden" name="selected" value="10">
+                    <input type="hidden" name="action" value="join">
+                    <input type="submit" name="submit" class="button2" value="{T_GROUP_JOIN}">
+                </form>
+                <!-- ENDIF -->
+            </div>
 
 			<!-- IF postrow.S_HAS_ATTACHMENTS -->
 				<dl class="attachbox">
