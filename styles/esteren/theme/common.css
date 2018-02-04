@@ -176,12 +176,6 @@ a:hover	{ text-decoration: underline; }
 	min-width: 625px;
 }
 
-@media only screen and (max-width: 1220px), only screen and (max-device-width: 1220px) {
-	.wrap {
-		margin: 0 12px;
-	}
-}
-
 .page-body, .navbar {
     background-image: url(./images/background_wrap_left.png), url(./images/background_wrap_right.png), url(./images/background_wrap_middle.png);
     background-position: top left, top right, top center;
