@@ -35,9 +35,11 @@ ul.topiclist li,
 }
 
 a.forumtitle,
-a.subforum,
-a.lastsubject {
+a.subforum {
     color: #fcfceb;
+}
+a.lastsubject {
+    color: #eae1ce;
 }
 
 li.row strong {
@@ -176,12 +178,15 @@ li.header dl.row-item dt .list-inner {
 }
 
 /* Forum list column styles */
-.row .list-inner { padding: 4px 0; }
+.row .list-inner {
+    padding: 4px 0;
+    min-height: 50px;
+}
 
 dl.row-item {
-	background-position: 10px 50%;		/* Position of folder icon */
+	background-position: 2px 50%;		/* Position of folder icon */
 	background-repeat: no-repeat;
-	background-size: 32px;
+	background-size: 45px;
 }
 
 dl.row-item dt {
